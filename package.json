@@ -29,7 +29,9 @@
     "@typescript-eslint/parser": "^5.27.1",
     "airbnb": "^0.0.2",
     "autoprefixer": "^10.4.7",
+    "commitizen": "^4.2.4",
     "concurrently": "^7.2.1",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.17.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
@@ -52,5 +54,10 @@
     "node": ">=14",
     "npm": ">=8",
     "yarn": "please use npm"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
