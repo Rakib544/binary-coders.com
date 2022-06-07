@@ -8,4 +8,4 @@ node_modules/
 /public/build
 /coverage
 
-/app/styles
+app/styles
