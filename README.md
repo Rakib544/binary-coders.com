@@ -1,5 +1,10 @@
 # Welcome to Binary Coders
 
+This is a learning platform web application project for teaching Programming
+language basic.
+
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 ## Deployment
 
 After having run the `create-remix` command and selected "Vercel" as a
