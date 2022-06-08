@@ -5,7 +5,7 @@ export default function Index() {
         Welcome to Binary Codes project
       </h1>
       <p className='text-center text-xl mt-4 text-slate-600'>
-        This is just a project for teaching students the basic concept of programming language
+        This is just a project for teaching students the basic concept of programming language.
       </p>
     </div>
   )
