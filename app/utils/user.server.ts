@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { sendAccountVerifiedEmail } from './email.server'
 import { prisma } from './prisma.server'
 import { Register } from './types.server'
 
@@ -33,4 +34,11 @@ export const createUser = async (user: Register) => {
       verifiedToken: token,
     },
   })
+
+  const response = sendAccountVerifiedEmail({
+    to: newUser.email,
+    subject: 'Account created',
+    token,
+  })
+  console.log(response)
 }
