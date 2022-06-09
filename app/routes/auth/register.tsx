@@ -1,5 +1,5 @@
-import type { ActionFunction } from '@remix-run/node'
-import { Form } from '@remix-run/react'
+import { ActionFunction, json, LoaderFunction } from '@remix-run/node'
+import { Form, useLoaderData } from '@remix-run/react'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
 import { register } from '~/utils/auth.server'
@@ -7,7 +7,6 @@ import { register } from '~/utils/auth.server'
 export const action: ActionFunction = async ({ request }) => {
   const values = await request.formData()
   const { name, email, password, gender, profile } = Object.fromEntries(values)
-  console.log({ name, email, password, profile })
   const user = {
     name: name.toString(),
     email: email.toString(),
@@ -19,7 +18,12 @@ export const action: ActionFunction = async ({ request }) => {
   return null
 }
 
+export const loader: LoaderFunction = async () => {
+  return json({ env: process.env.IMAGE_BB_KEY })
+}
+
 const Register = () => {
+  const { env } = useLoaderData()
   const [img, setImg] = React.useState<string>('')
   const [imgUploading, setImgUploading] = React.useState<boolean>(false)
 
@@ -27,7 +31,7 @@ const Register = () => {
   const handleImageUpload = async (e: any) => {
     setImgUploading(true)
     const imageData = new FormData()
-    imageData.set('key', `${process.env.IMAGE_BB_KEY}`)
+    imageData.set('key', env)
     imageData.append('image', e.target.files[0])
     const res = await window.fetch('https://api.imgbb.com/1/upload', {
       method: 'POST',

@@ -21,9 +21,9 @@ export const createUser = async (user: Register) => {
   const token = jwt.sign(
     {
       id: newUser.id,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60,
+      expiresIn: '1d',
     },
-    'vjfknbfdvvjbfvjhdbvhbdjfhvbjh',
+    process.env.JWT_SECRET as string,
   )
 
   await prisma.user.update({
