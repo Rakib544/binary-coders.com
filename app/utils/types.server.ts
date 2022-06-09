@@ -1,13 +1,12 @@
-enum gender {
-  male,
-  female,
-  others,
-}
 export type Register = {
+  name: string
   email: string
   password: string
-  name: string
-  id: string
-  gender: gender
   profilePicture: string
+  gender: string
+}
+
+export type Login = {
+  email: string
+  password: string
 }
