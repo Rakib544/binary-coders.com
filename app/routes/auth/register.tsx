@@ -1,6 +1,7 @@
 import type { ActionFunction } from '@remix-run/node'
 import { Form } from '@remix-run/react'
 import * as React from 'react'
+import { Input, Label } from '~/components/form-elements'
 import { register } from '~/utils/auth.server'
 
 export const action: ActionFunction = async ({ request }) => {
@@ -20,9 +21,11 @@ export const action: ActionFunction = async ({ request }) => {
 
 const Register = () => {
   const [img, setImg] = React.useState<string>('')
+  const [imgUploading, setImgUploading] = React.useState<boolean>(false)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleImageUpload = async (e: any) => {
+    setImgUploading(true)
     const imageData = new FormData()
     imageData.set('key', 'd17139582dad6f2a6f60bbc19e0dbd5e')
     imageData.append('image', e.target.files[0])
@@ -32,39 +35,48 @@ const Register = () => {
     })
     const data = await res.json()
     setImg(data.data.url)
+    setImgUploading(false)
   }
   return (
     <div className='mx-12 flex'>
       <div className='w-1/2'>Image goes here</div>
       <div className='w-1/2'>
-        <h1>Register</h1>
+        <h1 className='text-3xl font-bold'>Register</h1>
+        <div>
+          <input
+            type='file'
+            onChange={handleImageUpload}
+            className='block my-4 w-full text-sm text-slate-500
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-full file:border-0
+      file:text-sm file:font-semibold
+      file:bg-violet-50 file:text-violet-700
+      hover:file:bg-violet-100'
+          />
+        </div>
+        {imgUploading ? 'Image uploading.... Please wait' : ''}
         <Form method='post'>
-          <div>
-            <label htmlFor='name'>Name</label>
-            <input type='text' name='name' id='name' />
+          <div className='mb-2'>
+            <Label htmlFor='name'>Enter Name</Label>
+            <Input name='name' type='text' placeholder='Enter Name' />
           </div>
-          <div>
-            <label htmlFor='email'>Email</label>
-            <input
-              type='email'
-              name='email'
-              id='email'
-              className='px-2 py-2 bg-sky-100 border border-sky-600'
-            />
+          <div className='mb-2'>
+            <Label htmlFor='email'>Enter Email</Label>
+            <Input type='email' name='email' id='email' placeholder='Enter email' />
           </div>
-          <div>
-            <label htmlFor='password'>Password</label>
-            <input type='password' name='password' id='password' />
+          <div className='mb-2'>
+            <Label htmlFor='password'>Enter Password</Label>
+            <Input type='password' name='password' id='password' placeholder='Enter Password' />
           </div>
-          <div>
-            <label htmlFor='male'>
+          <div className='flex justify-between items-center text-md mb-2'>
+            <label htmlFor='male' className='cursor-pointer'>
               {' '}
               <input type='radio' name='gender' value='male' id='male' /> Male
             </label>
-            <label htmlFor='female'>
+            <label htmlFor='female' className='cursor-pointer'>
               <input type='radio' name='gender' value='female' id='female' /> Female
             </label>
-            <label htmlFor='others'>
+            <label htmlFor='others' className='cursor-pointer'>
               {' '}
               <input type='radio' name='gender' value='others' id='others' /> Others
             </label>
@@ -73,19 +85,21 @@ const Register = () => {
             <input
               type='text'
               name='profile'
+              className='hidden'
               value={img}
               onChange={() => {
                 console.log('hello')
               }}
             />
           </div>
-          <button disabled={Boolean(img === '' ? true : false)} type='submit'>
+          <button
+            className='inline-block px-6 py-2 rounded-md bg-sky-600 text-white cursor-pointer disabled:opacity-75 disabled:cursor-none'
+            disabled={Boolean(img === '' ? true : false)}
+            type='submit'
+          >
             Register
           </button>
         </Form>
-        <div>
-          <input type='file' onChange={handleImageUpload} />
-        </div>
       </div>
     </div>
   )
