@@ -22,12 +22,12 @@ enum Role{
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+ id String @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  email     String   @unique
-  password  String
   name String
+  email String  @unique
+  password String
   gender Gender
   profilePicture String
   isVerified Boolean @default(false)
@@ -35,6 +35,7 @@ model User {
   resetPasswordToken String
   role Role @default(user)
 }
+
 
 // first: is email avaiable
 // second: generate a token and update resetPasswordToken using token
