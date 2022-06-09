@@ -27,7 +27,7 @@ const Register = () => {
   const handleImageUpload = async (e: any) => {
     setImgUploading(true)
     const imageData = new FormData()
-    imageData.set('key', 'd17139582dad6f2a6f60bbc19e0dbd5e')
+    imageData.set('key', `${process.env.IMAGE_BB_KEY}`)
     imageData.append('image', e.target.files[0])
     const res = await window.fetch('https://api.imgbb.com/1/upload', {
       method: 'POST',
