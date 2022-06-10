@@ -1,15 +1,10 @@
 // import headerNavLinks from '@/data/headerNavLinks'
 import { Link } from '@remix-run/react'
+import { headerNavLinks } from 'data/navbar'
 import { useState } from 'react'
 import EmailLogo from './icons/email'
 import GitHubLogo from './icons/github'
 import LinkedinLogo from './icons/linkedin'
-
-const headerNavLinks = [
-  { href: '/about', title: 'About' },
-  { href: '/blog', title: 'Blog' },
-  { href: '/projects', title: 'Projects' },
-]
 
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
@@ -56,7 +51,7 @@ const MobileNav = () => {
         </svg>
       </button>
       <div
-        className={`supports-backdrop-blur:bg-white/95 fixed top-24 right-0 z-10 h-full w-full transform bg-white text-center backdrop-blur duration-300 ease-in-out dark:bg-slate-900/75 ${
+        className={`supports-backdrop-blur:bg-white/95 fixed top-24 right-0 z-10 h-full w-full transform bg-white text-center backdrop-blur duration-300 ease-in-ou ${
           navShow ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -71,13 +66,19 @@ const MobileNav = () => {
             <div key={link.title} className=' px-4 py-4'>
               <Link
                 to={link.href}
-                className={'text-lg font-medium tracking-widest text-gray-900 dark:text-gray-100'}
+                className={'text-lg font-medium tracking-widest text-gray-900'}
                 onClick={onToggleNav}
               >
                 {link.title}
               </Link>
             </div>
           ))}
+          <Link
+            to='/auth/login'
+            className='mt-4 block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'
+          >
+            Login
+          </Link>
           <div className='mt-10 flex items-center justify-center'>
             <Link
               to='https://github/Rakib'

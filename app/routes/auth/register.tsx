@@ -1,5 +1,5 @@
 import { ActionFunction, json, LoaderFunction } from '@remix-run/node'
-import { Form, useActionData, useLoaderData } from '@remix-run/react'
+import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
 import { register } from '~/utils/auth.server'
@@ -191,6 +191,14 @@ const Register = () => {
           >
             Register
           </button>
+          <div>
+            <p className='text-sm font-medium mt-4'>
+              Not Registered yet?{' '}
+              <Link className='text-blue-600' to='/auth/login'>
+                Login Here
+              </Link>
+            </p>
+          </div>
         </Form>
       </div>
     </div>
