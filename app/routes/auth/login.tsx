@@ -1,6 +1,7 @@
-import { ActionFunction } from '@remix-run/node'
-import { Form, Link, useActionData } from '@remix-run/react'
+import { ActionFunction, redirect } from '@remix-run/node'
+import { Form, Link, useActionData, useTransition } from '@remix-run/react'
 import { Input, Label } from '~/components/form-elements'
+import { Spinner } from '~/components/icons/spinner'
 import { login } from '~/utils/auth.server'
 import { loginFormSchema } from '~/utils/form-valiation-schema'
 
@@ -18,9 +19,13 @@ export const action: ActionFunction = async ({ request }) => {
       password: password.toString(),
     }
     const res = await login(user)
-    return {
-      ...res,
+
+    if (res?.status === 400) {
+      return {
+        ...res,
+      }
     }
+    return redirect('/')
   } catch (error) {
     return {
       ...Object.fromEntries(formData),
@@ -29,8 +34,10 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkValidation = (key: string, data: any) => {
   let hasError = false
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?.error?.issues.forEach((issue: any) => {
     if (issue.path[0] === key) {
       hasError = true
@@ -42,6 +49,8 @@ const checkValidation = (key: string, data: any) => {
 
 const Login = () => {
   const actionData = useActionData()
+  const transition = useTransition()
+  console.log(transition)
   return (
     <div className='md:flex md:items-center'>
       <div className='hidden md:block md:w-1/2 p-10'>
@@ -92,9 +101,16 @@ const Login = () => {
           <div className='mb-2'>
             <button
               type='submit'
-              className='px-6 py-3 rounded-full bg-blue-600 text-white block w-full mt-8'
+              className='px-6 py-3 rounded-full bg-blue-600 text-white block w-full mt-8 text-center'
             >
-              Login
+              {transition.submission ? (
+                <div className='flex justify-center items-center'>
+                  <Spinner />
+                  {transition.state}
+                </div>
+              ) : (
+                'Login'
+              )}
             </button>
           </div>
           <div>

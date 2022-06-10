@@ -1,4 +1,3 @@
-import { json } from '@remix-run/node'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { prisma } from './prisma.server'
@@ -19,13 +18,10 @@ export const login = async (user: Login) => {
   const findUser = await prisma.user.findUnique({
     where: { email: user.email },
   })
-
   if (!findUser) {
     return { message: 'Wring credential', status: 400 }
   }
-
   const checkPassword = await bcrypt.compare(user.password, findUser.password)
-
   if (!checkPassword) {
     return { message: 'Wring credential', status: 400 }
   }
@@ -60,14 +56,14 @@ export const verifiedUser = async (token: string) => {
             isVerified: true,
           },
         })
-        return json({ message: 'Account activation complete' })
+        return { message: 'Account activation complete', status: 201 }
       } else {
-        return json({ message: 'Invalid token' })
+        return { message: 'Invalid token', status: 401 }
       }
     } else {
-      return json({ message: 'Invalid token' })
+      return { message: 'Invalid token', status: 401 }
     }
   } catch (error) {
-    return json({ message: 'invalid token' })
+    return { message: 'Invalid token', status: 401 }
   }
 }
