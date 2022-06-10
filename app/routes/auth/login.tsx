@@ -98,6 +98,9 @@ const Login = () => {
                 : ''}
             </span>
           </div>
+          <Link className='text-blue-600 underline' to='/auth/reset'>
+            Reset Password
+          </Link>
           <div className='mb-2'>
             <button
               type='submit'

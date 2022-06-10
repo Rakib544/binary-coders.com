@@ -197,8 +197,11 @@ const Register = () => {
               }}
             />
           </div>
+          <Link className='text-blue-600 underline' to='/auth/reset'>
+            Reset Password
+          </Link>
           <button
-            className='px-6 py-3 rounded-full bg-blue-600 text-white block w-full mt-8'
+            className='px-6 py-3 rounded-full bg-blue-600 text-white block w-full mt-4'
             type='submit'
           >
             {transition.submission ? (
@@ -207,9 +210,10 @@ const Register = () => {
                 {transition.state}
               </div>
             ) : (
-              'Login'
+              'Register'
             )}
           </button>
+
           <div>
             <p className='text-sm font-medium mt-4'>
               Not Registered yet?{' '}
