@@ -17,15 +17,16 @@ export const action: ActionFunction = async ({ request }) => {
       email: email.toString(),
       password: password.toString(),
     }
-    login(user)
+    const res = await login(user)
+    return {
+      ...res,
+    }
   } catch (error) {
     return {
       ...Object.fromEntries(formData),
       error,
     }
   }
-
-  return {} as any
 }
 
 const checkValidation = (key: string, data: any) => {
@@ -42,12 +43,17 @@ const checkValidation = (key: string, data: any) => {
 const Login = () => {
   const actionData = useActionData()
   return (
-    <div className='flex justify-center items-center'>
-      <div className='w-1/2 p-10'>
+    <div className='md:flex md:items-center'>
+      <div className='md:w-1/2 p-10'>
         <img src='/images/login.png' alt='login' className='p-10' />
       </div>
-      <div className='w-1/2 p-10'>
+      <div className='md:w-1/2 p-10'>
         <h1 className='text-3xl font-bold my-6'>Login</h1>
+        {actionData?.message && (
+          <div role='alert'>
+            <p className='text-red-600'>{actionData?.message}</p>
+          </div>
+        )}
         <Form method='post'>
           <div className='mb-2'>
             <Label htmlFor='email'>Enter Email</Label>

@@ -9,13 +9,10 @@ export async function register(user: Register) {
   const exists = await prisma.user.count({ where: { email: user.email } })
 
   if (exists) {
-    return json({ error: 'User already exists with that email' }, { status: 400 })
+    return { message: 'User already exists with that email', status: 400 }
   }
-
-  createUser(user)
-
-  // con
-  // return { id: newUser.id, email: newUser.email }
+  const res = await createUser(user)
+  return res
 }
 
 export const login = async (user: Login) => {
@@ -24,16 +21,16 @@ export const login = async (user: Login) => {
   })
 
   if (!findUser) {
-    return json({ message: 'Wring credential', status: 400 })
+    return { message: 'Wring credential', status: 400 }
   }
 
   const checkPassword = await bcrypt.compare(user.password, findUser.password)
 
   if (!checkPassword) {
-    return json({ message: 'Wring credential', status: 400 })
+    return { message: 'Wring credential', status: 400 }
   }
 
-  return json({ message: 'login successful' })
+  return { message: 'login successful', status: 200 }
 }
 
 type Token = {
@@ -71,7 +68,6 @@ export const verifiedUser = async (token: string) => {
       return json({ message: 'Invalid token' })
     }
   } catch (error) {
-    console.log(error)
     return json({ message: 'invalid token' })
   }
 }

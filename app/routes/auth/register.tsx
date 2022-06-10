@@ -25,34 +25,37 @@ export const action: ActionFunction = async ({ request }) => {
       gender: gender.toString(),
       profilePicture: profile.toString(),
     }
-    register(user)
+
+    const res = await register(user)
+    return {
+      ...res,
+    }
   } catch (error) {
     return {
       ...Object.fromEntries(values),
       error,
     }
   }
-  return {} as any
 }
 
 export const loader: LoaderFunction = async () => {
   return json({ env: process.env.IMAGE_BB_KEY })
 }
 
+const checkValidation = (key: string, data: any) => {
+  let hasError = false
+  data?.error?.issues?.forEach((issue: any) => {
+    if (issue.path[0] === key) {
+      hasError = true
+    }
+  })
+
+  return hasError
+}
+
 const Register = () => {
   const { env } = useLoaderData()
   const actionData = useActionData()
-
-  const checkValidation = (key: string, data: any) => {
-    let hasError = false
-    data?.error?.issues.forEach((issue: any) => {
-      if (issue.path[0] === key) {
-        hasError = true
-      }
-    })
-
-    return hasError
-  }
 
   const [img, setImg] = React.useState<string>('')
   const [imgUploading, setImgUploading] = React.useState<boolean>(false)
@@ -72,11 +75,11 @@ const Register = () => {
     setImgUploading(false)
   }
   return (
-    <div className='mx-12 flex'>
-      <div className='w-1/2 p-20'>
+    <div className='mx-12 md:flex'>
+      <div className='md:w-1/2 p-20'>
         <img src='/images/login.png' alt='img' className='' />
       </div>
-      <div className='w-1/2'>
+      <div className='md:w-1/2'>
         <h1 className='text-3xl font-bold'>Register</h1>
         <div>
           <input
@@ -96,6 +99,13 @@ const Register = () => {
           )}
         </span>
         {imgUploading ? 'Image uploading.... Please wait' : ''}
+        {actionData?.message && (
+          <div role='alert'>
+            <p className={`${actionData?.status === 400 ? 'text-red-500 my-4' : 'text-green-600'}`}>
+              {actionData?.message}
+            </p>
+          </div>
+        )}
         <Form method='post'>
           <div className='mb-2'>
             <Label htmlFor='name'>Enter Name</Label>
