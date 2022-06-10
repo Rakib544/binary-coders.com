@@ -1,9 +1,18 @@
-import { ActionFunction, json, LoaderFunction } from '@remix-run/node'
-import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ActionFunction, json, LinksFunction, LoaderFunction } from '@remix-run/node'
+import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
+import SuccessModal from '~/components/success-modal'
 import { register } from '~/utils/auth.server'
 import { registerFormSchema } from '~/utils/form-valiation-schema'
+
+import modalStyles from '@reach/dialog/styles.css'
+import { Spinner } from '~/components/icons/spinner'
+
+export const links: LinksFunction = () => {
+  return [{ rel: 'stylesheet', href: modalStyles }]
+}
 
 export const action: ActionFunction = async ({ request }) => {
   const values = await request.formData()
@@ -42,8 +51,10 @@ export const loader: LoaderFunction = async () => {
   return json({ env: process.env.IMAGE_BB_KEY })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkValidation = (key: string, data: any) => {
   let hasError = false
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?.error?.issues?.forEach((issue: any) => {
     if (issue.path[0] === key) {
       hasError = true
@@ -56,6 +67,7 @@ const checkValidation = (key: string, data: any) => {
 const Register = () => {
   const { env } = useLoaderData()
   const actionData = useActionData()
+  const transition = useTransition()
 
   const [img, setImg] = React.useState<string>('')
   const [imgUploading, setImgUploading] = React.useState<boolean>(false)
@@ -189,7 +201,14 @@ const Register = () => {
             className='px-6 py-3 rounded-full bg-blue-600 text-white block w-full mt-8'
             type='submit'
           >
-            Register
+            {transition.submission ? (
+              <div className='flex justify-center items-center'>
+                <Spinner />
+                {transition.state}
+              </div>
+            ) : (
+              'Login'
+            )}
           </button>
           <div>
             <p className='text-sm font-medium mt-4'>
@@ -201,6 +220,7 @@ const Register = () => {
           </div>
         </Form>
       </div>
+      <SuccessModal email={actionData?.email ? actionData?.email : ''} />
     </div>
   )
 }
