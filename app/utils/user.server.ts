@@ -42,7 +42,8 @@ export const createUser = async (user: Register) => {
     })
     return {
       status: 201,
-      message: 'Account created successfully. Please check your email address',
+      message: 'Account created successfully',
+      email: newUser.email,
     }
   } catch (error) {
     return { error: { message: 'Something went wrong. Please try again.' } }
