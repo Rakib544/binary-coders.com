@@ -1,5 +1,5 @@
 import { ActionFunction, json, LoaderFunction } from '@remix-run/node'
-import { Form, useActionData, useLoaderData } from '@remix-run/react'
+import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
 import { register } from '~/utils/auth.server'
@@ -25,25 +25,37 @@ export const action: ActionFunction = async ({ request }) => {
       gender: gender.toString(),
       profilePicture: profile.toString(),
     }
-    register(user)
+
+    const res = await register(user)
+    return {
+      ...res,
+    }
   } catch (error) {
     return {
       ...Object.fromEntries(values),
       error,
     }
   }
-  return {} as any
 }
 
 export const loader: LoaderFunction = async () => {
   return json({ env: process.env.IMAGE_BB_KEY })
 }
 
+const checkValidation = (key: string, data: any) => {
+  let hasError = false
+  data?.error?.issues?.forEach((issue: any) => {
+    if (issue.path[0] === key) {
+      hasError = true
+    }
+  })
+
+  return hasError
+}
+
 const Register = () => {
   const { env } = useLoaderData()
   const actionData = useActionData()
-
-  console.log(actionData)
 
   const [img, setImg] = React.useState<string>('')
   const [imgUploading, setImgUploading] = React.useState<boolean>(false)
@@ -63,10 +75,12 @@ const Register = () => {
     setImgUploading(false)
   }
   return (
-    <div className='mx-12 flex'>
-      <div className='w-1/2'>Image goes here</div>
-      <div className='w-1/2'>
-        <h1 className='text-3xl font-bold'>Register</h1>
+    <div className='md:flex'>
+      <div className='hidden md:block md:w-1/2 p-10'>
+        <img src='/images/login.png' alt='img' className='md:p-10' />
+      </div>
+      <div className='w-full md:w-1/2 px-2 md:px-24 my-16 md:my-0'>
+        <h1 className='text-3xl font-bold my-6'>Register</h1>
         <div>
           <input
             type='file'
@@ -85,72 +99,77 @@ const Register = () => {
           )}
         </span>
         {imgUploading ? 'Image uploading.... Please wait' : ''}
+        {actionData?.message && (
+          <div role='alert'>
+            <p className={`${actionData?.status === 400 ? 'text-red-500 my-4' : 'text-green-600'}`}>
+              {actionData?.message}
+            </p>
+          </div>
+        )}
         <Form method='post'>
           <div className='mb-2'>
-            <Label htmlFor='name'>Enter Name</Label>
+            <Label htmlFor='name'>Name</Label>
             <Input
               name='name'
               type='text'
               placeholder='Enter Name'
-              defaultValue={actionData?.name}
-              key={actionData?.name}
+              className={
+                checkValidation('name', actionData) ? 'ring-red-500 placeholder:text-red-500' : ''
+              }
             />
             <span className='text-sm text-red-500'>
-              {actionData?.error?.issues?.map((issue: any) =>
-                issue.path[0] === 'name' ? 'Name must be 3 character or more' : '',
-              )}
+              {checkValidation('name', actionData) ? 'Name must be 3 character or more' : ''}
             </span>
           </div>
           <div className='mb-2'>
-            <Label htmlFor='email'>Enter Email</Label>
+            <Label htmlFor='email'>Email</Label>
             <Input
               type='email'
               name='email'
               id='email'
               placeholder='Enter email'
-              defaultValue={actionData?.email}
-              key={actionData?.email}
+              className={
+                checkValidation('email', actionData) ? 'ring-red-500 placeholder:text-red-500' : ''
+              }
             />
             <span className='text-sm text-red-500'>
-              {actionData?.error?.issues?.map((issue: any) =>
-                issue.path[0] === 'email' ? 'Invalid Email' : '',
-              )}
+              {checkValidation('email', actionData) ? 'Invalid Email' : ''}
             </span>
           </div>
           <div className='mb-2'>
-            <Label htmlFor='password'>Enter Password</Label>
+            <Label htmlFor='password'>Password</Label>
             <Input
               type='password'
               name='password'
               id='password'
               placeholder='Enter Password'
-              defaultValue={actionData?.password}
-              key={actionData?.password}
+              className={
+                checkValidation('password', actionData)
+                  ? 'ring-red-500 placeholder:text-red-500'
+                  : ''
+              }
             />
             <span className='text-sm text-red-500'>
-              {actionData?.error?.issues?.map((issue: any) =>
-                issue.path[0] === 'password' ? 'Password Must be 8 character or more' : '',
-              )}
+              {checkValidation('password', actionData)
+                ? 'Password Must be 8 character or more'
+                : ''}
             </span>
           </div>
           <span className='text-sm text-red-500'>
-            {actionData?.error?.issues?.map((issue: any) =>
-              issue.path[0] === 'gender' ? 'Please select a gender' : '',
-            )}
+            {checkValidation('gender', actionData) ? 'Please select a gender' : ''}
           </span>
-          <div
-            className='flex justify-between items-center text-md mb-2'
-            defaultValue={actionData?.gender}
-            key={actionData?.gender}
-          >
-            <label htmlFor='male' className='cursor-pointer'>
+          <Label htmlFor='' className='mt-2'>
+            Gender
+          </Label>
+          <div className='text-md mb-2 flex items-center'>
+            <label htmlFor='male' className='cursor-pointer block mr-4'>
               {' '}
               <input type='radio' name='gender' value='male' id='male' /> Male
             </label>
-            <label htmlFor='female' className='cursor-pointer'>
+            <label htmlFor='female' className='cursor-pointer block mr-4'>
               <input type='radio' name='gender' value='female' id='female' /> Female
             </label>
-            <label htmlFor='others' className='cursor-pointer'>
+            <label htmlFor='others' className='cursor-pointer block mr-4'>
               {' '}
               <input type='radio' name='gender' value='others' id='others' /> Others
             </label>
@@ -160,8 +179,6 @@ const Register = () => {
               type='text'
               name='profile'
               className='hidden'
-              defaultValue={actionData?.profile}
-              key={actionData?.profile}
               value={img}
               onChange={() => {
                 console.log('hello')
@@ -169,12 +186,19 @@ const Register = () => {
             />
           </div>
           <button
-            className='inline-block px-6 py-2 rounded-md bg-sky-600 text-white cursor-pointer disabled:opacity-75'
-            // disabled={Boolean(img === '' ? true : false)}
+            className='px-6 py-3 rounded-full bg-blue-600 text-white block w-full mt-8'
             type='submit'
           >
             Register
           </button>
+          <div>
+            <p className='text-sm font-medium mt-4'>
+              Not Registered yet?{' '}
+              <Link className='text-blue-600' to='/auth/login'>
+                Login Here
+              </Link>
+            </p>
+          </div>
         </Form>
       </div>
     </div>

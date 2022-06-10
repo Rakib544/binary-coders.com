@@ -7,3 +7,8 @@ export const registerFormSchema = z.object({
   gender: z.enum(['male', 'female', 'others']),
   profilePicture: z.string().url({ message: 'Invalid url' }),
 })
+
+export const loginFormSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address' }),
+  password: z.string().min(8, { message: 'Password must be 8 character or more long' }),
+})
