@@ -43,7 +43,16 @@ const Register = () => {
   const { env } = useLoaderData()
   const actionData = useActionData()
 
-  console.log(actionData)
+  const checkValidation = (key: string, data: any) => {
+    let hasError = false
+    data?.error?.issues.forEach((issue: any) => {
+      if (issue.path[0] === key) {
+        hasError = true
+      }
+    })
+
+    return hasError
+  }
 
   const [img, setImg] = React.useState<string>('')
   const [imgUploading, setImgUploading] = React.useState<boolean>(false)
@@ -64,7 +73,9 @@ const Register = () => {
   }
   return (
     <div className='mx-12 flex'>
-      <div className='w-1/2'>Image goes here</div>
+      <div className='w-1/2 p-20'>
+        <img src='/images/login.png' alt='img' className='' />
+      </div>
       <div className='w-1/2'>
         <h1 className='text-3xl font-bold'>Register</h1>
         <div>
@@ -92,13 +103,10 @@ const Register = () => {
               name='name'
               type='text'
               placeholder='Enter Name'
-              defaultValue={actionData?.name}
-              key={actionData?.name}
+              className={checkValidation('name', actionData) ? 'bg-red-50 ring-2 ring-red-400' : ''}
             />
             <span className='text-sm text-red-500'>
-              {actionData?.error?.issues?.map((issue: any) =>
-                issue.path[0] === 'name' ? 'Name must be 3 character or more' : '',
-              )}
+              {checkValidation('name', actionData) ? 'Name must be 3 character or more' : ''}
             </span>
           </div>
           <div className='mb-2'>
@@ -108,13 +116,12 @@ const Register = () => {
               name='email'
               id='email'
               placeholder='Enter email'
-              defaultValue={actionData?.email}
-              key={actionData?.email}
+              className={
+                checkValidation('email', actionData) ? 'bg-red-50 ring-2 ring-red-400' : ''
+              }
             />
             <span className='text-sm text-red-500'>
-              {actionData?.error?.issues?.map((issue: any) =>
-                issue.path[0] === 'email' ? 'Invalid Email' : '',
-              )}
+              {checkValidation('email', actionData) ? 'Invalid Email' : ''}
             </span>
           </div>
           <div className='mb-2'>
@@ -124,25 +131,20 @@ const Register = () => {
               name='password'
               id='password'
               placeholder='Enter Password'
-              defaultValue={actionData?.password}
-              key={actionData?.password}
+              className={
+                checkValidation('password', actionData) ? 'bg-red-50 ring-2 ring-red-400' : ''
+              }
             />
             <span className='text-sm text-red-500'>
-              {actionData?.error?.issues?.map((issue: any) =>
-                issue.path[0] === 'password' ? 'Password Must be 8 character or more' : '',
-              )}
+              {checkValidation('password', actionData)
+                ? 'Password Must be 8 character or more'
+                : ''}
             </span>
           </div>
           <span className='text-sm text-red-500'>
-            {actionData?.error?.issues?.map((issue: any) =>
-              issue.path[0] === 'gender' ? 'Please select a gender' : '',
-            )}
+            {checkValidation('gender', actionData) ? 'Please select a gender' : ''}
           </span>
-          <div
-            className='flex justify-between items-center text-md mb-2'
-            defaultValue={actionData?.gender}
-            key={actionData?.gender}
-          >
+          <div className='flex justify-between items-center text-md mb-2'>
             <label htmlFor='male' className='cursor-pointer'>
               {' '}
               <input type='radio' name='gender' value='male' id='male' /> Male
@@ -160,8 +162,6 @@ const Register = () => {
               type='text'
               name='profile'
               className='hidden'
-              defaultValue={actionData?.profile}
-              key={actionData?.profile}
               value={img}
               onChange={() => {
                 console.log('hello')
