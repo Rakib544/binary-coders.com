@@ -14,18 +14,18 @@ const Heading = () => {
               Join with use if you want to get a complete guideline to become a good skilled junior
               programmer from scratch. 😇😊
             </h4>
-            <div className='buttons mt-6'>
-              <button className='mt-4 inline-block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'>
+            <div className='buttons mt-6 sm:flex'>
+              <button className='mt-4 mx-2  px-10 py-3 bg-blue-600 text-white rounded-full'>
                 <Link to='/blog'>See Blogs</Link>
               </button>
-              <button className='mt-4 inline-block mx-2 px-10 py-3 border-2 border-blue-600 text-black hover:bg-blue-600 transition duration-300 hover:text-white rounded-full'>
-                <Link to='/forum'>Create forums</Link>
+              <button className='mt-4 px-10 py-3 border-2 bg-gray-200 border-blue-600 text-black hover:bg-blue-600 transition duration-300 hover:text-white rounded-full'>
+                <Link to='/forums'>Create forums</Link>
               </button>
             </div>
           </div>
         </div>
         <div className='md:w-1/2 '>
-          <img src='./images/preview.jpg' alt='right-side-heading-img' />
+          <img src='./images/preview.jpg' className='' alt='right-side-heading-img' />
         </div>
       </div>
     </div>
