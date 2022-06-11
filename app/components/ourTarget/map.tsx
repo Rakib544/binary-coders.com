@@ -59,7 +59,7 @@ const Map = () => {
           {' '}
           <span className='semester-pointer semester-2 shadow-lg'>
             10
-            <img src='./images/achiveMentFlag.png' alt='' />
+            <img src='https://i.ibb.co/6tGqfPk/goal.gif' alt='' />
           </span>
           <span className='dashed-line even'></span>
           <p>Job/Intern Hunting</p>
