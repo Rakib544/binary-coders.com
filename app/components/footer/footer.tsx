@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react'
 const Footer = () => {
   return (
     <div className='py-16 footer-bg text-white'>
-      <div className='grid grid-cols-3 gap-4 md:px-16'>
+      <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 px-5 md:px-16'>
         <div className=''>
           <img
             src='https://i.ibb.co/KX9YN7Z/logo-01.png'
@@ -24,7 +24,7 @@ const Footer = () => {
           </div>
         </div>
         <div className=''>
-          <h2 className='font-semibold mb-8'>
+          <h2 className='font-semibold md:mb-8 mb-3 mt-5'>
             {' '}
             Important Links <img src='./images/links.png' className='inline-flex w-6' alt='' />
           </h2>
@@ -47,7 +47,7 @@ const Footer = () => {
           </ul>
         </div>
         <div className=''>
-          <h2 className='font-semibold mb-8'>
+          <h2 className='font-semibold md:mb-8 mb-3 mt-5'>
             {' '}
             Find Us{' '}
             <img src='./images/location.png' className='inline-flex ml-2 w-6' alt='location' />
