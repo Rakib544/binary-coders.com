@@ -339,6 +339,9 @@
   }
 }
 /* Responsive container for all size */
+.footer-bg {
+  background-color: #10182f;
+}
 /* //create container */
 .container {
   width: 100%;
