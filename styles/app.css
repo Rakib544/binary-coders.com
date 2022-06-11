@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media (max-width: 600px) {
+  [data-reach-dialog-content] {
+    width: 90vw !important;
+  }
+}

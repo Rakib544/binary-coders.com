@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { sendAccountVerifiedEmail } from './email.server'
+import { sendAEmail } from './email.server'
 import { prisma } from './prisma.server'
 import { Register } from './types.server'
 
@@ -35,14 +35,16 @@ export const createUser = async (user: Register) => {
       },
     })
 
-    await sendAccountVerifiedEmail({
+    await sendAEmail({
       to: newUser.email,
       subject: 'Account created',
       token,
+      reset: false,
     })
     return {
       status: 201,
-      message: 'Account created successfully. Please check your email address',
+      message: 'Account created successfully',
+      email: newUser.email,
     }
   } catch (error) {
     return { error: { message: 'Something went wrong. Please try again.' } }

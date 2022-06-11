@@ -9,7 +9,6 @@ export const Label = ({ htmlFor, className = '', ...props }: JSX.IntrinsicElemen
 }
 
 export const Input = ({ type, name, className = '', ...props }: JSX.IntrinsicElements['input']) => {
-  console.log(className)
   return (
     <input
       type={type}

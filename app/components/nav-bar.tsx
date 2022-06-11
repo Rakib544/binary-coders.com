@@ -1,6 +1,5 @@
 import { Link } from '@remix-run/react'
 import { headerNavLinks } from 'data/navbar'
-
 const Navbar = () => {
   return (
     <div className='flex items-center justify-between w-full'>
