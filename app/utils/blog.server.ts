@@ -39,9 +39,16 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
 
 export const getAllBlogPosts = async () => {
   const posts = await prisma.blogPosts.findMany()
-  return {
-    status: 200,
-    posts,
+  if (posts) {
+    return {
+      status: 200,
+      posts,
+    }
+  } else {
+    return {
+      status: 404,
+      message: 'No blog found',
+    }
   }
 }
 
