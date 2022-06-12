@@ -54,12 +54,18 @@ const Footer = () => {
           </h2>
           <ul className='space-y-4 '>
             <li>
-              <img
-                src='./images/gmail.png'
-                className='w-6 mr-2 inline-block'
-                alt='binary coders gmail'
-              />{' '}
-              <span className='underline decoration-1'> dpi.binarycoders@gmail.com</span>
+              <a
+                href='https://mail.google.com/mail/u/2/#inbox?compose=DmwnWrRmTNqzxSflKkVHkfcllrvZvHkfGZwGDkWcFDHsWSFHKwNGFNdGFBdcGHRQXBDJjPzqWpKG'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <img
+                  src='./images/gmail.png'
+                  className='w-6 mr-2 inline-block'
+                  alt='binary coders gmail'
+                />{' '}
+                <span className='underline decoration-1'> Mail us for any query</span>
+              </a>
             </li>
             <li>
               {' '}
