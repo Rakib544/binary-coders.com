@@ -9,6 +9,7 @@ import { useQuill } from 'react-quilljs'
 type PropsType = {
   defaultValue?: string
   setHtml: React.Dispatch<React.SetStateAction<undefined>>
+  env: string
 }
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: highlightCss }]
@@ -18,7 +19,7 @@ hljs.configure({
   languages: ['javascript', 'ruby', 'python'],
 })
 
-function Quill({ defaultValue, setHtml }: PropsType) {
+function Quill({ defaultValue, setHtml, env }: PropsType) {
   const { quill, quillRef } = useQuill({
     modules: {
       syntax: {
@@ -38,7 +39,7 @@ function Quill({ defaultValue, setHtml }: PropsType) {
         ['link', 'image', 'video'],
         [{ color: [] }, { background: [] }],
         ['code-block'],
-        ['block-quote'],
+        ['blockquote'],
       ],
       clipboard: {
         matchVisual: false,
@@ -60,14 +61,48 @@ function Quill({ defaultValue, setHtml }: PropsType) {
       'color',
       'background',
       'code-block',
+      'blockquote',
       'clean',
     ],
   })
+
+  const insertToEditor = (url: string) => {
+    const range = quill.getSelection()
+    quill.insertEmbed(range.index, 'image', url)
+  }
+
+  const selectLocalImage = () => {
+    const input = document.createElement('input')
+    input.setAttribute('type', 'file')
+    input.setAttribute('accept', 'image/*')
+    input.click()
+
+    input.onchange = async () => {
+      const imageData = new FormData()
+      imageData.set('key', env)
+      const file = input.files?.[0]
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      imageData.append('image', file!)
+      const res = await window.fetch('https://api.imgbb.com/1/upload', {
+        method: 'POST',
+        body: imageData,
+      })
+      const data = await res.json()
+      console.log(data)
+      insertToEditor(data.data.url)
+    }
+  }
+
+  useEffect(() => {
+    if (quill) {
+      quill.getModule('toolbar').addHandler('image', selectLocalImage)
+    }
+  }, [quill])
+
   useEffect(() => {
     if (quill && defaultValue) {
       quill.on('text-change', () => {
-        console.log(quillRef.current)
-        setHtml(quillRef.current.innerHTML)
+        setHtml(quill.root.innerHTML)
       })
     }
   }, [defaultValue, quill])

@@ -1,5 +1,5 @@
 import type { LoaderFunction } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
 import Footer from '~/components/footer/footer'
 import { getAllBlogPosts } from '~/utils/blog.server'
 
@@ -30,7 +30,9 @@ const index = () => {
       <h2 className='text-3xl p-10'>This is blog page </h2>
       <div>
         {posts?.map((post: PostProps) => (
-          <p key={post.id}>{post.title}</p>
+          <Link to={`/blog/${post.slug}`} key={post.id} className='text-blue-500 block my-2'>
+            {post.title}
+          </Link>
         ))}
       </div>
       <Footer />

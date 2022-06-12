@@ -16,7 +16,7 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
     if (checkSlugCount > 0) {
       slug = slug + '-' + (totalBlogs + checkSlugCount + 1)
     }
-    await prisma.blogPosts.create({
+    const blog = await prisma.blogPosts.create({
       data: {
         title,
         slug,
@@ -27,7 +27,7 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
     })
     return {
       status: 201,
-      message: 'Post created successful',
+      url: `/blog/${blog.slug}`,
     }
   } catch (error) {
     return {

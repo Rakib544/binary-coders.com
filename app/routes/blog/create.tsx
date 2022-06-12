@@ -1,5 +1,5 @@
-import type { ActionFunction, LinksFunction } from '@remix-run/node'
-import { Form, useActionData, useTransition } from '@remix-run/react'
+import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import { Form, useLoaderData, useTransition } from '@remix-run/react'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
@@ -16,6 +16,9 @@ export const action: ActionFunction = async ({ request }) => {
     const formData = await request.formData()
     const { title, html } = Object.fromEntries(formData)
     const res = await createBlogPost(title as string, html as string, userId)
+    if (res.status === 201) {
+      return redirect(res?.url as string)
+    }
     return {
       ...res,
     }
@@ -27,6 +30,10 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
+export const loader: LoaderFunction = async () => {
+  return json({ env: process.env.IMAGE_BB_KEY })
+}
+
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: quillCss },
   { rel: 'stylesheet', href: highlightCss },
@@ -35,8 +42,8 @@ export const links: LinksFunction = () => [
 const CreateBlogPost = () => {
   const [html, setHtml] = React.useState()
   const transition = useTransition()
-  const actionData = useActionData()
-  console.log(actionData)
+  // const actionData = useActionData()
+  const { env } = useLoaderData()
   return (
     <div className='px-20 my-10'>
       <ClientOnly fallback={<div style={{ width: 500, height: 300 }}></div>}>
@@ -50,7 +57,7 @@ const CreateBlogPost = () => {
               onChange={() => console.log('hello')}
               className='hidden'
             />
-            <Quill setHtml={setHtml} defaultValue={'<p>Hello world</p>'} />
+            <Quill setHtml={setHtml} defaultValue={'<p>Hello world</p>'} env={env} />
             <button type='submit' className='px-20 py-4 bg-blue-600 text-white rounded-full my-10'>
               {transition.submission ? (
                 <div className='flex justify-center items-center'>

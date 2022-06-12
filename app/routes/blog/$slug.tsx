@@ -33,13 +33,13 @@ const SingleBlog = () => {
   const { blog, creatorInfo } = loaderData
 
   return (
-    <div className='mx-12 '>
+    <div className='w-full md:w-2/3 mx-auto p-4'>
       <div className='my-10'>
         <p className='mb-2'>
           {new Date(blog.createdAt).toDateString()} -{' '}
           <span className='bg-slate-100 p-2 rounded-md text-gray-400'>{blog.readTime}</span>
         </p>
-        <h1 className='text-2xl md:text-4xl font-extrabold'>{blog.title}</h1>
+        <h1 className='text-2xl md:text-4xl font-extrabold text-slate-800'>{blog.title}</h1>
         <div className='flex items-center space-x-4 text-sky-600 text-sm mt-2'>
           <img
             className='h-12 rounded-full w-12 object-fill object-center'
@@ -49,7 +49,10 @@ const SingleBlog = () => {
           <p className='cursor-pointer'>{creatorInfo.name}</p>
         </div>
       </div>
-      <div dangerouslySetInnerHTML={{ __html: blog.html }} className='prose lg:prose-xl'></div>
+      <div
+        dangerouslySetInnerHTML={{ __html: blog.html }}
+        className='prose prose-slate lg:prose-xl'
+      ></div>
     </div>
   )
 }
