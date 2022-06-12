@@ -22,7 +22,7 @@ function Quill({ defaultValue, setHtml }: PropsType) {
   const { quill, quillRef } = useQuill({
     modules: {
       syntax: {
-        highlight: (text: any) => {
+        highlight: (text: string) => {
           return hljs.highlightAuto(text).value
         },
       },
@@ -66,7 +66,8 @@ function Quill({ defaultValue, setHtml }: PropsType) {
   useEffect(() => {
     if (quill && defaultValue) {
       quill.on('text-change', () => {
-        setHtml(quill.root.innerHTML)
+        console.log(quillRef.current)
+        setHtml(quillRef.current.innerHTML)
       })
     }
   }, [defaultValue, quill])
