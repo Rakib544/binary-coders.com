@@ -1,18 +1,30 @@
 import type { ActionFunction, LinksFunction } from '@remix-run/node'
-import { Form } from '@remix-run/react'
+import { Form, useActionData, useTransition } from '@remix-run/react'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
 import { ClientOnly } from 'remix-utils'
 import { Input } from '~/components/form-elements'
+import { Spinner } from '~/components/icons/spinner'
 import Quill from '~/components/quill.client'
-;('react')
+import { createBlogPost } from '~/utils/blog.server'
+import { requireUserId } from '~/utils/session.server'
 
 export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData()
-  const values = Object.fromEntries(formData)
-  console.log(values)
-  return null
+  try {
+    const userId = await requireUserId(request)
+    const formData = await request.formData()
+    const { title, html } = Object.fromEntries(formData)
+    const res = await createBlogPost(title as string, html as string, userId)
+    return {
+      ...res,
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      message: 'Something went wrong. Please try again',
+    }
+  }
 }
 
 export const links: LinksFunction = () => [
@@ -22,6 +34,9 @@ export const links: LinksFunction = () => [
 
 const CreateBlogPost = () => {
   const [html, setHtml] = React.useState()
+  const transition = useTransition()
+  const actionData = useActionData()
+  console.log(actionData)
   return (
     <div className='px-20 my-10'>
       <ClientOnly fallback={<div style={{ width: 500, height: 300 }}></div>}>
@@ -37,7 +52,14 @@ const CreateBlogPost = () => {
             />
             <Quill setHtml={setHtml} defaultValue={'<p>Hello world</p>'} />
             <button type='submit' className='px-20 py-4 bg-blue-600 text-white rounded-full my-10'>
-              Post
+              {transition.submission ? (
+                <div className='flex justify-center items-center'>
+                  <Spinner />
+                  {transition.state}
+                </div>
+              ) : (
+                'Post'
+              )}
             </button>
           </Form>
         )}

@@ -27,7 +27,14 @@ export const login = async (user: Login) => {
     return { message: 'Wring credential', status: 400 }
   }
 
-  return { message: 'login successful', status: 200 }
+  return {
+    user: {
+      username: findUser.name,
+      id: findUser.id,
+    },
+    message: 'login successful',
+    status: 200,
+  }
 }
 
 type Token = {

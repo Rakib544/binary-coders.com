@@ -1,9 +1,10 @@
-import { ActionFunction, redirect } from '@remix-run/node'
+import { ActionFunction } from '@remix-run/node'
 import { Form, Link, useActionData, useTransition } from '@remix-run/react'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import { login } from '~/utils/auth.server'
 import { loginFormSchema } from '~/utils/form-valiation-schema'
+import { createUserSession } from '~/utils/session.server'
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
@@ -25,7 +26,7 @@ export const action: ActionFunction = async ({ request }) => {
         ...res,
       }
     }
-    return redirect('/')
+    return createUserSession(res.user?.username as string, res.user?.id as string, '/')
   } catch (error) {
     return {
       ...Object.fromEntries(formData),
