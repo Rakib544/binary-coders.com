@@ -1,5 +1,6 @@
 import type { LinksFunction, MetaFunction } from '@remix-run/node'
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+import MessengerCustomerChat from 'react-messenger-customer-chat'
 import MobileNav from './components/mobile-nav'
 import Navbar from './components/nav-bar'
 import styles from './styles/app.css'
@@ -18,7 +19,7 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'New Remix App',
+  title: 'Binary Coders',
   viewport: 'width=device-width,initial-scale=1',
 })
 
@@ -38,6 +39,7 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}
+        <MessengerCustomerChat pageId='104547992167816' appId='792988908779070' />,
       </body>
     </html>
   )

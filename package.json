@@ -31,6 +31,7 @@
     "reading-time": "^1.5.0",
     "remix-utils": "^3.3.0",
     "slugify": "^1.6.5",
+    "react-messenger-customer-chat": "^0.8.0",
     "zod": "^3.17.3"
   },
   "devDependencies": {

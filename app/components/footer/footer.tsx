@@ -17,10 +17,18 @@ const Footer = () => {
             </h2>
           </div>
           <div className='flex items-center justify-start space-x-3 mt-8'>
-            <img src='./images/facebook.png' className='w-6 h-6' alt='facebook icon' />
-            <img src='./images/instagram.png' className='w-6 h-6' alt='instagram icon' />
-            <img src='./images/linkedin.png' className='w-6 h-6' alt='linkedin icon' />
-            <img src='./images/youtube.png' className='w-6 h-6' alt='youtube icon' />
+            <a target='_blank' href='https://www.facebook.com/groups/binarycoders' rel='noreferrer'>
+              <img src='./images/facebook.png' className='w-6 h-6' alt='facebook icon' />
+            </a>{' '}
+            <a href='https://www.facebook.com/groups/binarycoders'>
+              <img src='./images/instagram.png' className='w-6 h-6' alt='instagram icon' />
+            </a>
+            <a href='https://www.facebook.com/groups/binarycoders'>
+              <img src='./images/linkedin.png' className='w-6 h-6' alt='linkedin icon' />
+            </a>
+            <a href='https://www.facebook.com/groups/binarycoders'>
+              <img src='./images/youtube.png' className='w-6 h-6' alt='youtube icon' />
+            </a>
           </div>
         </div>
         <div className=''>
@@ -54,12 +62,18 @@ const Footer = () => {
           </h2>
           <ul className='space-y-4 '>
             <li>
-              <img
-                src='./images/gmail.png'
-                className='w-6 mr-2 inline-block'
-                alt='binary coders gmail'
-              />{' '}
-              <span className='underline decoration-1'> dpi.binarycoders@gmail.com</span>
+              <a
+                href='https://mail.google.com/mail/u/2/#inbox?compose=DmwnWrRmTNqzxSflKkVHkfcllrvZvHkfGZwGDkWcFDHsWSFHKwNGFNdGFBdcGHRQXBDJjPzqWpKG'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <img
+                  src='./images/gmail.png'
+                  className='w-6 mr-2 inline-block'
+                  alt='binary coders gmail'
+                />{' '}
+                <span className='underline decoration-1'> Mail us for any query</span>
+              </a>
             </li>
             <li>
               {' '}

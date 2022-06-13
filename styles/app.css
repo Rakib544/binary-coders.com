@@ -76,7 +76,7 @@
 }
 .milestone-10 img {
   position: absolute;
-  top: -30px;
+  top: -40px;
   left: 20px;
   z-index: -1;
 }
@@ -399,4 +399,19 @@
   .container-sm {
     max-width: 540px;
   }
+}
+
+.stack--card {
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 18px 0 rgba(48, 78, 134, 0.15);
+}
+.stack--overflow--circle {
+  position: absolute;
+  top: -57px;
+  right: -37px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  z-index: -1;
 }
