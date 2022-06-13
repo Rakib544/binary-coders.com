@@ -6,6 +6,7 @@ export const headerNavLinks = [
 
 export const stackCard = [
   {
+    id: 1,
     cardImg: './images/html.png',
     stackName: 'Html',
     body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
@@ -14,28 +15,34 @@ export const stackCard = [
       padding: '2px 25px',
       borderRadius: '50px',
     },
+    link: 'https://www.w3schools.com/html/default.asp',
   },
   {
+    id: 2,
     cardImg: './images/css.png',
     stackName: 'Css',
     body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
     btnStyle: {
-      border: '2px solid #264de4',
+      border: '2px solid #6f91a7',
       padding: '2px 25px',
       borderRadius: '50px',
     },
+    link: 'https://www.w3schools.com/css/default.asp',
   },
   {
-    cardImg: './images/tailwind.jpg',
+    id: 3,
+    cardImg: './images/tailwind.png',
     stackName: 'Tailwind Css',
     body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
     btnStyle: {
-      border: '2px solid #38bdf8',
+      border: '2px solid #11252d',
       padding: '2px 25px',
       borderRadius: '50px',
     },
+    link: 'https://tailwindcss.com/',
   },
   {
+    id: 4,
     cardImg: './images/js.png',
     stackName: 'JavaScript',
     body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
@@ -44,26 +51,31 @@ export const stackCard = [
       padding: '2px 25px',
       borderRadius: '50px',
     },
+    link: 'https://www.w3schools.com/js/default.asp',
   },
   {
-    cardImg: './images/react.png',
+    id: 5,
+    cardImg: './images/react.svg',
     stackName: 'React js',
     body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
     btnStyle: {
-      border: '2px solid #61dbfb',
+      border: '2px solid #61dafb',
       padding: '2px 25px',
       borderRadius: '50px',
     },
+    link: 'https://beta.reactjs.org/',
   },
   {
-    cardImg: './images/node.webp',
+    id: 6,
+    cardImg: './images/node.png',
     stackName: 'Node js',
     body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
     btnStyle: {
-      border: '2px solid #90c53f',
+      border: '2px solid #3e863d',
       padding: '2px 25px',
       borderRadius: '50px',
     },
+    link: 'https://nodejs.org/en/docs/',
   },
 ]
 

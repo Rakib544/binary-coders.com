@@ -17,10 +17,18 @@ const Footer = () => {
             </h2>
           </div>
           <div className='flex items-center justify-start space-x-3 mt-8'>
-            <img src='./images/facebook.png' className='w-6 h-6' alt='facebook icon' />
-            <img src='./images/instagram.png' className='w-6 h-6' alt='instagram icon' />
-            <img src='./images/linkedin.png' className='w-6 h-6' alt='linkedin icon' />
-            <img src='./images/youtube.png' className='w-6 h-6' alt='youtube icon' />
+            <a target='_blank' href='https://www.facebook.com/groups/binarycoders' rel='noreferrer'>
+              <img src='./images/facebook.png' className='w-6 h-6' alt='facebook icon' />
+            </a>{' '}
+            <a href='https://www.facebook.com/groups/binarycoders'>
+              <img src='./images/instagram.png' className='w-6 h-6' alt='instagram icon' />
+            </a>
+            <a href='https://www.facebook.com/groups/binarycoders'>
+              <img src='./images/linkedin.png' className='w-6 h-6' alt='linkedin icon' />
+            </a>
+            <a href='https://www.facebook.com/groups/binarycoders'>
+              <img src='./images/youtube.png' className='w-6 h-6' alt='youtube icon' />
+            </a>
           </div>
         </div>
         <div className=''>

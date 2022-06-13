@@ -400,3 +400,18 @@
     max-width: 540px;
   }
 }
+
+.stack--card {
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 18px 0 rgba(48, 78, 134, 0.15);
+}
+.stack--overflow--circle {
+  position: absolute;
+  top: -57px;
+  right: -37px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  z-index: -1;
+}
