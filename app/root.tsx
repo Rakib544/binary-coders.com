@@ -1,8 +1,7 @@
 import type { LinksFunction, MetaFunction } from '@remix-run/node'
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
 import MessengerCustomerChat from 'react-messenger-customer-chat'
-import MobileNav from './components/mobile-nav'
-import Navbar from './components/nav-bar'
+import Navbar from './components/navbar'
 import styles from './styles/app.css'
 
 export const links: LinksFunction = () => {
@@ -31,10 +30,7 @@ export default function App() {
         <Links />
       </head>
       <body className='font-barlow'>
-        <div className='flex justify-between items-center py-4 px-2 md:px-10'>
-          <Navbar />
-          <MobileNav />
-        </div>
+        <Navbar />
         <Outlet />
         <ScrollRestoration />
         <Scripts />

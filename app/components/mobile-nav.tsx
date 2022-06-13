@@ -2,9 +2,6 @@
 import { Link } from '@remix-run/react'
 import { headerNavLinks } from 'data/navbar'
 import { useState } from 'react'
-import EmailLogo from './icons/email'
-import GitHubLogo from './icons/github'
-import LinkedinLogo from './icons/linkedin'
 
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
@@ -79,26 +76,6 @@ const MobileNav = () => {
           >
             Login
           </Link>
-          <div className='mt-10 flex items-center justify-center'>
-            <Link
-              to='https://github/Rakib'
-              className='mx-2 rounded-full border border-slate-700 p-2'
-            >
-              <GitHubLogo />
-            </Link>
-            <Link
-              to='mailto:md.rakib10122003@gmail.com'
-              className='mx-2 rounded-full border border-slate-700 p-2'
-            >
-              <EmailLogo />
-            </Link>
-            <Link
-              to='https://www.linkedin.com/in/dev-rakib/'
-              className='mx-2 rounded-full border border-slate-700 p-2'
-            >
-              <LinkedinLogo />
-            </Link>
-          </div>
         </nav>
       </div>
     </div>
