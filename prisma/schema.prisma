@@ -55,3 +55,36 @@ model BlogPosts {
   comments Comment[]
 }
 
+type Answer {
+  answerCreatorId String
+  answeredBy String
+  answeredTime DateTime @default(now())
+  answer String
+}
+
+type View {
+  id String
+}
+
+type Vote {
+  voteCreatorId String
+  voteType String
+}
+
+
+model Question {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title String
+  slug String @unique
+  description String
+  tags String[]
+  authorId String
+  answers Answer[]
+  view View[]
+  vote Vote[]
+}
+
+
+

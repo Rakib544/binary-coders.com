@@ -36,8 +36,17 @@ export const getUserId = async (request: Request) => {
 
   const userId = session.get('userId')
 
-  if (!userId || typeof userId === 'string') return null
+  if (!userId || typeof userId !== 'string') return null
   return userId
+}
+
+export const getUserName = async (request: Request) => {
+  const session = await getUserSession(request)
+
+  const username = session.get('name')
+
+  if (!username || typeof username !== 'string') return null
+  return username
 }
 
 export const requireUserId = async (

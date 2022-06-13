@@ -8,8 +8,9 @@ import { useQuill } from 'react-quilljs'
 
 type PropsType = {
   defaultValue?: string
-  setHtml: React.Dispatch<React.SetStateAction<undefined>>
+  setHtml: React.Dispatch<React.SetStateAction<string | undefined>>
   env: string
+  shouldQuillEmpty?: boolean
 }
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: highlightCss }]
@@ -19,7 +20,7 @@ hljs.configure({
   languages: ['javascript', 'ruby', 'python'],
 })
 
-function Quill({ defaultValue, setHtml, env }: PropsType) {
+function Quill({ defaultValue, setHtml, env, shouldQuillEmpty }: PropsType) {
   const { quill, quillRef } = useQuill({
     modules: {
       syntax: {
@@ -106,6 +107,12 @@ function Quill({ defaultValue, setHtml, env }: PropsType) {
       })
     }
   }, [defaultValue, quill])
+
+  useEffect(() => {
+    if (shouldQuillEmpty) {
+      quill.root.innerHTML = ''
+    }
+  }, [shouldQuillEmpty])
 
   return (
     <div>
