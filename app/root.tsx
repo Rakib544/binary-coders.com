@@ -57,7 +57,7 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}
-        <MessengerCustomerChat pageId='104547992167816' appId='3055318624707846' />
+        <MessengerCustomerChat pageId='104547992167816' appId='1392911071206859' />
       </body>
     </html>
   )
