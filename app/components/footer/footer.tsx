@@ -1,8 +1,12 @@
-import { Link } from '@remix-run/react'
+import { Link, useLocation } from '@remix-run/react'
+const FOOTER_HIDES_FROM = ['/auth/login', '/auth/register']
 
 const Footer = () => {
+  const location = useLocation()
+  const isFooterHide = FOOTER_HIDES_FROM.includes(location.pathname)
+
   return (
-    <div className='py-16 footer-bg text-white'>
+    <footer className={`${isFooterHide ? 'hidden' : ''} py-16 footer-bg text-white`}>
       <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 px-5 md:px-16'>
         <div className=''>
           <img
@@ -95,7 +99,7 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-    </div>
+    </footer>
   )
 }
 

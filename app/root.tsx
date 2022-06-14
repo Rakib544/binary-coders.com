@@ -1,8 +1,18 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node'
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node'
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+} from '@remix-run/react'
 import MessengerCustomerChat from 'react-messenger-customer-chat'
+import Footer from './components/footer/footer'
 import Navbar from './components/navbar'
 import styles from './styles/app.css'
+import { getUserInfo } from './utils/session.server'
 
 export const links: LinksFunction = () => {
   return [
@@ -22,7 +32,15 @@ export const meta: MetaFunction = () => ({
   viewport: 'width=device-width,initial-scale=1',
 })
 
+export const loader: LoaderFunction = async ({ request }) => {
+  const res = await getUserInfo(request)
+  return {
+    ...res,
+  }
+}
+
 export default function App() {
+  const loaderData = useLoaderData()
   return (
     <html lang='en'>
       <head>
@@ -30,8 +48,12 @@ export default function App() {
         <Links />
       </head>
       <body className='font-barlow'>
-        <Navbar />
+        <Navbar
+          username={loaderData?.username as string}
+          profilePicture={loaderData?.profilePicture as string}
+        />
         <Outlet />
+        <Footer />
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}

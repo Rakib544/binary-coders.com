@@ -1,10 +1,18 @@
-import { ActionFunction } from '@remix-run/node'
+import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, useActionData, useTransition } from '@remix-run/react'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import { login } from '~/utils/auth.server'
 import { loginFormSchema } from '~/utils/form-valiation-schema'
-import { createUserSession } from '~/utils/session.server'
+import { createUserSession, getUserInfo } from '~/utils/session.server'
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const res = await getUserInfo(request)
+  if (res.userId !== null) {
+    return redirect('/')
+  }
+  return null
+}
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
@@ -26,7 +34,12 @@ export const action: ActionFunction = async ({ request }) => {
         ...res,
       }
     }
-    return createUserSession(res.user?.username as string, res.user?.id as string, '/')
+    return createUserSession(
+      res.user?.username as string,
+      res.user?.id as string,
+      res?.user?.profilePicture as string,
+      '/',
+    )
   } catch (error) {
     return {
       ...Object.fromEntries(formData),
@@ -51,21 +64,30 @@ const checkValidation = (key: string, data: any) => {
 const Login = () => {
   const actionData = useActionData()
   const transition = useTransition()
-  console.log(transition)
   return (
-    <div className='md:flex md:items-center'>
-      <div className='hidden md:block md:w-1/2 p-10'>
+    <div className='sm:flex sm:items-center h-auto overflow-auto lg:h-screen lg:overflow-hidden'>
+      <div className='hidden lg:block sm:w-1/2 p-10'>
         <img src='/images/login.png' alt='login' className='md:p-10' />
       </div>
-      <div className='w-full md:w-1/2 px-2 md:px-24 my-16 md:my-0'>
-        <h1 className='text-3xl font-bold my-6'>Login</h1>
+      <div className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16'>
+        <div className='block lg:hidden'>
+          <img
+            src='/images/login-mobile.webp'
+            alt='login'
+            className='h-48 object-cover object-center block mx-auto'
+          />
+        </div>
+        <h1 className='text-3xl font-bold text-center md:text-left'>Welcome back!</h1>
+        <p className='mb-8 text-center md:text-left'>
+          Login into your existing account of Binary Coders
+        </p>
         {actionData?.message && (
           <div role='alert'>
             <p className='text-red-600'>{actionData?.message}</p>
           </div>
         )}
         <Form method='post'>
-          <div className='mb-2'>
+          <div className='mb-4'>
             <Label htmlFor='email'>Email</Label>
             <Input
               type='email'
@@ -80,7 +102,7 @@ const Login = () => {
               {checkValidation('email', actionData) ? 'Invalid email' : ''}
             </span>
           </div>
-          <div className='mb-2'>
+          <div className='mb-4'>
             <Label htmlFor='password'>Password</Label>
             <Input
               type='password'
@@ -99,13 +121,13 @@ const Login = () => {
                 : ''}
             </span>
           </div>
-          <Link className='text-blue-600 underline' to='/auth/reset'>
+          <Link className='text-blue-600 underline text-right block' to='/auth/reset'>
             Reset Password
           </Link>
-          <div className='mb-2'>
+          <div className='mb-2 flex justify-center'>
             <button
               type='submit'
-              className='px-6 py-3 rounded-full bg-blue-600 text-white block w-full mt-8 text-center'
+              className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-8 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
             >
               {transition.submission ? (
                 <div className='flex justify-center items-center'>
@@ -113,12 +135,12 @@ const Login = () => {
                   {transition.state}
                 </div>
               ) : (
-                'Login'
+                'LOGIN'
               )}
             </button>
           </div>
           <div>
-            <p className='text-sm font-medium mt-4'>
+            <p className='text-sm font-medium pt-8 text-center'>
               Not Registered yet?{' '}
               <Link className='text-blue-600' to='/auth/register'>
                 Create An Account

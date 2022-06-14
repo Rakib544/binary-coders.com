@@ -1,6 +1,5 @@
 import type { LoaderFunction } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
-import Footer from '~/components/footer/footer'
 import { getAllBlogPosts } from '~/utils/blog.server'
 
 type PostProps = {
@@ -35,7 +34,6 @@ const index = () => {
           </Link>
         ))}
       </div>
-      <Footer />
     </div>
   )
 }

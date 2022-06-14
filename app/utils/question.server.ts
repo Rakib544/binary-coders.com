@@ -89,3 +89,18 @@ export const createComment = async (slug: string, answer: string, id: string, us
     }
   }
 }
+
+export const getAllQuestions = async () => {
+  try {
+    const questions = await prisma.question.findMany()
+    return {
+      questions,
+      status: 200,
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      message: 'Something went wrong. Please try again',
+    }
+  }
+}

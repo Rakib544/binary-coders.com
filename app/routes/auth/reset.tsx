@@ -1,4 +1,4 @@
-import { ActionFunction, LinksFunction } from '@remix-run/node'
+import { ActionFunction, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useTransition } from '@remix-run/react'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
@@ -7,9 +7,20 @@ import { resetToken } from '~/utils/auth.server'
 import { restSchema } from '~/utils/form-valiation-schema'
 
 import modalStyles from '@reach/dialog/styles.css'
+import { getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: modalStyles }]
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const res = await getUserInfo(request)
+
+  if (res.userId !== null) {
+    return redirect('/')
+  }
+
+  return null
 }
 
 export const action: ActionFunction = async ({ request }) => {

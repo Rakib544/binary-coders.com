@@ -1,4 +1,3 @@
-import Footer from '~/components/footer/footer'
 import Plan from '~/components/ourPlan/plan'
 import Stack from '~/components/stack/stack'
 import Heading from '../components/heading/heading'
@@ -10,7 +9,6 @@ export default function Index() {
       <OurTarget />
       <Plan />
       <Stack />
-      <Footer />
     </>
   )
 }

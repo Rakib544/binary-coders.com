@@ -8,7 +8,7 @@ import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import Quill from '~/components/quill.client'
 import { createQuestion } from '~/utils/question.server'
-import { requireUserId } from '~/utils/session.server'
+import { getUserInfo, requireUserId } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: quillCss }]
@@ -30,14 +30,19 @@ export const action: LoaderFunction = async ({ request }) => {
   }
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const res = await getUserInfo(request)
+
+  if (res.userId === null) {
+    return redirect('/question')
+  }
   return json({ env: process.env.IMAGE_BB_KEY })
 }
 
 const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
+  { value: 'javascript', label: 'Javascript' },
+  { value: 'react', label: 'React' },
+  { value: 'remix.run', label: 'Remix.run' },
 ]
 
 const create = () => {

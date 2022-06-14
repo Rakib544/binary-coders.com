@@ -1,10 +1,16 @@
-import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import { checkResetToken, updatePassword } from '~/utils/auth.server'
+import { getUserInfo } from '~/utils/session.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
+  const res = await getUserInfo(request)
+
+  if (res.userId !== null) {
+    return redirect('/')
+  }
   const url = new URL(request.url)
 
   try {

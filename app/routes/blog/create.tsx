@@ -8,7 +8,7 @@ import { Input } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import Quill from '~/components/quill.client'
 import { createBlogPost } from '~/utils/blog.server'
-import { requireUserId } from '~/utils/session.server'
+import { getUserInfo, requireUserId } from '~/utils/session.server'
 
 export const action: ActionFunction = async ({ request }) => {
   try {
@@ -30,7 +30,12 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const res = await getUserInfo(request)
+
+  if (res.userId === null) {
+    return redirect('/blog')
+  }
   return json({ env: process.env.IMAGE_BB_KEY })
 }
 

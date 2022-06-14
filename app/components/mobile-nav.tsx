@@ -48,7 +48,7 @@ const MobileNav = () => {
         </svg>
       </button>
       <div
-        className={`supports-backdrop-blur:bg-white/95 fixed top-24 right-0 z-10 h-full w-full transform bg-white text-center backdrop-blur duration-300 ease-in-ou ${
+        className={`supports-backdrop-blur:bg-white/95 fixed top-20 right-0 z-10 h-full w-full transform bg-white text-center backdrop-blur duration-300 ease-in-ou ${
           navShow ? 'translate-x-0' : 'translate-x-full'
         }`}
       >

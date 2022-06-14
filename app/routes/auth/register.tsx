@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ActionFunction, json, LinksFunction, LoaderFunction } from '@remix-run/node'
+import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
@@ -9,6 +9,7 @@ import { registerFormSchema } from '~/utils/form-valiation-schema'
 
 import modalStyles from '@reach/dialog/styles.css'
 import { Spinner } from '~/components/icons/spinner'
+import { getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: modalStyles }]
@@ -47,7 +48,11 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const res = await getUserInfo(request)
+  if (res.userId !== null) {
+    return redirect('/')
+  }
   return json({ env: process.env.IMAGE_BB_KEY })
 }
 
@@ -87,12 +92,22 @@ const Register = () => {
     setImgUploading(false)
   }
   return (
-    <div className='md:flex'>
-      <div className='hidden md:block md:w-1/2 p-10'>
+    <div className='sm:flex sm:items-center h-auto '>
+      <div className='hidden lg:block sm:w-1/2 p-10'>
         <img src='/images/login.png' alt='img' className='md:p-10' />
       </div>
-      <div className='w-full md:w-1/2 px-2 md:px-24 my-16 md:my-0'>
-        <h1 className='text-3xl font-bold my-6'>Register</h1>
+      <div className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16'>
+        <div className='block lg:hidden'>
+          <img
+            src='/images/login-mobile.webp'
+            alt='login'
+            className='h-48 object-cover object-center block mx-auto'
+          />
+        </div>
+        <h1 className='text-3xl font-bold text-center md:text-left'>Let&apos;s Get Started!</h1>
+        <p className='mb-8 text-center md:text-left'>
+          Create an account to Binary Coders to get all features
+        </p>
         <div>
           <input
             type='file'

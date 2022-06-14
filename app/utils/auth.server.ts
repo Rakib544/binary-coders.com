@@ -31,6 +31,7 @@ export const login = async (user: Login) => {
     user: {
       username: findUser.name,
       id: findUser.id,
+      profilePicture: findUser.profilePicture,
     },
     message: 'login successful',
     status: 200,

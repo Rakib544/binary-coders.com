@@ -1,8 +1,15 @@
-import type { LoaderFunction } from '@remix-run/node'
+import { LoaderFunction, redirect } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { verifiedUser } from '~/utils/auth.server'
+import { getUserInfo } from '~/utils/session.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
+  const res = await getUserInfo(request)
+
+  if (res.userId !== null) {
+    return redirect('/')
+  }
+
   const url = new URL(request.url)
   try {
     const { token } = Object.fromEntries(url.searchParams.entries())
