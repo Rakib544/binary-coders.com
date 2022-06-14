@@ -51,7 +51,7 @@ const SingleBlog = () => {
       </div>
       <div
         dangerouslySetInnerHTML={{ __html: blog.html }}
-        className='prose prose-slate lg:prose-xl'
+        className='prose prose-slate lg:prose-md mb-24'
       ></div>
     </div>
   )
