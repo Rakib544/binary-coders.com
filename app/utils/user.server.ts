@@ -7,6 +7,29 @@ import { Register } from './types.server'
 export const createUser = async (user: Register) => {
   try {
     const passwordHash = await bcrypt.hash(user.password, 10)
+
+    const token = jwt.sign(
+      {
+        email: user.email,
+        expiresIn: '1d',
+      },
+      process.env.JWT_SECRET as string,
+    )
+
+    const result = await sendAEmail({
+      to: user.email,
+      subject: 'Account created',
+      token,
+      reset: false,
+    })
+
+    if (result[0].statusCode !== 202) {
+      return {
+        status: 403,
+        message: 'Something went wrong. Please try again.',
+      }
+    }
+
     const newUser = await prisma.user.create({
       data: {
         name: user.name,
@@ -18,29 +41,7 @@ export const createUser = async (user: Register) => {
         resetPasswordToken: '',
       },
     })
-    const token = jwt.sign(
-      {
-        id: newUser.id,
-        expiresIn: '1d',
-      },
-      process.env.JWT_SECRET as string,
-    )
 
-    await prisma.user.update({
-      where: {
-        email: newUser.email,
-      },
-      data: {
-        verifiedToken: token,
-      },
-    })
-
-    await sendAEmail({
-      to: newUser.email,
-      subject: 'Account created',
-      token,
-      reset: false,
-    })
     return {
       status: 201,
       message: 'Account created successfully',

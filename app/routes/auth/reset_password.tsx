@@ -1,5 +1,5 @@
 import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node'
-import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
+import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import { checkResetToken, updatePassword } from '~/utils/auth.server'
@@ -52,7 +52,7 @@ const ResetPassword = () => {
 
   return (
     <div className='flex justify-center items-center h-screen'>
-      <div>
+      <div className='w-full md:w-1/3 p-4'>
         {actionData?.status === 200 ? (
           <p>{actionData?.message}</p>
         ) : (
@@ -63,7 +63,16 @@ const ResetPassword = () => {
               {loaderData?.status === 404 && loaderData?.message}
             </p>
             {loaderData?.status === 401 && (
-              <p className='text-2xl font-medium text-red-500'>{loaderData?.message}</p>
+              <div className='text-center'>
+                <h2 className='text-6xl font-medium text-red-600'>{loaderData?.message}</h2>
+                <p>Your token has been invalid. Please try to send reset token again</p>
+                <Link
+                  to='/'
+                  className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+                >
+                  Back to Home
+                </Link>
+              </div>
             )}
           </>
         )}
@@ -73,7 +82,7 @@ const ResetPassword = () => {
             {actionData?.status === 200 ? (
               ''
             ) : (
-              <p className='text-2xl font-medium text-green-500'>{loaderData?.message}</p>
+              <p className='text-2xl font-medium text-green-600'>{loaderData?.message}</p>
             )}
             <Form method='put'>
               <input
@@ -97,19 +106,21 @@ const ResetPassword = () => {
                   placeholder='Enter Confirm Password'
                 />
               </div>
-              <button
-                type='submit'
-                className='px-6 py-3 rounded-full bg-blue-600 text-white block w-full mt-8 text-center'
-              >
-                {transition.submission ? (
-                  <div className='flex justify-center items-center'>
-                    <Spinner />
-                    {transition.state}
-                  </div>
-                ) : (
-                  'Submit'
-                )}
-              </button>
+              <div className='flex justify-center'>
+                <button
+                  type='submit'
+                  className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+                >
+                  {transition.submission ? (
+                    <div className='flex justify-center items-center'>
+                      <Spinner />
+                      {transition.state}
+                    </div>
+                  ) : (
+                    'Submit'
+                  )}
+                </button>
+              </div>
             </Form>
           </>
         )}

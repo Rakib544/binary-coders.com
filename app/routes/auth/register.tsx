@@ -91,6 +91,7 @@ const Register = () => {
     setImg(data.data.url)
     setImgUploading(false)
   }
+
   return (
     <div className='sm:flex sm:items-center h-auto '>
       <div className='hidden lg:block sm:w-1/2 p-10'>
@@ -105,20 +106,15 @@ const Register = () => {
           />
         </div>
         <h1 className='text-3xl font-bold text-center md:text-left'>Let&apos;s Get Started!</h1>
-        <p className='mb-8 text-center md:text-left'>
+        <p className='mb-4 text-center md:text-left'>
           Create an account to Binary Coders to get all features
         </p>
-        <div>
-          <input
-            type='file'
-            onChange={handleImageUpload}
-            className='block my-4 w-full text-sm text-slate-500
-      file:mr-4 file:py-2 file:px-4
-      file:rounded-full file:border-0
-      file:text-sm file:font-semibold
-      file:bg-violet-50 file:text-violet-700
-      hover:file:bg-violet-100'
-          />
+        <div className='flex justify-center'>
+          <label htmlFor='camera'>
+            <input type='file' onChange={handleImageUpload} id='camera' className='hidden' />
+            <img src='/images/user.png' alt='logo' className='h-14 w-14 rounded-full' />
+            <small className='text-center'>Upload image</small>
+          </label>
         </div>
         <span className='text-sm text-red-500'>
           {actionData?.error?.issues?.map((issue: any) =>
@@ -212,26 +208,25 @@ const Register = () => {
               }}
             />
           </div>
-          <Link className='text-blue-600 underline' to='/auth/reset'>
-            Reset Password
-          </Link>
-          <button
-            className='px-6 py-3 rounded-full bg-blue-600 text-white block w-full mt-4'
-            type='submit'
-          >
-            {transition.submission ? (
-              <div className='flex justify-center items-center'>
-                <Spinner />
-                {transition.state}
-              </div>
-            ) : (
-              'Register'
-            )}
-          </button>
+          <div className='mb-2 flex justify-center'>
+            <button
+              className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+              type='submit'
+            >
+              {transition.submission ? (
+                <div className='flex justify-center items-center'>
+                  <Spinner />
+                  {transition.state}
+                </div>
+              ) : (
+                'Register'
+              )}
+            </button>
+          </div>
 
           <div>
-            <p className='text-sm font-medium mt-4'>
-              Not Registered yet?{' '}
+            <p className='text-sm font-medium pt-8 text-center'>
+              Already Registered?{' '}
               <Link className='text-blue-600' to='/auth/login'>
                 Login Here
               </Link>
@@ -239,7 +234,9 @@ const Register = () => {
           </div>
         </Form>
       </div>
-      <SuccessModal email={actionData?.email ? actionData?.email : ''} />
+      <SuccessModal
+        email={actionData?.status === 201 && actionData?.email ? actionData?.email : ''}
+      />
     </div>
   )
 }

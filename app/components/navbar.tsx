@@ -4,7 +4,13 @@ import * as React from 'react'
 import Dropdown from './dropdown'
 import MobileNav from './mobile-nav'
 
-const NAVBAR_HIDES_FROM = ['/auth/login', '/auth/register']
+const NAVBAR_HIDES_FROM = [
+  '/auth/login',
+  '/auth/register',
+  '/auth/reset',
+  '/auth/reset_password',
+  '/auth/verify',
+]
 
 const NavLink = ({ to, ...rest }: Omit<Parameters<typeof Link>['0'], 'to'> & { to: string }) => {
   const location = useLocation()

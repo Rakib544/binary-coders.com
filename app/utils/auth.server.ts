@@ -39,7 +39,8 @@ export const login = async (user: Login) => {
 }
 
 type Token = {
-  id: string
+  id?: string
+  email?: string
   expiresIn: string
   idt: number
 }
@@ -49,7 +50,7 @@ export const verifiedUser = async (token: string) => {
     const decoded = await jwt.verify(token, process.env.JWT_SECRET as string)
     const user = await prisma.user.findUnique({
       where: {
-        id: (decoded as Token).id,
+        email: (decoded as Token).email,
       },
     })
     if (user) {
@@ -88,7 +89,7 @@ export const resetToken = async (email: string) => {
     if (!user) {
       return {
         status: 404,
-        message: 'Invalid email address',
+        message: 'No Account found with this email',
       }
     }
 

@@ -71,7 +71,6 @@ export const requireUserId = async (
 
 export const logout = async (request: Request) => {
   const session = await getUserSession(request)
-  console.log(session)
   return redirect('/auth/login', {
     headers: {
       'Set-Cookie': await storage.destroySession(session),

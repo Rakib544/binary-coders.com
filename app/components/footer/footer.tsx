@@ -1,5 +1,11 @@
 import { Link, useLocation } from '@remix-run/react'
-const FOOTER_HIDES_FROM = ['/auth/login', '/auth/register']
+const FOOTER_HIDES_FROM = [
+  '/auth/login',
+  '/auth/register',
+  '/auth/reset',
+  '/auth/reset_password',
+  '/auth/verify',
+]
 
 const Footer = () => {
   const location = useLocation()

@@ -89,7 +89,6 @@ function Quill({ defaultValue, setHtml, env, shouldQuillEmpty }: PropsType) {
         body: imageData,
       })
       const data = await res.json()
-      console.log(data)
       insertToEditor(data.data.url)
     }
   }

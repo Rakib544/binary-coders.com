@@ -43,7 +43,10 @@ const Verify = () => {
           {loaderData?.status === 404 && loaderData?.message}
         </p>
         {loaderData?.status === 401 && (
-          <p className='text-2xl font-medium text-red-500'>{loaderData?.message}</p>
+          <>
+            <h3 className='text-4xl font-extrabold text-red-500'>{loaderData?.message}</h3>
+            <p>Your token has been invalid. </p>
+          </>
         )}
 
         {loaderData?.status === 201 && (
@@ -51,9 +54,14 @@ const Verify = () => {
             <p className='text-2xl font-medium text-green-500'>{loaderData?.message}</p>
           </>
         )}
-        <Link to='/' className='px-14 py-4 bg-blue-600 text-white inline-block rounded-full mt-16'>
-          Back to home
-        </Link>
+        <div className='flex justify-center'>
+          <Link
+            to='/'
+            className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+          >
+            Back to home
+          </Link>
+        </div>
       </div>
     </div>
   )
