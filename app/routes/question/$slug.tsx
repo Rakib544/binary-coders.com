@@ -1,5 +1,5 @@
 import { LinksFunction, LoaderFunction } from '@remix-run/node'
-import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
+import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
@@ -56,6 +56,8 @@ const SingleQuestion = () => {
   const transition = useTransition()
   const actionData = useActionData()
 
+  const [showWriteComment, setShowWriteComments] = React.useState<boolean>(false)
+
   React.useEffect(() => {
     if (actionData?.status === 201) {
       setShouldQuillEmpty(true)
@@ -74,65 +76,80 @@ const SingleQuestion = () => {
       </div>
       <div
         dangerouslySetInnerHTML={{ __html: question.description }}
-        className='prose prose-slate lg:prose-md mt-12 mb-32'
+        className='prose prose-slate lg:prose-lg max-w-none mt-12 mb-32 prose-a:text-blue-600'
       />
+      {/* comments writing section */}
+      <div className='flex justify-between items-center border-t border-slate-300 pt-3'>
+        <h3 className='text-lg font-medium'>{question?.answers?.length} Answers</h3>
+        <button
+          className='px-12 py-4 bg-blue-600 text-white rounded-full'
+          onClick={() => setShowWriteComments(!showWriteComment)}
+        >
+          Write Comments
+        </button>
+      </div>
+      {showWriteComment && (
+        <div className='my-10 py-6'>
+          <ClientOnly fallback={<p>Loading...</p>}>
+            {() => (
+              <Form method='post'>
+                <Quill
+                  defaultValue={'<p>Hello world</p>'}
+                  setHtml={setHtml}
+                  env={env}
+                  shouldQuillEmpty={shouldQuillEmpty}
+                />
+                <input
+                  type='text'
+                  name='answer'
+                  value={html}
+                  onChange={() => console.log('hello')}
+                  className='hidden'
+                />
+                <button
+                  type='submit'
+                  className='py-4 px-16 rounded-full bg-blue-500 text-white my-10'
+                >
+                  {transition.submission ? (
+                    <div className='flex justify-center items-center'>
+                      <Spinner />
+                      {transition.state}
+                    </div>
+                  ) : (
+                    'Post Your Answer'
+                  )}
+                </button>
+              </Form>
+            )}
+          </ClientOnly>
+        </div>
+      )}
       {/* replies section goes here */}
       <div className='my-10'>
-        <h3 className='text-lg font-medium'>{question?.answers?.length} Answers</h3>
         <div className='my-4'>
           {question?.answers?.map((answer: Answer) => (
             <div
               key={new Date() + answer.answerCreatorId + Math.random()}
-              className='prose prose-slate lg:prose-md my-2 py-4 border-b border-gray-200'
+              className='py-4 border-b border-gray-200'
             >
-              <div dangerouslySetInnerHTML={{ __html: answer.answer }} />
-              <div className='text-right'>
-                <small className='block'>Answered </small>
-                <small>
-                  Answered by{' '}
-                  <Link to={`/users/${answer.answerCreatorId}`} className='text-blue-500'>
-                    {answer?.answeredBy}
-                  </Link>
-                </small>
+              <div className='flex space-x-4'>
+                <img
+                  src='https://cdn.dribbble.com/users/1723105/avatars/normal/f90425344edb0679db2fe8ca9726ae47.png?1650002980'
+                  alt='img'
+                  className='h-12 w-12 rounded-full'
+                />
+                <div className='mb-4'>
+                  <h3 className='font-medium'>{answer?.answeredBy}</h3>
+                  <small>10 minutes ago</small>
+                </div>
               </div>
+              <div
+                dangerouslySetInnerHTML={{ __html: answer.answer }}
+                className='prose prose-slate  lg:prose-md max-w-none prose-a:text-blue-600'
+              />
             </div>
           ))}
         </div>
-      </div>
-      <div className='my-10 border-t border-gray-200 py-6'>
-        <h3 className='text-xl font-medium mb-6'>Your Answer</h3>
-        <ClientOnly fallback={<p>Loading...</p>}>
-          {() => (
-            <Form method='post'>
-              <Quill
-                defaultValue={'<p>Hello world</p>'}
-                setHtml={setHtml}
-                env={env}
-                shouldQuillEmpty={shouldQuillEmpty}
-              />
-              <input
-                type='text'
-                name='answer'
-                value={html}
-                onChange={() => console.log('hello')}
-                className='hidden'
-              />
-              <button
-                type='submit'
-                className='py-4 px-16 rounded-full bg-blue-500 text-white my-10'
-              >
-                {transition.submission ? (
-                  <div className='flex justify-center items-center'>
-                    <Spinner />
-                    {transition.state}
-                  </div>
-                ) : (
-                  'Post Your Answer'
-                )}
-              </button>
-            </Form>
-          )}
-        </ClientOnly>
       </div>
     </div>
   )

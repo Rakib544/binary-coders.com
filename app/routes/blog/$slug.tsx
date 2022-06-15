@@ -37,10 +37,10 @@ const SingleBlog = () => {
       <div className='my-10'>
         <p className='mb-2'>
           {new Date(blog.createdAt).toDateString()} -{' '}
-          <span className='bg-slate-100 p-2 rounded-md text-gray-400'>{blog.readTime}</span>
+          <span className='bg-sky-400/10 p-2 rounded-md text-sky-600'>{blog.readTime}</span>
         </p>
         <h1 className='text-2xl md:text-4xl font-extrabold text-slate-800'>{blog.title}</h1>
-        <div className='flex items-center space-x-4 text-sky-600 text-sm mt-2'>
+        <div className='flex items-center space-x-4 text-sky-600 text-md mt-2'>
           <img
             className='h-12 rounded-full w-12 object-fill object-center'
             src={creatorInfo.profilePicture}
@@ -51,7 +51,7 @@ const SingleBlog = () => {
       </div>
       <div
         dangerouslySetInnerHTML={{ __html: blog.html }}
-        className='prose prose-slate lg:prose-md mb-24'
+        className='prose prose-slate lg:prose-lg max-w-none mb-24 prose-a:text-blue-600'
       ></div>
     </div>
   )

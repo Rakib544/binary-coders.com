@@ -53,11 +53,15 @@ const Navbar = ({ username, profilePicture }: { username: string; profilePicture
               ))}
               {username ? (
                 <div className='relative' onClick={() => setShowDropMenu(!showDropMenu)}>
-                  <img
-                    src={profilePicture}
-                    alt={username}
-                    className='h-12 w-12 rounded-full object-cover object-center align-middle border-2 border-blue-500 cursor-pointer'
-                  />
+                  <div className='bg-gradient-to-r from-cyan-500 to-blue-500  p-0.5 rounded-full'>
+                    <div className='bg-white p-0.5 rounded-full'>
+                      <img
+                        src={profilePicture}
+                        alt={username}
+                        className='h-12 w-12 rounded-full object-cover block object-center align-middle cursor-pointer'
+                      />
+                    </div>
+                  </div>
                   <Dropdown
                     username={username}
                     profilePicture={profilePicture}
