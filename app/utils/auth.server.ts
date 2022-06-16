@@ -48,6 +48,7 @@ type Token = {
 export const verifiedUser = async (token: string) => {
   try {
     const decoded = await jwt.verify(token, process.env.JWT_SECRET as string)
+
     const user = await prisma.user.findUnique({
       where: {
         email: (decoded as Token).email,
@@ -55,7 +56,7 @@ export const verifiedUser = async (token: string) => {
     })
     if (user) {
       const tokenValid = token === user.verifiedToken
-
+      console.log(tokenValid)
       if (tokenValid) {
         await prisma.user.update({
           where: {
