@@ -50,7 +50,8 @@ export const getAllProblems = async () => {
     }
   } catch (error) {
     return {
-      status: 'Something went wrong. Please try again',
+      status: 500,
+      message: 'Something went wrong. Please try again',
     }
   }
 }

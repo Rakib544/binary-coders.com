@@ -2,6 +2,7 @@ export const headerNavLinks = [
   { href: '/about', title: 'About' },
   { href: '/blog', title: 'Blog' },
   { href: '/question', title: 'Question' },
+  { href: '/problems', title: 'Solve Problems' },
 ]
 
 export const stackCard = [
