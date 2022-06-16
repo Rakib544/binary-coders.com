@@ -67,7 +67,7 @@ const Login = () => {
   return (
     <div className='sm:flex sm:items-center h-auto overflow-auto lg:h-screen lg:overflow-hidden'>
       <div className='hidden lg:block sm:w-1/2 p-10'>
-        <img src='/images/login.png' alt='login' className='md:p-10' />
+        <img src='/images/login.png' alt='login' className='md:p-10' loading='lazy' />
       </div>
       <div className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16'>
         <div className='block lg:hidden'>
