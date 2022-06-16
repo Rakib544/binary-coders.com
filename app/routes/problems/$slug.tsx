@@ -23,7 +23,7 @@ const SingleQuestion = () => {
 
   return (
     <div className='grid grid-cols-5'>
-      <div className='p-4 col-span-2 h-screen overflow-auto'>
+      <div className='p-4 col-span-5 md:col-span-2 h-screen overflow-auto'>
         <div className='border-b border-gray-200 pb-4'>
           <h1 className='text-4xl font-bold'>{problem?.title}</h1>
           <div className='space-x-4'>
@@ -36,7 +36,7 @@ const SingleQuestion = () => {
           className='prose prose-slate lg:prose-md max-w-none mt-12 mb-32 prose-a:text-blue-600'
         />
       </div>
-      <div className='col-span-3 p-4'>
+      <div className='col-span-5 md:col-span-3 p-4'>
         <iframe
           frameBorder='0'
           height='450px'

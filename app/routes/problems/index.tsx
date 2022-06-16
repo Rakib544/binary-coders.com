@@ -25,7 +25,7 @@ const index = () => {
   return (
     <div className='px-4 md:px-20 lg:px-60 bg-slate-100 py-20'>
       <div className='flex justify-between py-4 border-b border-gray-100 items-center'>
-        <h2 className='text-xl md:text-3xl'>All Questions</h2>
+        <h2 className='text-xl md:text-3xl'>All Problems</h2>
         <Link
           to='/question/create'
           className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-600 text-white rounded-full'
