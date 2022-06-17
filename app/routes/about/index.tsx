@@ -89,9 +89,9 @@ const index = () => {
         <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-4 py-12 text-center'>
           <div className='p-4'>
             <img
-              src='https://i.ibb.co/HGqL3r3/instructor-img-3-8e53fa9c4173331fb350.jpg'
+              src='./images/teamMember/Rakib.png'
               alt='Empty'
-              className='w-full'
+              className='w-full border-0 rounded-lg h-72'
             />
             <div className='py-4 text-center w-full'>
               <h1 className='text-3xl font-bold'>Rakib Hossain</h1>
@@ -121,9 +121,9 @@ const index = () => {
           </div>
           <div className='p-4'>
             <img
-              src='https://i.ibb.co/HGqL3r3/instructor-img-3-8e53fa9c4173331fb350.jpg'
+              src='./images/teamMember/tanvirImg.png'
               alt='Empty'
-              className='w-full'
+              className='w-full border-0 rounded-lg h-72'
             />
             <div className='py-4 text-center w-full'>
               <h1 className='text-3xl font-bold'>Tanvir Hossain</h1>
@@ -153,9 +153,9 @@ const index = () => {
           </div>
           <div className='p-4'>
             <img
-              src='https://i.ibb.co/HGqL3r3/instructor-img-3-8e53fa9c4173331fb350.jpg'
+              src='./images/teamMember/Abu_jakariya.jpg'
               alt='Empty'
-              className='w-full'
+              className='w-full border-0 rounded-lg h-72'
             />
             <div className='py-4 text-center w-full'>
               <h1 className='text-3xl font-bold'>Abu Jakariya</h1>
@@ -242,5 +242,5 @@ const index = () => {
     </div>
   )
 }
-
+// https://i.ibb.co/HGqL3r3/instructor-img-3-8e53fa9c4173331fb350.jpg
 export default index
