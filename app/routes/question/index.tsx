@@ -30,7 +30,7 @@ type Question = {
 const index = () => {
   const loaderData = useLoaderData()
   return (
-    <div className='px-60 bg-slate-100 py-20'>
+    <div className='px-4 md:px-60 bg-slate-100 py-20'>
       <div className='flex justify-between py-4 border-b border-gray-100 items-center'>
         <h2 className='text-3xl'>All Questions</h2>
         <Link to='/question/create' className='px-12 py-3 bg-blue-600 text-white rounded-full'>

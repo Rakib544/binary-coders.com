@@ -84,7 +84,7 @@ const Navbar = ({ username, profilePicture }: { username: string; profilePicture
               )}
             </ul>
           </div>
-          <MobileNav />
+          <MobileNav profilePicture={profilePicture} username={username} />
         </div>
       ) : null}
     </>
