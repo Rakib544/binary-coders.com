@@ -72,7 +72,7 @@ const Index = () => {
                   ))}
                 </ul>
                 <Link
-                  to={`question/${problem.slug}`}
+                  to={`/problems/${problem.slug}`}
                   className='text-sm text-sky-500 font-medium my-1 inline-block'
                 >
                   Solve Problem &rarr;

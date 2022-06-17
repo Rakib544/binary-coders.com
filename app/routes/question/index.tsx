@@ -83,7 +83,7 @@ const Index = () => {
                   ))}
                 </ul>
                 <Link
-                  to={`question/${question.slug}`}
+                  to={`/question/${question.slug}`}
                   className='text-sm text-sky-500 font-medium my-1 inline-block'
                 >
                   View More &rarr;
