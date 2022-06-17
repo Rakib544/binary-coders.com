@@ -26,7 +26,7 @@ const MobileNav = ({ profilePicture, username }: MobileNavProps) => {
   }
 
   return (
-    <div className='sm:hidden'>
+    <div className='md:hidden'>
       <button
         type='button'
         className='ml-1 mr-1 h-8 w-8 rounded py-1 z-50 relative'
