@@ -1,5 +1,6 @@
 import { LinksFunction, LoaderFunction } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
+import { motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import quillCss from 'quill/dist/quill.snow.css'
 import { getSingleProblem } from '~/utils/problems.server'
@@ -22,7 +23,12 @@ const SingleQuestion = () => {
   const { problem } = useLoaderData()
 
   return (
-    <div className='grid grid-cols-5'>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className='grid grid-cols-5'
+    >
       <div className='p-4 col-span-5 md:col-span-2 h-screen overflow-auto'>
         <div className='border-b border-gray-200 pb-4'>
           <h1 className='text-4xl font-bold'>{problem?.title}</h1>
@@ -45,7 +51,7 @@ const SingleQuestion = () => {
           // hideNew={true as boolean}
         ></iframe>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

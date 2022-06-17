@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
+import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
 import SuccessModal from '~/components/success-modal'
@@ -92,12 +93,37 @@ const Register = () => {
     setImgUploading(false)
   }
 
+  // framer motion code
+  const shouldReducedMotion = useReducedMotion()
+  const childVariants = {
+    initial: { opacity: 0, y: shouldReducedMotion ? 0 : 25 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  }
+
   return (
-    <div className='sm:flex sm:items-center h-auto '>
+    <motion.div
+      className='sm:flex sm:items-center h-auto'
+      initial='initial'
+      animate='visible'
+      variants={{
+        initial: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+      }}
+    >
       <div className='hidden lg:block sm:w-1/2 p-10'>
-        <img src='/images/login.png' alt='img' className='md:p-10' />
+        <motion.img
+          src='/images/login.png'
+          alt='img'
+          className='md:p-10'
+          initial={{ opacity: 0, scale: 1.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        />
       </div>
-      <div className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16'>
+      <motion.div
+        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16'
+        variants={childVariants}
+      >
         <div className='block lg:hidden'>
           <img
             src='/images/login-mobile.webp'
@@ -233,11 +259,11 @@ const Register = () => {
             </p>
           </div>
         </Form>
-      </div>
+      </motion.div>
       <SuccessModal
         email={actionData?.status === 201 && actionData?.email ? actionData?.email : ''}
       />
-    </div>
+    </motion.div>
   )
 }
 

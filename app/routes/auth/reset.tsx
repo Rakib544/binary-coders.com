@@ -1,5 +1,6 @@
 import { ActionFunction, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useTransition } from '@remix-run/react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import SuccessModal from '~/components/success-modal'
@@ -43,12 +44,38 @@ export const action: ActionFunction = async ({ request }) => {
 const Reset = () => {
   const actionData = useActionData()
   const transition = useTransition()
+
+  const shouldReducedMotion = useReducedMotion()
+
+  const childVariants = {
+    initial: { opacity: 0, y: shouldReducedMotion ? 0 : 25 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  }
+
   return (
-    <div className='grid grid-cols-2 items-center'>
+    <motion.div
+      className='grid grid-cols-2 items-center'
+      initial='initial'
+      animate='visible'
+      variants={{
+        initial: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+      }}
+    >
       <div className='hidden md:block col-span-2 sm:col-span-2 md:col-span-1'>
-        <img src='/images/reset.png' alt='reset-img' className='md:p-10' />
+        <motion.img
+          src='/images/reset.png'
+          alt='reset-img'
+          className='md:p-10'
+          initial={{ opacity: 0, scale: 1.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+        />
       </div>
-      <div className='col-span-2 sm:col-span-2 md:col-span-1 px-6 mt-40 md:mt-0 md:px-14'>
+      <motion.div
+        variants={childVariants}
+        className='col-span-2 sm:col-span-2 md:col-span-1 px-6 mt-40 md:mt-0 md:px-14'
+      >
         <h1 className='text-3xl font-bold text-center md:text-left'>
           Are you forgot your password ?
         </h1>
@@ -87,9 +114,9 @@ const Reset = () => {
             </button>
           </div>
         </Form>
-      </div>
+      </motion.div>
       <SuccessModal email={actionData?.email} />
-    </div>
+    </motion.div>
   )
 }
 

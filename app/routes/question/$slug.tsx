@@ -1,5 +1,6 @@
 import { LinksFunction, LoaderFunction } from '@remix-run/node'
 import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
+import { motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
@@ -65,7 +66,12 @@ const SingleQuestion = () => {
   }, [actionData?.status])
 
   return (
-    <div className='w-full md:w-2/3 mx-auto p-4'>
+    <motion.div
+      className='w-full md:w-2/3 mx-auto p-4'
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className='my-6 border-b border-gray-200 py-4'>
         <h1 className='text-4xl font-bold'>{question.title}</h1>
         <div className='space-x-4'>
@@ -151,7 +157,7 @@ const SingleQuestion = () => {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

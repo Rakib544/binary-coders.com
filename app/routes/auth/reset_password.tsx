@@ -1,5 +1,6 @@
 import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import { checkResetToken, updatePassword } from '~/utils/auth.server'
@@ -50,8 +51,23 @@ const ResetPassword = () => {
   const transition = useTransition()
   const actionData = useActionData()
 
+  const shouldReducedMotion = useReducedMotion()
+
+  const childVariants = {
+    initial: { opacity: 0, y: shouldReducedMotion ? 0 : 25 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  }
+
   return (
-    <div className='flex justify-center items-center h-screen'>
+    <motion.div
+      className='flex justify-center items-center h-screen'
+      initial='initial'
+      animate='visible'
+      variants={{
+        initial: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+      }}
+    >
       <div className='w-full md:w-1/3 p-4'>
         {actionData?.status === 200 ? (
           <p>{actionData?.message}</p>
@@ -78,7 +94,7 @@ const ResetPassword = () => {
         )}
 
         {loaderData?.status === 201 && (
-          <>
+          <motion.div variants={childVariants}>
             {actionData?.status === 200 ? (
               ''
             ) : (
@@ -122,10 +138,10 @@ const ResetPassword = () => {
                 </button>
               </div>
             </Form>
-          </>
+          </motion.div>
         )}
       </div>
-    </div>
+    </motion.div>
   )
 }
 
