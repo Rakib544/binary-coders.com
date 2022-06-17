@@ -2,11 +2,15 @@
 import { Link } from '@remix-run/react'
 import { headerNavLinks } from 'data/navbar'
 import { useState } from 'react'
-import EmailLogo from './icons/email'
-import GitHubLogo from './icons/github'
-import LinkedinLogo from './icons/linkedin'
 
-const MobileNav = () => {
+const mobileNavLinks = [{ href: '/', title: 'Home' }, ...headerNavLinks]
+
+interface MobileNavProps {
+  profilePicture: string
+  username: string
+}
+
+const MobileNav = ({ profilePicture, username }: MobileNavProps) => {
   const [navShow, setNavShow] = useState(false)
 
   const onToggleNav = () => {
@@ -25,7 +29,7 @@ const MobileNav = () => {
     <div className='sm:hidden'>
       <button
         type='button'
-        className='ml-1 mr-1 h-8 w-8 rounded py-1'
+        className='ml-1 mr-1 h-8 w-8 rounded py-1 z-50 relative'
         aria-label='Toggle Menu'
         onClick={onToggleNav}
       >
@@ -51,7 +55,7 @@ const MobileNav = () => {
         </svg>
       </button>
       <div
-        className={`supports-backdrop-blur:bg-white/95 fixed top-24 right-0 z-10 h-full w-full transform bg-white text-center backdrop-blur duration-300 ease-in-ou ${
+        className={`supports-backdrop-blur:bg-white/95 fixed top-0 right-0 z-10 h-full w-full transform bg-white backdrop-blur duration-300 ease-in-out ${
           navShow ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -61,8 +65,18 @@ const MobileNav = () => {
           className='fixed h-full w-full cursor-auto focus:outline-none'
           onClick={onToggleNav}
         ></button>
-        <nav className='fixed mt-8 h-full w-full'>
-          {headerNavLinks.map((link) => (
+        <nav className='fixed py-6 px-6  h-full w-full z-20'>
+          <div className='flex items-center space-x-4 border-b border-slate-300 pb-4'>
+            <img
+              src={profilePicture}
+              alt={username}
+              className='h-20 w-20 rounded-full object-cover'
+            />
+            <div>
+              <p className='text-2xl font-medium mt-2 text-blue-500'>{username}</p>
+            </div>
+          </div>
+          {mobileNavLinks.map((link) => (
             <div key={link.title} className=' px-4 py-4'>
               <Link
                 to={link.href}
@@ -74,31 +88,11 @@ const MobileNav = () => {
             </div>
           ))}
           <Link
-            to='/auth/login'
-            className='mt-4 block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'
+            to={username ? '/auth/logout' : '/auth/login'}
+            className='mt-4 inline-block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'
           >
-            Login
+            {username ? 'Logout' : 'Login'}
           </Link>
-          <div className='mt-10 flex items-center justify-center'>
-            <Link
-              to='https://github/Rakib'
-              className='mx-2 rounded-full border border-slate-700 p-2'
-            >
-              <GitHubLogo />
-            </Link>
-            <Link
-              to='mailto:md.rakib10122003@gmail.com'
-              className='mx-2 rounded-full border border-slate-700 p-2'
-            >
-              <EmailLogo />
-            </Link>
-            <Link
-              to='https://www.linkedin.com/in/dev-rakib/'
-              className='mx-2 rounded-full border border-slate-700 p-2'
-            >
-              <LinkedinLogo />
-            </Link>
-          </div>
         </nav>
       </div>
     </div>

@@ -36,11 +36,66 @@ model User {
   role Role @default(user)
 }
 
+type Comment {
+    publishedAt DateTime @default(now())
+    text String
+    commentAuthorId String
+}
 
-// first: is email avaiable
-// second: generate a token and update resetPasswordToken using token
-// third: send mail with token
-// fourth: get token from url
-// decode url and get email and check if email is valid
-// sixth: if token valid then send a response to frontend with {varified: true}
-// seventh: 
+
+model BlogPosts {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title String
+  slug String @unique
+  readTime String 
+  html String
+  authorId String
+  comments Comment[]
+}
+
+type Answer {
+  answerCreatorId String
+  answeredBy String
+  answeredTime DateTime @default(now())
+  answer String
+}
+
+type View {
+  id String
+}
+
+type Vote {
+  voteCreatorId String
+  voteType String
+}
+
+
+model Question {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title String
+  slug String @unique
+  description String
+  tags String[]
+  authorId String
+  answers Answer[]
+  view View[]
+  vote Vote[]
+}
+
+
+model Problem {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title String
+  slug String @unique
+  description String
+  tags String[]
+  authorId String
+}
+
+

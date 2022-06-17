@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ActionFunction, json, LinksFunction, LoaderFunction } from '@remix-run/node'
+import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
+import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
 import SuccessModal from '~/components/success-modal'
@@ -9,6 +10,7 @@ import { registerFormSchema } from '~/utils/form-valiation-schema'
 
 import modalStyles from '@reach/dialog/styles.css'
 import { Spinner } from '~/components/icons/spinner'
+import { getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: modalStyles }]
@@ -47,7 +49,11 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const res = await getUserInfo(request)
+  if (res.userId !== null) {
+    return redirect('/')
+  }
   return json({ env: process.env.IMAGE_BB_KEY })
 }
 
@@ -86,24 +92,55 @@ const Register = () => {
     setImg(data.data.url)
     setImgUploading(false)
   }
+
+  // framer motion code
+  const shouldReducedMotion = useReducedMotion()
+  const childVariants = {
+    initial: { opacity: 0, y: shouldReducedMotion ? 0 : 25 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  }
+
   return (
-    <div className='md:flex'>
-      <div className='hidden md:block md:w-1/2 p-10'>
-        <img src='/images/login.png' alt='img' className='md:p-10' />
+    <motion.div
+      className='sm:flex sm:items-center h-auto'
+      initial='initial'
+      animate='visible'
+      variants={{
+        initial: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+      }}
+    >
+      <div className='hidden lg:block sm:w-1/2 p-10'>
+        <motion.img
+          src='/images/login.png'
+          alt='img'
+          className='md:p-10'
+          initial={{ opacity: 0, scale: 1.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        />
       </div>
-      <div className='w-full md:w-1/2 px-2 md:px-24 my-16 md:my-0'>
-        <h1 className='text-3xl font-bold my-6'>Register</h1>
-        <div>
-          <input
-            type='file'
-            onChange={handleImageUpload}
-            className='block my-4 w-full text-sm text-slate-500
-      file:mr-4 file:py-2 file:px-4
-      file:rounded-full file:border-0
-      file:text-sm file:font-semibold
-      file:bg-violet-50 file:text-violet-700
-      hover:file:bg-violet-100'
+      <motion.div
+        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16'
+        variants={childVariants}
+      >
+        <div className='block lg:hidden'>
+          <img
+            src='/images/login-mobile.webp'
+            alt='login'
+            className='h-48 object-cover object-center block mx-auto'
           />
+        </div>
+        <h1 className='text-3xl font-bold text-center md:text-left'>Let&apos;s Get Started!</h1>
+        <p className='mb-4 text-center md:text-left'>
+          Create an account to Binary Coders to get all features
+        </p>
+        <div className='flex justify-center'>
+          <label htmlFor='camera'>
+            <input type='file' onChange={handleImageUpload} id='camera' className='hidden' />
+            <img src='/images/user.png' alt='logo' className='h-14 w-14 rounded-full' />
+            <small className='text-center'>Upload image</small>
+          </label>
         </div>
         <span className='text-sm text-red-500'>
           {actionData?.error?.issues?.map((issue: any) =>
@@ -197,35 +234,36 @@ const Register = () => {
               }}
             />
           </div>
-          <Link className='text-blue-600 underline' to='/auth/reset'>
-            Reset Password
-          </Link>
-          <button
-            className='px-6 py-3 rounded-full bg-blue-600 text-white block w-full mt-4'
-            type='submit'
-          >
-            {transition.submission ? (
-              <div className='flex justify-center items-center'>
-                <Spinner />
-                {transition.state}
-              </div>
-            ) : (
-              'Register'
-            )}
-          </button>
+          <div className='mb-2 flex justify-center'>
+            <button
+              className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+              type='submit'
+            >
+              {transition.submission ? (
+                <div className='flex justify-center items-center'>
+                  <Spinner />
+                  {transition.state}
+                </div>
+              ) : (
+                'Register'
+              )}
+            </button>
+          </div>
 
           <div>
-            <p className='text-sm font-medium mt-4'>
-              Not Registered yet?{' '}
+            <p className='text-sm font-medium pt-8 text-center'>
+              Already Registered?{' '}
               <Link className='text-blue-600' to='/auth/login'>
                 Login Here
               </Link>
             </p>
           </div>
         </Form>
-      </div>
-      <SuccessModal email={actionData?.email ? actionData?.email : ''} />
-    </div>
+      </motion.div>
+      <SuccessModal
+        email={actionData?.status === 201 && actionData?.email ? actionData?.email : ''}
+      />
+    </motion.div>
   )
 }
 

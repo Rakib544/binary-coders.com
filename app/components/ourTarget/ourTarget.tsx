@@ -1,16 +1,30 @@
+import { motion } from 'framer-motion'
+import Map from './map'
+
 const ourTarget = () => {
   return (
-    <div className='mx-auto w-11/12 md:my-16'>
-      <div className='text-center'>
-        <h1 className='text-center text-gray-700 text-5xl font-bold'>
-          Our <span className='text-sky-500'>Target</span>
-        </h1>
-        <h3 className='my-16 font-semibold text-2xl w-1/2 mx-auto text-gray-700'>
-          You will work hard. We will provide whatever content, support and guidelines. Along with
-          the account 🤝, the account is correct💪
-        </h3>
+    <>
+      <motion.div
+        className='mx-auto w-11/12 md:mb-16 md:mt-32'
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className='text-center'>
+          <h1 className='text-center text-gray-700 text-5xl font-bold'>
+            Our <span className='text-blue-500'>Target</span>
+          </h1>
+          <h3 className='md:my-16 my-8 font-semibold md:text-2xl md:w-1/2 mx-auto text-gray-700'>
+            You will work hard. We will provide whatever content, support and guidelines. Along with
+            the account 🤝, the account is correct💪
+          </h3>
+        </div>
+      </motion.div>
+      <div className='milestone-content'>
+        <Map />
       </div>
-    </div>
+    </>
   )
 }
 

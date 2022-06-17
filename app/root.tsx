@@ -1,8 +1,23 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node'
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
-import MobileNav from './components/mobile-nav'
-import Navbar from './components/nav-bar'
+import { HeadersFunction, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node'
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+  useTransition,
+} from '@remix-run/react'
+import { AnimatePresence, motion } from 'framer-motion'
+import * as React from 'react'
+import MessengerCustomerChat from 'react-messenger-customer-chat'
+import { useSpinDelay } from 'spin-delay'
+import Footer from './components/footer/footer'
+import { Spinner } from './components/icons/spinner'
+import Navbar from './components/navbar'
 import styles from './styles/app.css'
+import { getUserInfo } from './utils/session.server'
 
 export const links: LinksFunction = () => {
   return [
@@ -18,27 +33,139 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'New Remix App',
+  title: 'Binary Coders',
   viewport: 'width=device-width,initial-scale=1',
 })
 
-export default function App() {
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return {
+    'Server-Timing': loaderHeaders.get('Server-Timing') ?? '',
+  }
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const res = await getUserInfo(request)
+  return {
+    ...res,
+  }
+}
+
+const LOADER_WORDS = [
+  'loading',
+  'checking cdn',
+  'checking cache',
+  'fetching from db',
+  'compiling mdx',
+  'updating cache',
+  'transfer',
+]
+
+const ACTION_WORDS = [
+  'packaging',
+  'zapping',
+  'validating',
+  'processing',
+  'calculating',
+  'computing',
+  'computering',
+]
+
+// we don't want to show the loading indicator on page load
+let firstRender = true
+
+function PageLoadingMessage() {
+  const transition = useTransition()
+  const [words, setWords] = React.useState<Array<string>>([])
+  const [pendingPath, setPendingPath] = React.useState('')
+  const showLoader = useSpinDelay(Boolean(transition.state !== 'idle'))
+
+  React.useEffect(() => {
+    if (firstRender) return
+    if (transition.state === 'idle') return
+    if (transition.state === 'loading') setWords(LOADER_WORDS)
+    if (transition.state === 'submitting') setWords(ACTION_WORDS)
+
+    const interval = setInterval(() => {
+      setWords(([first, ...rest]) => [...rest, first] as Array<string>)
+    }, 2000)
+
+    return () => clearInterval(interval)
+  }, [pendingPath, transition.state])
+
+  React.useEffect(() => {
+    if (firstRender) return
+    if (transition.state === 'idle') return
+    setPendingPath(transition.location.pathname)
+  }, [transition.location])
+
+  React.useEffect(() => {
+    firstRender = false
+  }, [])
+
+  const action = words[0]
+
   return (
-    <html lang='en'>
+    <>
+      {showLoader ? (
+        <motion.div className='fixed right-4 bottom-8 bg-gradient-to-r from-cyan-500 to-blue-500 text-white p-4 rounded-lg shadow-lg drop-shadow-2xl z-50'>
+          <div className='flex w-64 items-center'>
+            <div className='spin text-4xl'>
+              <Spinner />
+            </div>
+            <div className='ml-4 inline-grid'>
+              <AnimatePresence>
+                <div className='col-start-1 row-start-1 flex overflow-hidden'>
+                  <motion.span
+                    key={action}
+                    initial={{ y: 15, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -15, opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className='flex-none '
+                  >
+                    {action}
+                  </motion.span>
+                </div>
+              </AnimatePresence>
+              <span className='text-white truncate'>path: {pendingPath}</span>
+            </div>
+          </div>
+        </motion.div>
+      ) : null}
+    </>
+  )
+}
+
+//
+
+export default function App() {
+  const loaderData = useLoaderData()
+
+  return (
+    <html lang='en' className='scroll-smooth'>
       <head>
         <Meta />
         <Links />
       </head>
       <body className='font-barlow'>
-        <div className='flex justify-between items-center py-4 px-2 md:px-10'>
-          <Navbar />
-          <MobileNav />
-        </div>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        {process.env.NODE_ENV === 'development' && <LiveReload />}
+        <Navbar
+          username={loaderData?.username as string}
+          profilePicture={loaderData?.profilePicture as string}
+        />
+        <main className='relative'>
+          <PageLoadingMessage />
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          {process.env.NODE_ENV === 'development' && <LiveReload />}
+          {process.env.NODE_ENV !== 'development' && (
+            <MessengerCustomerChat pageId='104547992167816' appId='1392911071206859' />
+          )}
+        </main>
+        <Footer />
       </body>
     </html>
   )
 }
+
+// comment

@@ -1,5 +1,6 @@
-import { ActionFunction, LinksFunction } from '@remix-run/node'
+import { ActionFunction, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useTransition } from '@remix-run/react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import SuccessModal from '~/components/success-modal'
@@ -7,9 +8,20 @@ import { resetToken } from '~/utils/auth.server'
 import { restSchema } from '~/utils/form-valiation-schema'
 
 import modalStyles from '@reach/dialog/styles.css'
+import { getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: modalStyles }]
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const res = await getUserInfo(request)
+
+  if (res.userId !== null) {
+    return redirect('/')
+  }
+
+  return null
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -32,14 +44,49 @@ export const action: ActionFunction = async ({ request }) => {
 const Reset = () => {
   const actionData = useActionData()
   const transition = useTransition()
+
+  const shouldReducedMotion = useReducedMotion()
+
+  const childVariants = {
+    initial: { opacity: 0, y: shouldReducedMotion ? 0 : 25 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  }
+
   return (
-    <div className='md:flex items-center'>
-      <div className='hidden md:block md:w-1/2 p-10'>
-        <img src='/images/reset.png' alt='reset-img' className='md:p-10' />
+    <motion.div
+      className='grid grid-cols-2 items-center'
+      initial='initial'
+      animate='visible'
+      variants={{
+        initial: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+      }}
+    >
+      <div className='hidden md:block col-span-2 sm:col-span-2 md:col-span-1'>
+        <motion.img
+          src='/images/reset.png'
+          alt='reset-img'
+          className='md:p-10'
+          initial={{ opacity: 0, scale: 1.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+        />
       </div>
-      <div className='w-full md:w-1/2 px-2 md:px-24 my-16 md:my-0'>
-        <h1 className='text-3xl font-bold my-4'>Are you forgot your password ?</h1>
-        <p className='mb-4'>Don&apos;t worry about it. We have a solution. 😊</p>
+      <motion.div
+        variants={childVariants}
+        className='col-span-2 sm:col-span-2 md:col-span-1 px-6 mt-40 md:mt-0 md:px-14'
+      >
+        <h1 className='text-3xl font-bold text-center md:text-left'>
+          Are you forgot your password ?
+        </h1>
+        <p className='mb-4 text-center md:text-left'>
+          Don&apos;t worry about it. We have a solution. 😊
+        </p>
+        {actionData?.status === 404 && (
+          <div role='alert'>
+            <p className='text-red-600'>{actionData.message}</p>
+          </div>
+        )}
         <Form method='post'>
           <Label htmlFor='email'>Email</Label>
           <Input
@@ -51,23 +98,25 @@ const Reset = () => {
             }
           />
           <span className='text-sm text-red-500'>{actionData?.error?.issues[0]?.message}</span>
-          <button
-            type='submit'
-            className='px-6 py-3 rounded-full bg-blue-600 text-white block w-full mt-8 text-center'
-          >
-            {transition.submission ? (
-              <div className='flex justify-center items-center'>
-                <Spinner />
-                {transition.state}
-              </div>
-            ) : (
-              'Submit'
-            )}
-          </button>
+          <div className='flex justify-center'>
+            <button
+              type='submit'
+              className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+            >
+              {transition.submission ? (
+                <div className='flex justify-center items-center'>
+                  <Spinner />
+                  {transition.state}
+                </div>
+              ) : (
+                'Submit'
+              )}
+            </button>
+          </div>
         </Form>
-      </div>
+      </motion.div>
       <SuccessModal email={actionData?.email} />
-    </div>
+    </motion.div>
   )
 }
 
