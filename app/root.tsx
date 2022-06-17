@@ -12,6 +12,7 @@ import {
 import { AnimatePresence, motion } from 'framer-motion'
 import * as React from 'react'
 import MessengerCustomerChat from 'react-messenger-customer-chat'
+import { useSpinDelay } from 'spin-delay'
 import Footer from './components/footer/footer'
 import { Spinner } from './components/icons/spinner'
 import Navbar from './components/navbar'
@@ -76,10 +77,7 @@ function PageLoadingMessage() {
   const transition = useTransition()
   const [words, setWords] = React.useState<Array<string>>([])
   const [pendingPath, setPendingPath] = React.useState('')
-  // const showLoader = useSpinDelay(Boolean(transition.state !== 'idle'), {
-  //   delay: 400,
-  //   minDuration: 1000,
-  // })
+  const showLoader = useSpinDelay(Boolean(transition.state !== 'idle'))
 
   React.useEffect(() => {
     if (firstRender) return
@@ -106,12 +104,10 @@ function PageLoadingMessage() {
 
   const action = words[0]
 
-  const showLoader = false
-
   return (
     <>
       {showLoader ? (
-        <div className='fixed bottom-8 right-4 bg-sky-200 p-4 rounded-lg'>
+        <motion.div className='fixed right-4 bottom-8 bg-gradient-to-r from-cyan-500 to-blue-500 text-white p-4 rounded-lg shadow-lg drop-shadow-2xl z-50'>
           <div className='flex w-64 items-center'>
             <div className='spin text-4xl'>
               <Spinner />
@@ -125,16 +121,16 @@ function PageLoadingMessage() {
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -15, opacity: 0 }}
                     transition={{ duration: 0.25 }}
-                    className='flex-none'
+                    className='flex-none '
                   >
                     {action}
                   </motion.span>
                 </div>
               </AnimatePresence>
-              <span className='text-slate-900 truncate'>path: {pendingPath}</span>
+              <span className='text-white truncate'>path: {pendingPath}</span>
             </div>
           </div>
-        </div>
+        </motion.div>
       ) : null}
     </>
   )
@@ -144,6 +140,7 @@ function PageLoadingMessage() {
 
 export default function App() {
   const loaderData = useLoaderData()
+
   return (
     <html lang='en' className='scroll-smooth'>
       <head>
@@ -151,19 +148,21 @@ export default function App() {
         <Links />
       </head>
       <body className='font-barlow'>
-        <PageLoadingMessage />
         <Navbar
           username={loaderData?.username as string}
           profilePicture={loaderData?.profilePicture as string}
         />
-        <Outlet />
+        <main className='relative'>
+          <PageLoadingMessage />
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          {process.env.NODE_ENV === 'development' && <LiveReload />}
+          {process.env.NODE_ENV !== 'development' && (
+            <MessengerCustomerChat pageId='104547992167816' appId='1392911071206859' />
+          )}
+        </main>
         <Footer />
-        <ScrollRestoration />
-        <Scripts />
-        {process.env.NODE_ENV === 'development' && <LiveReload />}
-        {process.env.NODE_ENV !== 'development' && (
-          <MessengerCustomerChat pageId='104547992167816' appId='1392911071206859' />
-        )}
       </body>
     </html>
   )
