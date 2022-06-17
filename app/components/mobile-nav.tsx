@@ -3,6 +3,8 @@ import { Link } from '@remix-run/react'
 import { headerNavLinks } from 'data/navbar'
 import { useState } from 'react'
 
+const mobileNavLinks = [{ href: '/', title: 'Home' }, ...headerNavLinks]
+
 interface MobileNavProps {
   profilePicture: string
   username: string
@@ -74,7 +76,7 @@ const MobileNav = ({ profilePicture, username }: MobileNavProps) => {
               <p className='text-2xl font-medium mt-2 text-blue-500'>{username}</p>
             </div>
           </div>
-          {headerNavLinks.map((link) => (
+          {mobileNavLinks.map((link) => (
             <div key={link.title} className=' px-4 py-4'>
               <Link
                 to={link.href}
