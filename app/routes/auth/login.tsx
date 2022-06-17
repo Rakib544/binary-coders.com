@@ -1,5 +1,6 @@
 import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, useActionData, useTransition } from '@remix-run/react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import { login } from '~/utils/auth.server'
@@ -64,12 +65,38 @@ const checkValidation = (key: string, data: any) => {
 const Login = () => {
   const actionData = useActionData()
   const transition = useTransition()
+  const shouldReducedMotion = useReducedMotion()
+
+  const childVariants = {
+    initial: { opacity: 0, y: shouldReducedMotion ? 0 : 25 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  }
+
   return (
-    <div className='sm:flex sm:items-center h-auto overflow-auto lg:h-screen lg:overflow-hidden'>
+    <motion.div
+      className='sm:flex sm:items-center h-auto overflow-auto lg:h-screen lg:overflow-hidden'
+      initial='initial'
+      animate='visible'
+      variants={{
+        initial: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+      }}
+    >
       <div className='hidden lg:block sm:w-1/2 p-10'>
-        <img src='/images/login.png' alt='login' className='md:p-10' />
+        <motion.img
+          src='/images/login.png'
+          alt='login'
+          className='md:p-10'
+          loading='lazy'
+          initial={{ opacity: 1, scale: 1.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7 }}
+        />
       </div>
-      <div className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16'>
+      <motion.div
+        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16'
+        variants={childVariants}
+      >
         <div className='block lg:hidden'>
           <img
             src='/images/login-mobile.webp'
@@ -148,8 +175,8 @@ const Login = () => {
             </p>
           </div>
         </Form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }
 

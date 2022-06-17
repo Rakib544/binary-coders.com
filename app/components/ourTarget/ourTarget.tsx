@@ -1,9 +1,16 @@
+import { motion } from 'framer-motion'
 import Map from './map'
 
 const ourTarget = () => {
   return (
     <>
-      <div className='mx-auto w-11/12 md:my-16'>
+      <motion.div
+        className='mx-auto w-11/12 md:mb-16 md:mt-32'
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
         <div className='text-center'>
           <h1 className='text-center text-gray-700 text-5xl font-bold'>
             Our <span className='text-blue-500'>Target</span>
@@ -13,7 +20,7 @@ const ourTarget = () => {
             the account 🤝, the account is correct💪
           </h3>
         </div>
-      </div>
+      </motion.div>
       <div className='milestone-content'>
         <Map />
       </div>

@@ -1,24 +1,16 @@
 import { LoaderFunction } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { getAllQuestions } from '~/utils/question.server'
+import { getAllProblems } from '~/utils/problems.server'
 
 export const loader: LoaderFunction = async () => {
-  const res = await getAllQuestions()
+  const res = await getAllProblems()
   return {
     ...res,
   }
 }
 
-type Answer = {
-  answer: string
-  answerCreatorId: string
-  answeredBy: string
-  answeredTime: string
-}
-
-type Question = {
-  answers: Array<Answer>
+type Problem = {
   authorId: string
   createdAt: string
   description: string
@@ -52,29 +44,26 @@ const Index = () => {
         variants={childVariants}
         className='flex justify-between py-4 border-b border-gray-100 items-center'
       >
-        <h2 className='text-xl md:text-3xl'>All Questions</h2>
+        <h2 className='text-xl md:text-3xl'>All Problems</h2>
         <Link
           to='/question/create'
           className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-600 text-white rounded-full'
         >
-          Ask Question
+          Set Problem
         </Link>
       </motion.div>
       <motion.ul variants={childVariants}>
-        {loaderData?.questions?.map((question: Question) => (
-          <motion.li variants={childVariants} key={question.slug}>
+        {loaderData?.problems?.map((problem: Problem) => (
+          <li key={problem.slug}>
             <Link
-              to={`/question/${question.slug}`}
+              to={`/problems/${problem.slug}`}
+              variants={childVariants}
               className='block my-2 shadow-sm border border-gray-100 p-4 rounded-md bg-white'
             >
               <div>
-                <h2 className='text-lg font-medium'>{question.title}</h2>
-                <div className='space-x-4'>
-                  <small>Viewed - 0</small>
-                  <small>Answered - {question?.answers.length}</small>
-                </div>
+                <h2 className='text-lg font-medium'>{problem.title}</h2>
                 <ul className='flex space-x-2 my-2'>
-                  {question.tags?.map((tag) => (
+                  {problem.tags?.map((tag) => (
                     <li key={tag}>
                       <small className='px-2 py-1 rounded-md text-sky-600 bg-sky-400/10'>
                         {tag}
@@ -83,14 +72,14 @@ const Index = () => {
                   ))}
                 </ul>
                 <Link
-                  to={`question/${question.slug}`}
+                  to={`question/${problem.slug}`}
                   className='text-sm text-sky-500 font-medium my-1 inline-block'
                 >
-                  View More &rarr;
+                  Solve Problem &rarr;
                 </Link>
               </div>
             </Link>
-          </motion.li>
+          </li>
         ))}
       </motion.ul>
     </motion.div>

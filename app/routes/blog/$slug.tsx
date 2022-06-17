@@ -1,5 +1,6 @@
 import { LinksFunction, LoaderFunction } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
+import { motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import { getSingleBlog } from '~/utils/blog.server'
 
@@ -33,7 +34,12 @@ const SingleBlog = () => {
   const { blog, creatorInfo } = loaderData
 
   return (
-    <div className='w-full md:w-2/3 mx-auto p-4'>
+    <motion.div
+      className='w-full md:w-2/3 mx-auto p-4'
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className='my-10'>
         <p className='mb-2'>
           {new Date(blog.createdAt).toDateString()} -{' '}
@@ -53,7 +59,7 @@ const SingleBlog = () => {
         dangerouslySetInnerHTML={{ __html: blog.html }}
         className='prose prose-slate lg:prose-lg max-w-none mb-24 prose-a:text-blue-600'
       ></div>
-    </div>
+    </motion.div>
   )
 }
 

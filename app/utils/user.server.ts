@@ -37,7 +37,7 @@ export const createUser = async (user: Register) => {
         password: passwordHash,
         gender: user.gender,
         profilePicture: user.profilePicture,
-        verifiedToken: '',
+        verifiedToken: token,
         resetPasswordToken: '',
       },
     })
