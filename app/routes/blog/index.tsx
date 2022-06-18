@@ -42,17 +42,17 @@ const Index = () => {
       }}
     >
       <div className='text-right'>
-        <Link to='/blog/create' className='px-12 py-3 bg-blue-600 text-white rounded-full'>
+        <Link
+          to='/blog/create'
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block'
+        >
           Write Blog
         </Link>
       </div>
-      <motion.div variants={childVariants}>
+      <motion.div variants={childVariants} className='mt-14'>
         {posts?.map((post: Post) => (
           <Link to={post.slug} key={post.id}>
-            <motion.div
-              variants={childVariants}
-              className='bg-slate-100  my-12 rounded-lg sm:flex p-2 items-center'
-            >
+            <motion.div className='bg-white shadow-sm hover:shadow-md transition duration-300 hover:bg-gray-50 my-4 rounded-lg sm:flex p-2 items-center'>
               <div className='flex justify-center items-center w-full sm:w-1/4 mr-4'>
                 <img
                   src='https://i.ibb.co/mvg4qXt/csaba-balazs-q9-URsedw330-unsplash.jpg'
@@ -61,7 +61,7 @@ const Index = () => {
                 />
               </div>
               <div>
-                <h1 className='text-2xl font-medium'>{post.title}</h1>
+                <h1 className='text-xl font-medium'>{post.title}</h1>
                 <div>
                   <h4 className='text-md font-medium my-2'>
                     by - <span className='underline text-slate-700'>Dave Roger</span>

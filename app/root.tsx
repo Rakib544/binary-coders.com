@@ -107,7 +107,7 @@ function PageLoadingMessage() {
   return (
     <>
       {showLoader ? (
-        <motion.div className='fixed right-4 bottom-8 bg-gradient-to-r from-cyan-500 to-blue-500 text-white p-4 rounded-lg shadow-lg drop-shadow-2xl z-50'>
+        <motion.div className='fixed right-4 bottom-8 shadow-lg  bg-blue-500 text-white p-4 rounded-lg drop-shadow-2xl z-50'>
           <div className='flex w-64 items-center'>
             <div className='spin text-4xl'>
               <Spinner />
@@ -147,7 +147,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className='font-barlow'>
+      <body className='font-barlow bg-test'>
         <Navbar
           username={loaderData?.username as string}
           profilePicture={loaderData?.profilePicture as string}

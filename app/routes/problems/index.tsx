@@ -32,7 +32,7 @@ const Index = () => {
 
   return (
     <motion.div
-      className='px-4 md:px-20 lg:px-60 bg-slate-100 py-20'
+      className='px-4 md:px-20 lg:px-60 py-20'
       initial='initial'
       animate='visible'
       variants={{
@@ -47,7 +47,7 @@ const Index = () => {
         <h2 className='text-xl md:text-3xl'>All Problems</h2>
         <Link
           to='/question/create'
-          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-600 text-white rounded-full'
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
         >
           Set Problem
         </Link>
@@ -57,8 +57,8 @@ const Index = () => {
           <li key={problem.slug}>
             <Link
               to={`/problems/${problem.slug}`}
-              variants={childVariants}
-              className='block my-2 shadow-sm border border-gray-100 p-4 rounded-md bg-white'
+              // variants={childVariants}
+              className='block my-2 shadow-sm border transition duration-300 border-gray-100 p-4 rounded-md bg-white hover:bg-gray-50 shadow-slate-200/10 hover:shadow-md'
             >
               <div>
                 <h2 className='text-lg font-medium'>{problem.title}</h2>

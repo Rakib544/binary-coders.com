@@ -1,4 +1,12 @@
 import { Link, useLocation } from '@remix-run/react'
+import FacebookIcon from '../icons/facebook'
+import InstagramIcon from '../icons/instagram'
+import LinkedinLogo from '../icons/linkedin'
+import LocationIcon from '../icons/location'
+import MailIcon from '../icons/mail'
+import PhoneIcon from '../icons/phone'
+import YoutubeIcon from '../icons/youtube'
+import { Paragraph } from '../typography'
 const FOOTER_HIDES_FROM = [
   '/auth/login',
   '/auth/register',
@@ -17,27 +25,27 @@ const Footer = () => {
         <div className=''>
           <img
             src='https://i.ibb.co/KX9YN7Z/logo-01.png'
-            className='h-16 hover:scale-105 transition duration-300 ease-in cursor-grab mb-8'
+            className='h-16 hover:scale-105 transition duration-300 ease-in cursor-grab mb-6'
             alt='brand logo'
           />
           <div>
-            <h2 className='text-left font-semibold '>
+            <Paragraph className='text-left' textColorClassName='text-white text-sm tracking-wide'>
               A platform who tech and guid those student, who actually want learn programming . We
-              believe that learning programming is nothing but <span className='text-2xl'>FUN</span>
-            </h2>
+              believe that learning programming is nothing but fun
+            </Paragraph>
           </div>
           <div className='flex items-center justify-start space-x-3 mt-8'>
             <a target='_blank' href='https://www.facebook.com/groups/binarycoders' rel='noreferrer'>
-              <img src='./images/facebook.png' className='w-6 h-6' alt='facebook icon' />
+              <FacebookIcon />
             </a>{' '}
             <a href='https://www.facebook.com/groups/binarycoders'>
-              <img src='./images/instagram.png' className='w-6 h-6' alt='instagram icon' />
+              <InstagramIcon />
             </a>
             <a href='https://www.facebook.com/groups/binarycoders'>
-              <img src='./images/linkedin.png' className='w-6 h-6' alt='linkedin icon' />
+              <LinkedinLogo />
             </a>
             <a href='https://www.facebook.com/groups/binarycoders'>
-              <img src='./images/youtube.png' className='w-6 h-6' alt='youtube icon' />
+              <YoutubeIcon />
             </a>
           </div>
         </div>
@@ -65,42 +73,26 @@ const Footer = () => {
           </ul>
         </div>
         <div className=''>
-          <h2 className='font-semibold md:mb-8 mb-3 mt-5'>
-            {' '}
-            Find Us{' '}
-            <img src='./images/location.png' className='inline-flex ml-2 w-6' alt='location' />
-          </h2>
+          <h2 className='font-semibold md:mb-8 mb-3 mt-5'> Find Us </h2>
           <ul className='space-y-4 '>
             <li>
               <a
                 href='https://mail.google.com/mail/u/2/#inbox?compose=DmwnWrRmTNqzxSflKkVHkfcllrvZvHkfGZwGDkWcFDHsWSFHKwNGFNdGFBdcGHRQXBDJjPzqWpKG'
                 target='_blank'
                 rel='noopener noreferrer'
+                className='flex space-x-3 items-center'
               >
-                <img
-                  src='./images/gmail.png'
-                  className='w-6 mr-2 inline-block'
-                  alt='binary coders gmail'
-                />{' '}
+                <MailIcon />
                 <span className='underline decoration-1'> Mail us for any query</span>
               </a>
             </li>
-            <li>
-              {' '}
-              <img
-                src='./images/phone.png'
-                className='w-6 mr-2 inline-block'
-                alt='binary coders contact'
-              />{' '}
-              Helpline : 018******67 , (Available : 10AM - 5PM)
+            <li className='flex items-center space-x-3'>
+              <PhoneIcon />
+              <span>Helpline : 018******67 , (Available : 10AM - 5PM)</span>
             </li>
-            <li>
-              <img
-                src='./images/locationWhite.png'
-                className='w-6 mr-2 inline-block'
-                alt='binary coders gmail '
-              />{' '}
-              Shahid Tajuddin Ahmed Sorony, Tejgaon Industrial Area, Dhaka - 1208
+            <li className='flex space-x-3'>
+              <LocationIcon />
+              <span>Shahid Tajuddin Ahmed Sorony, Tejgaon Industrial Area, Dhaka - 1208</span>
             </li>
           </ul>
         </div>

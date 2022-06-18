@@ -13,7 +13,7 @@ const Dropdown = ({ username, profilePicture, showDropMenu }: DropDownProps) => 
     <div
       className={`${
         showDropMenu ? '' : 'hidden'
-      } absolute top-16 -left-36 bg-white w-52 rounded-lg shadow-lg`}
+      } absolute top-16 -left-36 bg-white w-52 rounded-lg shadow-lg z-50`}
     >
       <div className='flex justify-end p-2 cursor-pointer'>
         <CloseIcon />
