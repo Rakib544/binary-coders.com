@@ -35,7 +35,7 @@ const Heading = () => {
             </motion.div>
             <motion.div
               variants={childVariants}
-              className='buttons mt-6 md:flex items-center space-x-4 justify-center'
+              className='buttons mt-6 md:flex items-center space-x-4'
             >
               <Link
                 to='/blog'
