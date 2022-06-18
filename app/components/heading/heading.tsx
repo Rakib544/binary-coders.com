@@ -35,11 +35,11 @@ const Heading = () => {
             </motion.div>
             <motion.div
               variants={childVariants}
-              className='buttons mt-6 flex items-center space-x-4'
+              className='buttons mt-6 md:flex items-center space-x-4 justify-center'
             >
               <Link
                 to='/blog'
-                className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block'
+                className='px-8 sm:px-12 py-2 sm:py-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block'
               >
                 See Blogs
               </Link>
