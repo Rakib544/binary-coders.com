@@ -27,6 +27,7 @@ type Question = {
   tags: Array<string>
   title: string
   updatedAt: string
+  view: Array<string>
 }
 
 const Index = () => {
@@ -70,8 +71,7 @@ const Index = () => {
               <div>
                 <h2 className='text-lg font-medium'>{question.title}</h2>
                 <div className='space-x-4'>
-                  <small>Viewed - 0</small>
-                  <small>Answered - {question?.answers.length}</small>
+                  <small>Viewed - {question.view?.length}</small>
                 </div>
                 <ul className='flex space-x-2 my-2'>
                   {question.tags?.map((tag) => (

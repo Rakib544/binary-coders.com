@@ -34,6 +34,7 @@ model User {
   verifiedToken String
   resetPasswordToken String
   role Role @default(user)
+  answers Answers[]
 }
 
 type Comment {
@@ -55,17 +56,6 @@ model BlogPosts {
   comments Comment[]
 }
 
-type Answer {
-  answerCreatorId String
-  answeredBy String
-  answeredTime DateTime @default(now())
-  answer String
-}
-
-type View {
-  id String
-}
-
 type Vote {
   voteCreatorId String
   voteType String
@@ -81,8 +71,7 @@ model Question {
   description String
   tags String[]
   authorId String
-  answers Answer[]
-  view View[]
+  view String[]
   vote Vote[]
 }
 
@@ -96,6 +85,15 @@ model Problem {
   description String
   tags String[]
   authorId String
+}
+
+model Answers {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  answeredTime DateTime @default(now())
+  slug String
+  answer String
+  creator User @relation(fields: [answerCreatorId], references: [id])
+  answerCreatorId String @db.ObjectId
 }
 
 

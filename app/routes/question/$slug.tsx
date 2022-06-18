@@ -7,8 +7,8 @@ import * as React from 'react'
 import { ClientOnly } from 'remix-utils'
 import { Spinner } from '~/components/icons/spinner'
 import Quill from '~/components/quill.client'
-import { createComment, getSingleQuestion } from '~/utils/question.server'
-import { getUserId, getUserName } from '~/utils/session.server'
+import { createAnswer, getSingleQuestion, incrementView } from '~/utils/question.server'
+import { getUserId } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [
@@ -17,7 +17,9 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const userId = await getUserId(request)
+  await incrementView(params.slug as string, userId as string)
   const res = await getSingleQuestion(params.slug as string)
   return {
     ...res,
@@ -26,17 +28,11 @@ export const loader: LoaderFunction = async ({ params }) => {
 }
 
 export const action: LoaderFunction = async ({ request, params }) => {
-  const username = await getUserName(request)
   const userId = await getUserId(request)
 
   const formData = await request.formData()
   const { answer } = Object.fromEntries(formData)
-  const res = await createComment(
-    params.slug as string,
-    answer as string,
-    userId as string,
-    username as string,
-  )
+  const res = await createAnswer(params.slug as string, answer as string, userId as string)
 
   return {
     ...res,
@@ -44,14 +40,20 @@ export const action: LoaderFunction = async ({ request, params }) => {
 }
 
 type Answer = {
+  id: string
   answerCreatorId: string
   answeredBy: string
   answeredTime: string
   answer: string
+  slug: string
+  creator: {
+    profilePicture: string
+    name: string
+  }
 }
 
 const SingleQuestion = () => {
-  const { question, env } = useLoaderData()
+  const { question, env, answers } = useLoaderData()
   const [html, setHtml] = React.useState<string>()
   const [shouldQuillEmpty, setShouldQuillEmpty] = React.useState<boolean>(false)
   const transition = useTransition()
@@ -86,7 +88,7 @@ const SingleQuestion = () => {
       />
       {/* comments writing section */}
       <div className='flex justify-between items-center border-t border-slate-300 pt-3'>
-        <h3 className='text-lg font-medium'>{question?.answers?.length} Answers</h3>
+        <h3 className='text-lg font-medium'>{answers?.length} Answers</h3>
         <button
           className='px-12 py-4 bg-blue-600 text-white rounded-full'
           onClick={() => setShowWriteComments(!showWriteComment)}
@@ -133,19 +135,19 @@ const SingleQuestion = () => {
       {/* replies section goes here */}
       <div className='my-10'>
         <div className='my-4'>
-          {question?.answers?.map((answer: Answer) => (
+          {answers?.map((answer: Answer) => (
             <div
               key={new Date() + answer.answerCreatorId + Math.random()}
               className='py-4 border-b border-gray-200'
             >
               <div className='flex space-x-4'>
                 <img
-                  src='https://cdn.dribbble.com/users/1723105/avatars/normal/f90425344edb0679db2fe8ca9726ae47.png?1650002980'
-                  alt='img'
+                  src={answer.creator.profilePicture}
+                  alt={answer.creator.name}
                   className='h-12 w-12 rounded-full'
                 />
                 <div className='mb-4'>
-                  <h3 className='font-medium'>{answer?.answeredBy}</h3>
+                  <h3 className='font-medium'>{answer.creator.name}</h3>
                   <small>10 minutes ago</small>
                 </div>
               </div>

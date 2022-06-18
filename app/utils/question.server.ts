@@ -47,6 +47,20 @@ export const getSingleQuestion = async (slug: string) => {
     },
   })
 
+  const answers = await prisma.answers.findMany({
+    where: {
+      slug,
+    },
+    include: {
+      creator: {
+        select: {
+          profilePicture: true,
+          name: true,
+        },
+      },
+    },
+  })
+
   if (!question) {
     return {
       status: 404,
@@ -57,36 +71,74 @@ export const getSingleQuestion = async (slug: string) => {
   return {
     status: 200,
     question: question,
+    answers,
   }
 }
 
-export const createComment = async (slug: string, answer: string, id: string, username: string) => {
-  const comment = {
-    answerCreatorId: id,
-    answeredBy: username,
-    answer,
+// export const createComment = async (slug: string, answer: string, id: string, username: string) => {
+//   const comment = {
+//     answerCreatorId: id,
+//     answeredBy: username,
+//     answer,
+//   }
+//   try {
+//     await prisma.question.update({
+//       where: {
+//         slug,
+//       },
+//       data: {
+//         answers: {
+//           push: comment,
+//         },
+//       },
+//     })
+
+//     return {
+//       status: 201,
+//       message: 'Comment posted successful',
+//     }
+//   } catch (error) {
+//     return {
+//       status: 500,
+//       message: 'Something went wrong. Please try again',
+//     }
+//   }
+// }
+
+export const createAnswer = async (slug: string, answer: string, id: string) => {
+  await prisma.answers.create({
+    data: {
+      slug,
+      answer,
+      answerCreatorId: id,
+    },
+  })
+
+  return {
+    status: 201,
+    message: 'Answer created successful',
   }
-  try {
+}
+
+export const incrementView = async (slug: string, id: string) => {
+  const post = await prisma.question.findUnique({
+    where: {
+      slug,
+    },
+  })
+
+  const isAlreadyViewedPost = post?.view?.includes(id)
+  if (!isAlreadyViewedPost) {
     await prisma.question.update({
       where: {
         slug,
       },
       data: {
-        answers: {
-          push: comment,
+        view: {
+          push: id,
         },
       },
     })
-
-    return {
-      status: 201,
-      message: 'Comment posted successful',
-    }
-  } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
   }
 }
 
