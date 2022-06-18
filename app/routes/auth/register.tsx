@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  HeadersFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  redirect,
+} from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
@@ -54,7 +61,21 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (res.userId !== null) {
     return redirect('/')
   }
-  return json({ env: process.env.IMAGE_BB_KEY })
+  return json(
+    { env: process.env.IMAGE_BB_KEY },
+    {
+      headers: {
+        'Cache-Control': 'private, max-age=3600',
+        Vary: 'Cookie',
+      },
+    },
+  )
+}
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return {
+    'Cache-control': loaderHeaders.get('Cache-control'),
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

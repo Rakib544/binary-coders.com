@@ -2,6 +2,7 @@ import { LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
+import moment from 'moment'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
 import { ClientOnly } from 'remix-utils'
@@ -90,52 +91,9 @@ const SingleQuestion = () => {
         dangerouslySetInnerHTML={{ __html: question.description }}
         className='prose prose-slate lg:prose-lg max-w-none mt-12 mb-32 prose-a:text-blue-600'
       />
-      {/* comments writing section */}
-      <div className='flex justify-between items-center border-t border-slate-300 pt-3'>
-        <h3 className='text-lg font-medium'>{answers?.length} Answers</h3>
-        <button
-          className='px-12 py-4 bg-blue-600 text-white rounded-full'
-          onClick={() => setShowWriteComments(!showWriteComment)}
-        >
-          Write Comments
-        </button>
-      </div>
-      {showWriteComment && (
-        <div className='my-10 py-6'>
-          <ClientOnly fallback={<p>Loading...</p>}>
-            {() => (
-              <Form method='post'>
-                <Quill
-                  defaultValue={'<p>Hello world</p>'}
-                  setHtml={setHtml}
-                  env={env}
-                  shouldQuillEmpty={shouldQuillEmpty}
-                />
-                <input
-                  type='text'
-                  name='answer'
-                  value={html}
-                  onChange={() => console.log('hello')}
-                  className='hidden'
-                />
-                <button
-                  type='submit'
-                  className='py-4 px-16 rounded-full bg-blue-500 text-white my-10'
-                >
-                  {transition.submission ? (
-                    <div className='flex justify-center items-center'>
-                      <Spinner />
-                      {transition.state}
-                    </div>
-                  ) : (
-                    'Post Your Answer'
-                  )}
-                </button>
-              </Form>
-            )}
-          </ClientOnly>
-        </div>
-      )}
+      <h3 className='text-lg font-medium border-t border-slate-300 pt-3'>
+        {answers?.length} Answers
+      </h3>
       {/* replies section goes here */}
       <div className='my-10'>
         <div className='my-4'>
@@ -152,7 +110,7 @@ const SingleQuestion = () => {
                 />
                 <div className='mb-4'>
                   <h3 className='font-medium'>{answer.creator.name}</h3>
-                  <small>10 minutes ago</small>
+                  <small>{moment(answer.answeredTime).fromNow()}</small>
                 </div>
               </div>
               <div
@@ -163,6 +121,51 @@ const SingleQuestion = () => {
           ))}
         </div>
       </div>
+      {/* comments writing section */}
+      <div className='flex justify-between items-center'>
+        <button
+          className='px-12 py-4 bg-blue-600 text-white rounded-full'
+          onClick={() => setShowWriteComments(!showWriteComment)}
+        >
+          Write Comments
+        </button>
+      </div>
+      {/* {showWriteComment && ( */}
+      <div className='my-10 py-6'>
+        <ClientOnly fallback={<p>Loading...</p>}>
+          {() => (
+            <Form method='post'>
+              <Quill
+                defaultValue={'<p>Hello world</p>'}
+                setHtml={setHtml}
+                env={env}
+                shouldQuillEmpty={shouldQuillEmpty}
+              />
+              <input
+                type='text'
+                name='answer'
+                value={html}
+                onChange={() => console.log('hello')}
+                className='hidden'
+              />
+              <button
+                type='submit'
+                className='py-4 px-16 rounded-full bg-blue-500 text-white my-10'
+              >
+                {transition.submission ? (
+                  <div className='flex justify-center items-center'>
+                    <Spinner />
+                    {transition.state}
+                  </div>
+                ) : (
+                  'Post Your Answer'
+                )}
+              </button>
+            </Form>
+          )}
+        </ClientOnly>
+      </div>
+      {/* )} */}
     </motion.div>
   )
 }

@@ -1,4 +1,11 @@
-import { ActionFunction, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  HeadersFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  redirect,
+} from '@remix-run/node'
 import { Form, useActionData, useTransition } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Input, Label } from '~/components/form-elements'
@@ -21,7 +28,18 @@ export const loader: LoaderFunction = async ({ request }) => {
     return redirect('/')
   }
 
-  return null
+  return json(null, {
+    headers: {
+      'Cache-Control': 'private, max-age=3600',
+      Vary: 'Cookie',
+    },
+  })
+}
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return {
+    'Cache-control': loaderHeaders.get('Cache-control'),
+  }
 }
 
 export const action: ActionFunction = async ({ request }) => {

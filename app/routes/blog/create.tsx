@@ -63,7 +63,10 @@ const CreateBlogPost = () => {
               className='hidden'
             />
             <Quill setHtml={setHtml} defaultValue={'<p>Hello world</p>'} env={env} />
-            <button type='submit' className='px-20 py-4 bg-blue-600 text-white rounded-full my-10'>
+            <button
+              type='submit'
+              className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'
+            >
               {transition.submission ? (
                 <div className='flex justify-center items-center'>
                   <Spinner />

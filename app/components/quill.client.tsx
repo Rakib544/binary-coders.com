@@ -35,8 +35,8 @@ function Quill({ defaultValue, setHtml, env, shouldQuillEmpty }: PropsType) {
         [{ list: 'ordered' }, { list: 'bullet' }],
         [{ indent: '-1' }, { indent: '+1' }],
 
-        [{ size: ['small', false, 'large', 'huge'] }],
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        // [{ size: ['small', false, 'large', 'huge'] }],
+        [{ header: [2, 3, false] }],
         ['link', 'image', 'video'],
         [{ color: [] }, { background: [] }],
         ['code-block'],
@@ -115,7 +115,7 @@ function Quill({ defaultValue, setHtml, env, shouldQuillEmpty }: PropsType) {
 
   return (
     <div>
-      <div ref={quillRef} className='h-60' />
+      <div ref={quillRef} style={{ height: '150px' }} />
     </div>
   )
 }

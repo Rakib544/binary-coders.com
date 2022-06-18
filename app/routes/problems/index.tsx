@@ -46,7 +46,7 @@ const Index = () => {
       >
         <h2 className='text-xl md:text-3xl'>All Problems</h2>
         <Link
-          to='/question/create'
+          to='/problems/create'
           className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
         >
           Set Problem
