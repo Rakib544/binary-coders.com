@@ -1,4 +1,4 @@
-import { LinksFunction, LoaderFunction } from '@remix-run/node'
+import { LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
@@ -19,6 +19,10 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const userId = await getUserId(request)
+  if (!userId) {
+    return redirect('/auth/login')
+  }
+
   await incrementView(params.slug as string, userId as string)
   const res = await getSingleQuestion(params.slug as string)
   return {
