@@ -135,7 +135,7 @@ export const incrementView = async (slug: string, id: string) => {
       },
       data: {
         view: {
-          push: id,
+          push: id.toString(),
         },
       },
     })
