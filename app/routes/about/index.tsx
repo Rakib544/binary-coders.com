@@ -1,3 +1,4 @@
+import Feature from '~/components/feature/feature'
 import GitHubLogo from '~/components/icons/github'
 import LinkedinLogo from '~/components/icons/linkedin'
 
@@ -66,19 +67,33 @@ const index = () => {
           </p>
         </div>
       </div>
+      {/* Our feature */}
+
+      <div className='py-12'>
+        <div className='grid sm:grid-cols-2 lg:grid-cols-2 gap-4'>
+          <div>
+            <h1 className='text-4xl font-bold'>
+              Our <span className='text-blue-600'>feature</span>
+            </h1>
+          </div>
+          <div>
+            <Feature />
+          </div>
+        </div>
+      </div>
       {/* our team  */}
       <div>
         <h1 className='text-4xl font-bold'>
           Our <span className='text-blue-600'>team</span>
         </h1>
-        <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-4 py-12'>
-          <div>
+        <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-4 py-12 text-center'>
+          <div className='p-4'>
             <img
-              src='https://i.ibb.co/HGqL3r3/instructor-img-3-8e53fa9c4173331fb350.jpg'
+              src='./images/teamMember/Rakib.png'
               alt='Empty'
-              className='w-60'
+              className='w-full border-0 rounded-lg h-72'
             />
-            <div className='py-4 text-center w-60'>
+            <div className='py-4 text-center w-full'>
               <h1 className='text-3xl font-bold'>Rakib Hossain</h1>
               <p className='py-2 text-xl font-medium text-blue-600'>Programmer</p>
               <p className='text-slate-500'>
@@ -104,13 +119,13 @@ const index = () => {
               </div>
             </div>
           </div>
-          <div>
+          <div className='p-4'>
             <img
-              src='https://i.ibb.co/HGqL3r3/instructor-img-3-8e53fa9c4173331fb350.jpg'
+              src='./images/teamMember/tanvirImg.png'
               alt='Empty'
-              className='w-60'
+              className='w-full border-0 rounded-lg h-72'
             />
-            <div className='py-4 text-center w-60'>
+            <div className='py-4 text-center w-full'>
               <h1 className='text-3xl font-bold'>Tanvir Hossain</h1>
               <p className='py-2 text-xl font-medium text-blue-600'>Programmer</p>
               <p className='text-slate-500'>
@@ -136,13 +151,13 @@ const index = () => {
               </div>
             </div>
           </div>
-          <div>
+          <div className='p-4'>
             <img
-              src='https://i.ibb.co/HGqL3r3/instructor-img-3-8e53fa9c4173331fb350.jpg'
+              src='./images/teamMember/Abu_jakariya.jpg'
               alt='Empty'
-              className='w-60'
+              className='w-full border-0 rounded-lg h-72'
             />
-            <div className='py-4 text-center w-60'>
+            <div className='py-4 text-center w-full'>
               <h1 className='text-3xl font-bold'>Abu Jakariya</h1>
               <p className='py-2 text-xl font-medium text-blue-600'>Programmer</p>
               <p className='text-slate-500'>
@@ -227,5 +242,5 @@ const index = () => {
     </div>
   )
 }
-
+// https://i.ibb.co/HGqL3r3/instructor-img-3-8e53fa9c4173331fb350.jpg
 export default index
