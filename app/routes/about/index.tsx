@@ -1,6 +1,13 @@
+import { HeadersFunction } from '@remix-run/node'
 import Feature from '~/components/feature/feature'
 import GitHubLogo from '~/components/icons/github'
 import LinkedinLogo from '~/components/icons/linkedin'
+
+export const headers: HeadersFunction = () => {
+  return {
+    'Cache-control': `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24 * 30}`,
+  }
+}
 
 const index = () => {
   return (

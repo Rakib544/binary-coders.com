@@ -1,21 +1,16 @@
-import { HeadersFunction, json, LoaderFunction } from '@remix-run/node'
+import { HeadersFunction, LoaderFunction } from '@remix-run/node'
 import Plan from '~/components/ourPlan/plan'
 import Stack from '~/components/stack/stack'
 import Heading from '../components/heading/heading'
 import OurTarget from '../components/ourTarget/ourTarget'
 
 export const loader: LoaderFunction = () => {
-  return json(null, {
-    headers: {
-      'Cache-Control': 'private, max-age=3600',
-      Vary: 'Cookie',
-    },
-  })
+  return null
 }
 
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
+export const headers: HeadersFunction = () => {
   return {
-    'Cache-control': loaderHeaders.get('Cache-control'),
+    'Cache-control': `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24 * 30}`,
   }
 }
 

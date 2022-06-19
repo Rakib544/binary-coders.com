@@ -64,8 +64,6 @@ const SingleQuestion = () => {
   const transition = useTransition()
   const actionData = useActionData()
 
-  const [showWriteComment, setShowWriteComments] = React.useState<boolean>(false)
-
   React.useEffect(() => {
     if (actionData?.status === 201) {
       setShouldQuillEmpty(true)
@@ -120,15 +118,6 @@ const SingleQuestion = () => {
             </div>
           ))}
         </div>
-      </div>
-      {/* comments writing section */}
-      <div className='flex justify-between items-center'>
-        <button
-          className='px-12 py-4 bg-blue-600 text-white rounded-full'
-          onClick={() => setShowWriteComments(!showWriteComment)}
-        >
-          Write Comments
-        </button>
       </div>
       {/* {showWriteComment && ( */}
       <div className='my-10 py-6'>

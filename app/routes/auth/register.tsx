@@ -61,20 +61,12 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (res.userId !== null) {
     return redirect('/')
   }
-  return json(
-    { env: process.env.IMAGE_BB_KEY },
-    {
-      headers: {
-        'Cache-Control': 'private, max-age=3600',
-        Vary: 'Cookie',
-      },
-    },
-  )
+  return json({ env: process.env.IMAGE_BB_KEY })
 }
 
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
+export const headers: HeadersFunction = () => {
   return {
-    'Cache-control': loaderHeaders.get('Cache-control'),
+    'Cache-control': `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24 * 30}`,
   }
 }
 

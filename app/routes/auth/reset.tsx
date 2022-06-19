@@ -28,20 +28,14 @@ export const loader: LoaderFunction = async ({ request }) => {
     return redirect('/')
   }
 
-  return json(null, {
-    headers: {
-      'Cache-Control': 'private, max-age=3600',
-      Vary: 'Cookie',
-    },
-  })
+  return json(null)
 }
 
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
+export const headers: HeadersFunction = () => {
   return {
-    'Cache-control': loaderHeaders.get('Cache-control'),
+    'Cache-control': `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24 * 30}`,
   }
 }
-
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   try {
@@ -72,7 +66,7 @@ const Reset = () => {
 
   return (
     <motion.div
-      className='grid grid-cols-2 items-center'
+      className='grid grid-cols-2 items-center md:h-screen'
       initial='initial'
       animate='visible'
       variants={{
@@ -80,12 +74,11 @@ const Reset = () => {
         visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
       }}
     >
-      <div className='hidden md:block col-span-2 sm:col-span-2 md:col-span-1'>
+      <div className='hidden md:block col-span-2 sm:col-span-2 md:col-span-1 md:p-14'>
         <motion.img
           src='/images/reset.png'
           alt='reset-img'
-          className='md:p-10'
-          initial={{ opacity: 0, scale: 1.5 }}
+          initial={{ opacity: 0, scale: 1.3 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
         />
