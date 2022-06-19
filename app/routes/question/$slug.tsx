@@ -37,7 +37,11 @@ export const action: LoaderFunction = async ({ request, params }) => {
 
   const formData = await request.formData()
   const { answer } = Object.fromEntries(formData)
-  const res = await createAnswer(params.slug as string, answer as string, userId as string)
+  const res = await createAnswer(
+    params.slug as string,
+    JSON.parse(answer as string),
+    userId as string,
+  )
 
   return {
     ...res,
@@ -133,7 +137,7 @@ const SingleQuestion = () => {
               <input
                 type='text'
                 name='answer'
-                value={html}
+                value={JSON.stringify(html)}
                 onChange={() => console.log('hello')}
                 className='hidden'
               />

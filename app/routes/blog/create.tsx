@@ -15,7 +15,7 @@ export const action: ActionFunction = async ({ request }) => {
     const userId = await requireUserId(request)
     const formData = await request.formData()
     const { title, html } = Object.fromEntries(formData)
-    const res = await createBlogPost(title as string, html as string, userId)
+    const res = await createBlogPost(title as string, JSON.parse(html as string), userId)
     if (res.status === 201) {
       return redirect(res?.url as string)
     }
@@ -49,6 +49,7 @@ const CreateBlogPost = () => {
   const transition = useTransition()
   // const actionData = useActionData()
   const { env } = useLoaderData()
+
   return (
     <div className='px-20 my-10'>
       <ClientOnly fallback={<div style={{ width: 500, height: 300 }}></div>}>
@@ -58,7 +59,7 @@ const CreateBlogPost = () => {
             <input
               type='text'
               name='html'
-              value={html}
+              value={JSON.stringify(html)}
               onChange={() => console.log('hello')}
               className='hidden'
             />

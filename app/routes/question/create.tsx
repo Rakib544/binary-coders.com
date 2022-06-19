@@ -21,7 +21,7 @@ export const action: LoaderFunction = async ({ request }) => {
   const tags = JSON.parse(inputTag as string).map(
     (tag: { value: string; label: string }) => tag.value,
   )
-  const res = await createQuestion(title.toString(), html.toString(), userId, tags)
+  const res = await createQuestion(title.toString(), JSON.parse(html as string), userId, tags)
   if (res.status === 201) {
     return redirect(res?.url as string)
   }
@@ -61,7 +61,7 @@ const create = () => {
             <input
               type='text'
               name='html'
-              value={html}
+              value={JSON.stringify(html)}
               onChange={() => console.log('hello')}
               className='hidden'
             />

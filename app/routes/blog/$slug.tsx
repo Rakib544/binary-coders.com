@@ -2,10 +2,14 @@ import { LinksFunction, LoaderFunction } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
+import quillCss from 'quill/dist/quill.snow.css'
 import { getSingleBlog } from '~/utils/blog.server'
 
 export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: highlightCss }]
+  return [
+    { rel: 'stylesheet', href: highlightCss },
+    { rel: 'stylesheet', href: quillCss },
+  ]
 }
 
 export const loader: LoaderFunction = async ({ params }) => {

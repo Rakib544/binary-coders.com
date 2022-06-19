@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { LinksFunction } from '@remix-run/node'
+import { LinksFunction } from '@remix-run/node'
 import hljs from 'highlight.js'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import * as React from 'react'
@@ -17,7 +17,7 @@ export const links: LinksFunction = () => [{ rel: 'stylesheet', href: highlightC
 
 hljs.configure({
   // optionally configure hljs
-  languages: ['javascript', 'ruby', 'python'],
+  languages: ['javascript', 'ruby', 'python', 'html'],
 })
 
 function Quill({ defaultValue, setHtml, env, shouldQuillEmpty }: PropsType) {
