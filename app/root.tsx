@@ -1,4 +1,4 @@
-import { HeadersFunction, json, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node'
+import { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -39,23 +39,8 @@ export const meta: MetaFunction = () => ({
 
 export const loader: LoaderFunction = async ({ request }) => {
   const res = await getUserInfo(request)
-  return json(
-    {
-      ...res,
-    },
-    {
-      headers: {
-        'Cache-control': `public, max-age=${60 * 5}, s-maxage=${60 * 60 * 24}`,
-        Vary: 'Cookie',
-      },
-    },
-  )
-}
-
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return {
-    'Cache-control': loaderHeaders.get('Cache-control') ?? '',
-    Vary: loaderHeaders.get('Vary') ?? '',
+    ...res,
   }
 }
 
