@@ -195,3 +195,90 @@ export const updatePassword = async (password: string, token: string) => {
     }
   }
 }
+
+export const getUserInfoFromDB = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+    select: {
+      name: true,
+      email: true,
+      profilePicture: true,
+    },
+  })
+
+  return user
+}
+
+export const updateUserInfo = async (email: string, name: string, profilePicture: string) => {
+  try {
+    await prisma.user.update({
+      where: {
+        email,
+      },
+      data: {
+        name,
+        profilePicture,
+      },
+    })
+
+    return {
+      status: 200,
+      message: 'Profile Updated successful',
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      message: 'Something went wrong. Please try again.',
+    }
+  }
+}
+
+export const updateUserPassword = async (
+  email: string,
+  password: string,
+  newPassword: string,
+  confirmPassword: string,
+) => {
+  const isPasswordMatched = newPassword === confirmPassword
+
+  if (isPasswordMatched) {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    })
+
+    if (user) {
+      const isPasswordMatchedWithDBPassword = await bcrypt.compare(password, user.password)
+      if (isPasswordMatchedWithDBPassword) {
+        const hashPassword = await bcrypt.hash(newPassword, 10)
+        await prisma.user.update({
+          where: {
+            email,
+          },
+          data: {
+            password: hashPassword,
+          },
+        })
+        return {
+          status: 200,
+          message: 'Password changed successfully',
+        }
+      } else {
+        return {
+          status: 500,
+          name: 'password',
+          message: 'Password is incorrect',
+        }
+      }
+    }
+  } else {
+    return {
+      status: 500,
+      name: 'confirmPassword',
+      message: 'New password and confirm password does not match.',
+    }
+  }
+}

@@ -57,7 +57,8 @@ const create = () => {
       <ClientOnly fallback={<div style={{ width: 500, height: 300 }}></div>}>
         {() => (
           <Form method='post'>
-            <Input type='text' name='title' placeholder='Enter Title' className='mb-10' />
+            <Label htmlFor='title'>Enter title (Title must be written in english)</Label>
+            <Input type='text' name='title' placeholder='Enter Title' className='mb-10 mt-2' />
             <input
               type='text'
               name='html'

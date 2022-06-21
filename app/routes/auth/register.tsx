@@ -16,6 +16,7 @@ import { register } from '~/utils/auth.server'
 import { registerFormSchema } from '~/utils/form-valiation-schema'
 
 import modalStyles from '@reach/dialog/styles.css'
+import CameraIcon from '~/components/icons/camera'
 import { Spinner } from '~/components/icons/spinner'
 import { getUserInfo } from '~/utils/session.server'
 
@@ -149,10 +150,12 @@ const Register = () => {
           Create an account to Binary Coders to get all features
         </p>
         <div className='flex justify-center'>
-          <label htmlFor='camera'>
+          <label htmlFor='camera' className='relative cursor-pointer'>
             <input type='file' onChange={handleImageUpload} id='camera' className='hidden' />
-            <img src='/images/user.png' alt='logo' className='h-14 w-14 rounded-full' />
-            <small className='text-center'>Upload image</small>
+            <img src='/images/user.png' alt='logo' className='h-20 w-20 rounded-full z-40' />
+            <div className='absolute bottom-2 z-50 p-2 rounded-full right-0  backdrop-blur-md '>
+              <CameraIcon />
+            </div>
           </label>
         </div>
         <span className='text-sm text-red-500'>

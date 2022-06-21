@@ -74,3 +74,26 @@ export const getSingleProblem = async (slug: string) => {
     }
   }
 }
+
+export const updateProblem = async (slug: string, title: string, description: string) => {
+  try {
+    const post = await prisma.problem.update({
+      where: {
+        slug,
+      },
+      data: {
+        title,
+        description,
+      },
+    })
+    return {
+      status: 200,
+      url: `/problems/${post.slug}`,
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      message: 'Something went wrong. Please try again.',
+    }
+  }
+}

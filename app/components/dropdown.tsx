@@ -30,7 +30,7 @@ const Dropdown = ({ username, profilePicture, showDropMenu }: DropDownProps) => 
         </div>
         <p className='text-lg font-medium mt-2'>{username}</p>
         <Link
-          to='/'
+          to='/profile'
           className='px-4 py-2 bg-blue-600 text-white inline-block text-sm rounded-full mt-2 mb-4'
         >
           View Profile

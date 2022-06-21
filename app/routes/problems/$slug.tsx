@@ -27,7 +27,7 @@ const SingleQuestion = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className='grid grid-cols-5'
+      className='grid grid-cols-5 mb-12'
     >
       <div className='p-4 col-span-5 md:col-span-2 h-screen overflow-auto'>
         <div className='border-b border-gray-200 pb-4'>
@@ -45,7 +45,7 @@ const SingleQuestion = () => {
       <div className='col-span-5 md:col-span-3 p-4'>
         <iframe
           frameBorder='0'
-          height='450px'
+          height='100%'
           src='https://onecompiler.com/embed/python'
           width='100%'
           // hideNew={true as boolean}

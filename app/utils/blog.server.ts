@@ -82,3 +82,26 @@ export const getSingleBlog = async (slug: string) => {
     }
   }
 }
+
+export const updateBlog = async (slug: string, title: string, html: string) => {
+  try {
+    const post = await prisma.blogPosts.update({
+      where: {
+        slug,
+      },
+      data: {
+        title,
+        html,
+      },
+    })
+    return {
+      status: 200,
+      url: `/blog/${post.slug}`,
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      message: 'Something went wrong. Please try again.',
+    }
+  }
+}

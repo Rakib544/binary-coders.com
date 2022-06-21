@@ -106,6 +106,11 @@ function Quill({ defaultValue, setHtml, env, shouldQuillEmpty }: PropsType) {
       })
     }
   }, [defaultValue, quill])
+  useEffect(() => {
+    if (quill) {
+      quill.root.innerHTML = defaultValue
+    }
+  }, [quill])
 
   useEffect(() => {
     if (shouldQuillEmpty) {
