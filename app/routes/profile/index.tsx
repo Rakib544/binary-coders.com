@@ -65,7 +65,7 @@ const Me = () => {
     }
   }, [isPasswordButtonLoading])
 
-  const [showEditPage, setShowPage] = React.useState<boolean>(true)
+  const [showEditPage, setShowPage] = React.useState<boolean>(false)
   const [img, setImg] = React.useState<string>(profilePicture)
   const [imgUploading, setImgUploading] = React.useState<boolean>(false)
 
@@ -92,8 +92,17 @@ const Me = () => {
       </div>
       {!showEditPage ? (
         <div>
-          <img src={img} alt={name} className='h-32 w-32 rounded-full' />
-          <small className='font-medium'>Full Name:</small>
+          <div className='bg-gradient-to-r from-cyan-500 to-blue-500  p-0.5 rounded-full inline-block my-4'>
+            <div className='bg-white p-0.5 rounded-full'>
+              <img
+                src={img}
+                alt={name}
+                className='h-32 w-32 rounded-full object-cover block object-center align-middle cursor-pointer'
+              />
+            </div>
+          </div>
+
+          <small className='font-medium block'>Full Name:</small>
           <Paragraph className='font-medium'>{name}</Paragraph>
           <small className='font-medium'>Email address:</small>
           <Paragraph className='font-medium'>{email}</Paragraph>
@@ -102,7 +111,7 @@ const Me = () => {
         <div className='p-4'>
           <div className='flex justify-center'>
             <label htmlFor='profilePicture' className='cursor-pointer relative'>
-              <div className='absolute bottom-6 z-50 p-2 rounded-full right-0  backdrop-blur-sm '>
+              <div className='absolute bottom-6 z-50 p-2 rounded-full right-0  backdrop-blur-sm bg-sky-200/50 '>
                 <CameraIcon />
               </div>
               <input
@@ -112,7 +121,15 @@ const Me = () => {
                 className='hidden'
                 onChange={handleImageUpload}
               />
-              <img src={img} alt={name} className='h-32 w-32 rounded-full z-40' />
+              <div className='bg-gradient-to-r from-cyan-500 to-blue-500  p-0.5 rounded-full inline-block my-4'>
+                <div className='bg-white p-0.5 rounded-full'>
+                  <img
+                    src={img}
+                    alt={name}
+                    className='h-32 w-32 rounded-full object-cover block object-center align-middle cursor-pointer z-40'
+                  />
+                </div>
+              </div>
               {imgUploading && <small>Image uploading...Please wait</small>}
             </label>
           </div>

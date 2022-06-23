@@ -1,5 +1,5 @@
 // import headerNavLinks from '@/data/headerNavLinks'
-import { Link } from '@remix-run/react'
+import { Form, Link } from '@remix-run/react'
 import { headerNavLinks } from 'data/navbar'
 import { useState } from 'react'
 
@@ -87,12 +87,23 @@ const MobileNav = ({ profilePicture, username }: MobileNavProps) => {
               </Link>
             </div>
           ))}
-          <Link
-            to={username ? '/auth/logout' : '/auth/login'}
-            className='mt-4 inline-block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'
-          >
-            {username ? 'Logout' : 'Login'}
-          </Link>
+          {!username ? (
+            <Link
+              to='/auth/login'
+              className='mt-4 inline-block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'
+            >
+              Login
+            </Link>
+          ) : (
+            <Form method='post' action='/auth/logout'>
+              <button
+                type='submit'
+                className='mt-4 inline-block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'
+              >
+                Logout
+              </button>
+            </Form>
+          )}
         </nav>
       </div>
     </div>
