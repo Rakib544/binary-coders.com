@@ -2,11 +2,14 @@ import { LoaderFunction } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { getAllProblems } from '~/utils/problems.server'
+import { getUserInfo } from '~/utils/session.server'
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const { role } = await getUserInfo(request)
   const res = await getAllProblems()
   return {
     ...res,
+    role,
   }
 }
 
@@ -45,12 +48,14 @@ const Index = () => {
         className='flex justify-between py-4 border-b border-gray-100 items-center'
       >
         <h2 className='text-xl md:text-3xl'>All Problems</h2>
-        <Link
-          to='/problems/create'
-          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
-        >
-          Set Problem
-        </Link>
+        {loaderData?.role === 'admin' && (
+          <Link
+            to='/problems/create'
+            className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
+          >
+            Set Problem
+          </Link>
+        )}
       </motion.div>
       <motion.ul variants={childVariants}>
         {loaderData?.problems?.map((problem: Problem) => (

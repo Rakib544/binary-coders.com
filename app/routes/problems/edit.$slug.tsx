@@ -7,12 +7,17 @@ import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import Quill from '~/components/quill.client'
 import { getSingleProblem, updateProblem } from '~/utils/problems.server'
+import { getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: quillCss }]
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const { role } = await getUserInfo(request)
+  if (role !== 'admin') {
+    return redirect('/problems')
+  }
   const res = await getSingleProblem(params.slug as string)
   return json({ ...res, env: process.env.IMAGE_BB_KEY })
 }

@@ -8,13 +8,18 @@ import { Spinner } from '~/components/icons/spinner'
 import Quill from '~/components/quill.client'
 
 import { getSingleQuestion, updateQuestion } from '~/utils/question.server'
+import { getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: quillCss }]
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const { userId } = await getUserInfo(request)
   const res = await getSingleQuestion(params.slug as string)
+  if (res.question?.authorId !== userId) {
+    return redirect('/question')
+  }
   return json({ ...res, env: process.env.IMAGE_BB_KEY })
 }
 

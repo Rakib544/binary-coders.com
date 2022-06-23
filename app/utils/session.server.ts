@@ -21,12 +21,16 @@ export const createUserSession = async (
   username: string,
   id: string,
   profilePicture: string,
+  role: string,
+  isVerified: boolean,
   redirectTo: string,
 ) => {
   const session = await storage.getSession()
   session.set('userId', id)
   session.set('name', username)
   session.set('profilePicture', profilePicture)
+  session.set('role', role)
+  session.set('isVerified', isVerified)
   return redirect(redirectTo, {
     headers: {
       'Set-Cookie': await storage.commitSession(session),
@@ -108,6 +112,8 @@ export const getUserInfo = async (request: Request) => {
   const userId = session.get('userId')
   const username = session.get('name')
   const profilePicture = session.get('profilePicture')
+  const role = session.get('role')
+  const isVerified = session.get('isVerified')
 
   if (
     typeof userId === 'string' &&
@@ -118,6 +124,8 @@ export const getUserInfo = async (request: Request) => {
       userId,
       username,
       profilePicture,
+      role,
+      isVerified,
     }
   }
 
@@ -125,5 +133,7 @@ export const getUserInfo = async (request: Request) => {
     userId: null,
     username: null,
     profilePicture: null,
+    role: null,
+    isVerified: null,
   }
 }

@@ -2,11 +2,14 @@ import type { LoaderFunction } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { getAllBlogPosts } from '~/utils/blog.server'
+import { getUserInfo } from '~/utils/session.server'
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const { userId } = await getUserInfo(request)
   const posts = await getAllBlogPosts()
   return {
     ...posts,
+    userId,
   }
 }
 
@@ -23,7 +26,7 @@ type Post = {
 }
 
 const Index = () => {
-  const { posts } = useLoaderData()
+  const { posts, userId } = useLoaderData()
   const shouldReduceMotion = useReducedMotion()
 
   const childVariants = {
@@ -41,14 +44,16 @@ const Index = () => {
         visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
       }}
     >
-      <div className='text-right'>
-        <Link
-          to='/blog/create'
-          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block'
-        >
-          Write Blog
-        </Link>
-      </div>
+      {userId && (
+        <div className='text-right'>
+          <Link
+            to='/blog/create'
+            className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block'
+          >
+            Write Blog
+          </Link>
+        </div>
+      )}
       <motion.div variants={childVariants} className='mt-14'>
         {posts?.map((post: Post) => (
           <Link to={post.slug} key={post.id}>

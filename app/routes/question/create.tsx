@@ -34,7 +34,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const res = await getUserInfo(request)
 
   if (res.userId === null) {
-    return redirect('/question')
+    return redirect('/auth/login')
   }
   return json({ env: process.env.IMAGE_BB_KEY })
 }

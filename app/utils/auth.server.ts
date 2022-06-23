@@ -32,6 +32,8 @@ export const login = async (user: Login) => {
       username: findUser.name,
       id: findUser.id,
       profilePicture: findUser.profilePicture,
+      role: findUser.role,
+      isVerified: findUser.isVerified,
     },
     message: 'login successful',
     status: 200,

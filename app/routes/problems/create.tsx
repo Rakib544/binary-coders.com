@@ -31,10 +31,14 @@ export const action: LoaderFunction = async ({ request }) => {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const res = await getUserInfo(request)
+  const { userId, role } = await getUserInfo(request)
 
-  if (res.userId === null) {
-    return redirect('/question')
+  if (role !== 'admin') {
+    return redirect('/problems')
+  }
+
+  if (userId === null) {
+    return redirect('/problems')
   }
   return json({ env: process.env.IMAGE_BB_KEY })
 }

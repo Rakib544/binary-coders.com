@@ -45,6 +45,8 @@ export const action: ActionFunction = async ({ request }) => {
       res.user?.username as string,
       res.user?.id as string,
       res?.user?.profilePicture as string,
+      res?.user?.role as string,
+      res?.user?.isVerified as boolean,
       '/',
     )
   } catch (error) {

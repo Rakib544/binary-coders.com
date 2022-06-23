@@ -7,13 +7,18 @@ import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import Quill from '~/components/quill.client'
 import { getSingleBlog, updateBlog } from '~/utils/blog.server'
+import { getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: quillCss }]
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const { userId } = await getUserInfo(request)
   const res = await getSingleBlog(params.slug as string)
+  if (res?.blog?.authorId !== userId) {
+    return redirect('/blog')
+  }
   return json({ ...res, env: process.env.IMAGE_BB_KEY })
 }
 
@@ -41,7 +46,6 @@ const editBlog = () => {
   const loaderData = useLoaderData()
   const transition = useTransition()
   const actionData = useActionData()
-  console.log(loaderData.blog)
 
   const [html, setHtml] = React.useState(loaderData?.blog?.html)
 
