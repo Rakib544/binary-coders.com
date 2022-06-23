@@ -213,7 +213,7 @@ export const getUserInfoFromDB = async (id: string) => {
 
 export const updateUserInfo = async (email: string, name: string, profilePicture: string) => {
   try {
-    await prisma.user.update({
+    const user = await prisma.user.update({
       where: {
         email,
       },
@@ -225,6 +225,7 @@ export const updateUserInfo = async (email: string, name: string, profilePicture
 
     return {
       status: 200,
+      user: user,
       message: 'Profile Updated successful',
     }
   } catch (error) {

@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from '@remix-run/node'
+import { json, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
@@ -6,10 +6,13 @@ import CameraIcon from '~/components/icons/camera'
 import { Spinner } from '~/components/icons/spinner'
 import { H4, Paragraph } from '~/components/typography'
 import { getUserInfoFromDB, updateUserInfo, updateUserPassword } from '~/utils/auth.server'
-import { getUserId } from '~/utils/session.server'
+import { createUserSession, getUserId } from '~/utils/session.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getUserId(request)
+  if (!userId) {
+    return redirect('/auth/login')
+  }
   const user = await getUserInfoFromDB(userId as string)
   return json({ ...user, env: process.env.IMAGE_BB_KEY })
 }
@@ -27,7 +30,13 @@ export const action: LoaderFunction = async ({ request }) => {
         message: 'Name can not be less than 2 character.',
       }
     }
-    await updateUserInfo(email as string, name as string, profilePicture as string)
+    const res = await updateUserInfo(email as string, name as string, profilePicture as string)
+    return await createUserSession(
+      res.user?.name as string,
+      res.user?.id as string,
+      res?.user?.profilePicture as string,
+      '/profile',
+    )
   } else {
     const res = await updateUserPassword(
       email as string,
@@ -35,7 +44,6 @@ export const action: LoaderFunction = async ({ request }) => {
       newPassword as string,
       confirmPassword as string,
     )
-
     return json(res)
   }
 
