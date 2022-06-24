@@ -11,14 +11,13 @@ import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-
 import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
-import SuccessModal from '~/components/success-modal'
-import { register } from '~/utils/auth.server'
+import { checkRegisterLinkToken, register } from '~/utils/auth.server'
 import { registerFormSchema } from '~/utils/form-valiation-schema'
 
 import modalStyles from '@reach/dialog/styles.css'
 import CameraIcon from '~/components/icons/camera'
 import { Spinner } from '~/components/icons/spinner'
-import { getUserInfo } from '~/utils/session.server'
+import { createUserSession, getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: modalStyles }]
@@ -46,9 +45,21 @@ export const action: ActionFunction = async ({ request }) => {
     }
 
     const res = await register(user)
-    return {
-      ...res,
+
+    if (res?.status === 400) {
+      return {
+        ...res,
+      }
     }
+
+    return createUserSession(
+      res.user?.name as string,
+      res.user?.id as string,
+      res?.user?.profilePicture as string,
+      res?.user?.username as string,
+      res?.user?.role as string,
+      '/',
+    )
   } catch (error) {
     return {
       ...Object.fromEntries(values),
@@ -62,7 +73,14 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (res.userId !== null) {
     return redirect('/')
   }
-  return json({ env: process.env.IMAGE_BB_KEY })
+
+  const url = new URL(request.url)
+  const { token } = Object.fromEntries(url.searchParams.entries())
+  if (!token) {
+    return redirect('/auth/verify')
+  }
+  const result = await checkRegisterLinkToken(token as string)
+  return json({ ...result, env: process.env.IMAGE_BB_KEY })
 }
 
 export const headers: HeadersFunction = () => {
@@ -85,7 +103,7 @@ const checkValidation = (key: string, data: any) => {
 }
 
 const Register = () => {
-  const { env } = useLoaderData()
+  const loaderData = useLoaderData()
   const actionData = useActionData()
   const transition = useTransition()
 
@@ -96,7 +114,7 @@ const Register = () => {
   const handleImageUpload = async (e: any) => {
     setImgUploading(true)
     const imageData = new FormData()
-    imageData.set('key', env)
+    imageData.set('key', loaderData.env)
     imageData.append('image', e.target.files[0])
     const res = await window.fetch('https://api.imgbb.com/1/upload', {
       method: 'POST',
@@ -193,8 +211,12 @@ const Register = () => {
               name='email'
               id='email'
               placeholder='Enter email'
+              value={loaderData?.email}
+              onChange={() => console.log()}
               className={
-                checkValidation('email', actionData) ? 'ring-red-500 placeholder:text-red-500' : ''
+                checkValidation('email', actionData)
+                  ? 'ring-red-500 placeholder:text-red-500'
+                  : 'bg-gray-100 focus:ring-1 focus:ring-slate-200 cursor-not-allowed'
               }
             />
             <span className='text-sm text-red-500'>
@@ -276,9 +298,9 @@ const Register = () => {
           </div>
         </Form>
       </motion.div>
-      <SuccessModal
+      {/* <SuccessModal
         email={actionData?.status === 201 && actionData?.email ? actionData?.email : ''}
-      />
+      /> */}
     </motion.div>
   )
 }

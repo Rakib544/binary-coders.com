@@ -18,19 +18,19 @@ const storage = createCookieSessionStorage({
 })
 
 export const createUserSession = async (
-  username: string,
+  fullName: string,
   id: string,
   profilePicture: string,
+  username: string,
   role: string,
-  isVerified: boolean,
   redirectTo: string,
 ) => {
   const session = await storage.getSession()
   session.set('userId', id)
-  session.set('name', username)
+  session.set('name', fullName)
   session.set('profilePicture', profilePicture)
   session.set('role', role)
-  session.set('isVerified', isVerified)
+  session.set('username', username)
   return redirect(redirectTo, {
     headers: {
       'Set-Cookie': await storage.commitSession(session),
@@ -54,10 +54,10 @@ export const getUserId = async (request: Request) => {
 export const getUserName = async (request: Request) => {
   const session = await getUserSession(request)
 
-  const username = session.get('name')
+  const fullName = session.get('fullName')
 
-  if (!username || typeof username !== 'string') return null
-  return username
+  if (!fullName || typeof fullName !== 'string') return null
+  return fullName
 }
 
 export const requireUserId = async (
@@ -96,6 +96,8 @@ export const getUser = async (request: Request) => {
       select: {
         id: true,
         name: true,
+        username: true,
+        role: true,
         profilePicture: true,
       },
     })
@@ -110,7 +112,8 @@ export const getUserInfo = async (request: Request) => {
   const session = await getUserSession(request)
 
   const userId = session.get('userId')
-  const username = session.get('name')
+  const fullName = session.get('fullName')
+  const username = session.get('username')
   const profilePicture = session.get('profilePicture')
   const role = session.get('role')
   const isVerified = session.get('isVerified')
@@ -122,6 +125,7 @@ export const getUserInfo = async (request: Request) => {
   ) {
     return {
       userId,
+      fullName,
       username,
       profilePicture,
       role,
@@ -131,6 +135,7 @@ export const getUserInfo = async (request: Request) => {
 
   return {
     userId: null,
+    fullName: null,
     username: null,
     profilePicture: null,
     role: null,

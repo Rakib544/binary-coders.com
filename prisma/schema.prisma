@@ -27,22 +27,19 @@ model User {
   updatedAt DateTime @updatedAt
   name String
   email String  @unique
+  username String @unique
   password String
   gender Gender
   profilePicture String
-  isVerified Boolean @default(false)
-  verifiedToken String
   resetPasswordToken String
   role Role @default(user)
+  websiteLink String
+  location String
+  institute String
+  bio String
+  githubLink String
   answers Answers[]
 }
-
-type Comment {
-    publishedAt DateTime @default(now())
-    text String
-    commentAuthorId String
-}
-
 
 model BlogPosts {
   id String @id @default(auto()) @map("_id") @db.ObjectId
@@ -53,14 +50,7 @@ model BlogPosts {
   readTime String 
   html String
   authorId String
-  comments Comment[]
 }
-
-type Vote {
-  voteCreatorId String
-  voteType String
-}
-
 
 model Question {
   id String @id @default(auto()) @map("_id") @db.ObjectId
@@ -72,7 +62,6 @@ model Question {
   tags String[]
   authorId String
   view String[]
-  vote Vote[]
 }
 
 

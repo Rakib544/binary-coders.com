@@ -29,11 +29,11 @@ export const login = async (user: Login) => {
 
   return {
     user: {
-      username: findUser.name,
+      name: findUser.name,
       id: findUser.id,
       profilePicture: findUser.profilePicture,
+      username: findUser.username,
       role: findUser.role,
-      isVerified: findUser.isVerified,
     },
     message: 'login successful',
     status: 200,
@@ -47,37 +47,60 @@ type Token = {
   idt: number
 }
 
-export const verifiedUser = async (token: string) => {
+// export const verifiedUser = async (token: string) => {
+//   try {
+//     const decoded = await jwt.verify(token, process.env.JWT_SECRET as string)
+
+//     const user = await prisma.user.findUnique({
+//       where: {
+//         email: (decoded as Token).email,
+//       },
+//     })
+//     if (user) {
+//       const tokenValid = token === user.verifiedToken
+//       console.log(tokenValid)
+//       if (tokenValid) {
+//         await prisma.user.update({
+//           where: {
+//             email: user.email,
+//           },
+//           data: {
+//             verifiedToken: '',
+//             isVerified: true,
+//           },
+//         })
+//         return { message: 'Account activation complete', status: 201 }
+//       } else {
+//         return { message: 'Invalid token', status: 401 }
+//       }
+//     } else {
+//       return { message: 'Invalid token', status: 401 }
+//     }
+//   } catch (error) {
+//     return { message: 'Invalid token', status: 401 }
+//   }
+// }
+
+export const checkRegisterLinkToken = async (token: string) => {
   try {
     const decoded = await jwt.verify(token, process.env.JWT_SECRET as string)
-
-    const user = await prisma.user.findUnique({
-      where: {
-        email: (decoded as Token).email,
-      },
-    })
+    const user = await prisma.user.findUnique({ where: { email: (decoded as Token).email } })
     if (user) {
-      const tokenValid = token === user.verifiedToken
-      console.log(tokenValid)
-      if (tokenValid) {
-        await prisma.user.update({
-          where: {
-            email: user.email,
-          },
-          data: {
-            verifiedToken: '',
-            isVerified: true,
-          },
-        })
-        return { message: 'Account activation complete', status: 201 }
-      } else {
-        return { message: 'Invalid token', status: 401 }
+      return {
+        status: 401,
+        message: 'Invalid token',
       }
-    } else {
-      return { message: 'Invalid token', status: 401 }
+    }
+
+    return {
+      status: 200,
+      email: (decoded as Token).email,
     }
   } catch (error) {
-    return { message: 'Invalid token', status: 401 }
+    return {
+      status: 401,
+      message: 'Invalid token',
+    }
   }
 }
 
@@ -283,5 +306,37 @@ export const updateUserPassword = async (
       name: 'confirmPassword',
       message: 'New password and confirm password does not match.',
     }
+  }
+}
+
+export const sendRegisterAccountLink = async (email: string) => {
+  const isUserExists = await prisma.user.findUnique({ where: { email } })
+
+  if (isUserExists) {
+    return {
+      status: 500,
+      message: 'User exists with this email',
+    }
+  }
+
+  const token = jwt.sign(
+    {
+      email: email,
+      expiresIn: '1d',
+    },
+    process.env.JWT_SECRET as string,
+  )
+
+  await sendAEmail({
+    to: email,
+    subject: 'Account created',
+    token,
+    reset: false,
+  })
+
+  return {
+    status: 200,
+    message: 'Register link sent successful',
+    email: email,
   }
 }
