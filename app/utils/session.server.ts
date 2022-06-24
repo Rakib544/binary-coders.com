@@ -27,7 +27,7 @@ export const createUserSession = async (
 ) => {
   const session = await storage.getSession()
   session.set('userId', id)
-  session.set('name', fullName)
+  session.set('fullName', fullName)
   session.set('profilePicture', profilePicture)
   session.set('role', role)
   session.set('username', username)

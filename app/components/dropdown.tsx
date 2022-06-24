@@ -3,12 +3,13 @@ import CloseIcon from './icons/close-icon'
 import LogoutLogo from './icons/logout'
 
 interface DropDownProps {
+  fullName: string
   username: string
   profilePicture: string
   showDropMenu: boolean
 }
 
-const Dropdown = ({ username, profilePicture, showDropMenu }: DropDownProps) => {
+const Dropdown = ({ fullName, username, profilePicture, showDropMenu }: DropDownProps) => {
   return (
     <div
       className={`${
@@ -28,15 +29,36 @@ const Dropdown = ({ username, profilePicture, showDropMenu }: DropDownProps) => 
             />
           </div>
         </div>
-        <p className='text-lg font-medium mt-2'>{username}</p>
+        <p className='text-lg font-medium mt-2'>{fullName}</p>
         <Link
-          to='/profile'
+          to={`/user/${username}`}
           className='px-4 py-2 bg-blue-600 text-white inline-block text-sm rounded-full mt-2 mb-4'
         >
           View Profile
         </Link>
       </div>
       <ul>
+        <li>
+          <Link
+            to='/blog/create'
+            className='py-3 px-4 w-full flex hover:bg-gray-100 text-slate-700'
+          >
+            Write Blogs
+          </Link>
+        </li>
+        <li>
+          <Link
+            to='/question/create'
+            className='py-3 px-4 w-full flex hover:bg-gray-100 text-slate-700'
+          >
+            Ask Question
+          </Link>
+        </li>
+        <li>
+          <Link to='/setting' className='py-3 px-4 w-full flex hover:bg-gray-100 text-slate-700'>
+            Settings
+          </Link>
+        </li>
         <li>
           <Form method='post' action='/auth/logout'>
             <button

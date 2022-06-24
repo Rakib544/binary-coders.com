@@ -12,7 +12,7 @@ const FOOTER_HIDES_FROM = [
   '/auth/register',
   '/auth/reset',
   '/auth/reset_password',
-  '/auth/verify',
+  '/auth/send-register-link',
 ]
 
 const Footer = () => {

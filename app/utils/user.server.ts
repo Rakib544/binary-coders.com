@@ -5,7 +5,7 @@ import { Register } from './types.server'
 export const createUser = async (user: Register) => {
   try {
     const passwordHash = await bcrypt.hash(user.password, 10)
-    const username = `@${user.name.split(' ').join('-').toLowerCase()}-${new Date().getTime()}`
+    const username = `${user.name.split(' ').join('-').toLowerCase()}-${new Date().getTime()}`
 
     const newUser = await prisma.user.create({
       data: {
@@ -40,5 +40,36 @@ export const createUser = async (user: Register) => {
       status: 500,
       message: 'Something went wrong. Please try again',
     }
+  }
+}
+
+type User = {
+  id: string
+  name: string
+  email: string
+  bio: string
+  location: string
+}
+
+export const getUserInfoByUsername = async (username: string) => {
+  const user = await prisma.user.findUnique({
+    where: { username },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      profilePicture: true,
+      bio: true,
+      location: true,
+    },
+  })
+
+  const blogs = await prisma.blogPosts.findMany({ where: { authorId: (user as User).id } })
+  const questions = await prisma.question.findMany({ where: { authorId: (user as User).id } })
+
+  return {
+    user,
+    blogs,
+    questions,
   }
 }

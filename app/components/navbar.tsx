@@ -9,7 +9,7 @@ const NAVBAR_HIDES_FROM = [
   '/auth/register',
   '/auth/reset',
   '/auth/reset_password',
-  '/auth/verify',
+  '/auth/send-register-link',
 ]
 
 const NavLink = ({ to, ...rest }: Omit<Parameters<typeof Link>['0'], 'to'> & { to: string }) => {
@@ -33,7 +33,15 @@ const NavLink = ({ to, ...rest }: Omit<Parameters<typeof Link>['0'], 'to'> & { t
   )
 }
 
-const Navbar = ({ username, profilePicture }: { username: string; profilePicture: string }) => {
+const Navbar = ({
+  fullName,
+  username,
+  profilePicture,
+}: {
+  fullName: string
+  username: string
+  profilePicture: string
+}) => {
   const location = useLocation()
   const isNavbarHide = NAVBAR_HIDES_FROM.includes(location.pathname)
 
@@ -69,6 +77,7 @@ const Navbar = ({ username, profilePicture }: { username: string; profilePicture
                     </div>
                   </div>
                   <Dropdown
+                    fullName={fullName}
                     username={username}
                     profilePicture={profilePicture}
                     showDropMenu={showDropMenu}
@@ -84,7 +93,7 @@ const Navbar = ({ username, profilePicture }: { username: string; profilePicture
               )}
             </ul>
           </div>
-          <MobileNav profilePicture={profilePicture} username={username} />
+          <MobileNav fullName={fullName} profilePicture={profilePicture} username={username} />
         </div>
       ) : null}
     </>

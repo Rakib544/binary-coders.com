@@ -17,12 +17,12 @@ const Profile = () => {
       <aside className='col-span-2 shadow-lg py-10 rounded-md'>
         <img
           src={loaderData?.profilePicture}
-          alt={loaderData?.username}
+          alt={loaderData?.fullName}
           className='w-20 h-20 rounded-full block mx-auto'
         />
-        <p className='text-center my-4 text-lg font-medium'>{loaderData?.username}</p>
+        <p className='text-center my-4 text-lg font-medium'>{loaderData?.fullName}</p>
         <div>
-          <Link to='/profile' className='block px-4 py-3 hover:bg-gray-200'>
+          <Link to='/setting' className='block px-4 py-3 hover:bg-gray-200'>
             Profile
           </Link>
           <Link to='blogs' className='block px-4 py-3 hover:bg-gray-200'>

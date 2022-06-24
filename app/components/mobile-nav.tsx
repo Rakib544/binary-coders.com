@@ -6,11 +6,13 @@ import { useState } from 'react'
 const mobileNavLinks = [{ href: '/', title: 'Home' }, ...headerNavLinks]
 
 interface MobileNavProps {
+  fullName: string
   profilePicture: string
   username: string
 }
 
-const MobileNav = ({ profilePicture, username }: MobileNavProps) => {
+const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
+  console.log(fullName)
   const [navShow, setNavShow] = useState(false)
 
   const onToggleNav = () => {
@@ -73,7 +75,7 @@ const MobileNav = ({ profilePicture, username }: MobileNavProps) => {
               className='h-20 w-20 rounded-full object-cover'
             />
             <div>
-              <p className='text-2xl font-medium mt-2 text-blue-500'>{username}</p>
+              <p className='text-2xl font-medium mt-2 text-blue-500'>{fullName}</p>
             </div>
           </div>
           {mobileNavLinks.map((link) => (

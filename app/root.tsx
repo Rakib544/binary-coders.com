@@ -143,6 +143,7 @@ export default function App() {
       </head>
       <body className='font-barlow bg-test'>
         <Navbar
+          fullName={loaderData?.fullName as string}
           username={loaderData?.username as string}
           profilePicture={loaderData?.profilePicture as string}
         />
