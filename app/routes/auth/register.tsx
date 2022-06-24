@@ -17,6 +17,7 @@ import { registerFormSchema } from '~/utils/form-valiation-schema'
 import modalStyles from '@reach/dialog/styles.css'
 import CameraIcon from '~/components/icons/camera'
 import { Spinner } from '~/components/icons/spinner'
+import { H1, Paragraph } from '~/components/typography'
 import { createUserSession, getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
@@ -76,11 +77,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const url = new URL(request.url)
   const { token } = Object.fromEntries(url.searchParams.entries())
-  if (!token) {
-    return redirect('/auth/verify')
-  }
+
   const result = await checkRegisterLinkToken(token as string)
-  return json({ ...result, env: process.env.IMAGE_BB_KEY })
+  return json({ ...result, env: process.env.IMAGE_BB_KEY, token: token })
 }
 
 export const headers: HeadersFunction = () => {
@@ -130,6 +129,32 @@ const Register = () => {
   const childVariants = {
     initial: { opacity: 0, y: shouldReducedMotion ? 0 : 25 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  }
+
+  if (loaderData.status === 401) {
+    return (
+      <div className='h-screen flex justify-center items-center'>
+        <div className='text-center w-full p-4 md:w-1/2 mx-auto'>
+          <H1 className='text-red-500'>{loaderData?.message}</H1>
+          <Paragraph>
+            <Paragraph>No token found in the url or just the token has been expired.</Paragraph>
+          </Paragraph>
+          <Paragraph>
+            Back to the{' '}
+            <Link to='/auth/send-registration-link' className='text-blue-500'>
+              Send Registration Link
+            </Link>{' '}
+            to send registration link via Email and then complete your registration.
+          </Paragraph>
+          <Link
+            to='/auth/send-register-link'
+            className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-8 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+          >
+            Back to send regoster page
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -189,7 +214,7 @@ const Register = () => {
             </p>
           </div>
         )}
-        <Form method='post'>
+        <Form method='post' action={`/auth/register?token=${loaderData?.token}`}>
           <div className='mb-2'>
             <Label htmlFor='name'>Name</Label>
             <Input
