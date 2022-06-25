@@ -37,13 +37,13 @@ function NotificationMessage({
               position === 'bottom-right' && 'justify-end'
             } ${position === 'top-center' && 'justify-center'}`}
           >
-            <div className='pointer-events-auto relative max-w-xl rounded-lg p-8 pr-14 shadow-md'>
-              <p>Hello world</p>
+            <div className='pointer-events-auto relative max-w-xl rounded-lg p-8 pr-14 shadow-md bg-blue-500 text-white'>
+              {children}
               {typeof controlledVisible === 'undefined' ? (
                 <button
                   aria-label='dismiss message'
                   onClick={() => setIsVisible(false)}
-                  className='text-slate-900 hover:text-slate-800 focus:text-slate-800 absolute right-4 top-8'
+                  className='text-white hover:text-slate-800 focus:text-slate-800 absolute right-4 top-8'
                 >
                   X
                 </button>

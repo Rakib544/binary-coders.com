@@ -228,6 +228,7 @@ export const getUserInfoFromDB = async (id: string) => {
     },
     select: {
       name: true,
+      username: true,
       email: true,
       profilePicture: true,
     },
@@ -261,8 +262,40 @@ export const updateUserInfo = async (email: string, name: string, profilePicture
   }
 }
 
+export const updateUsername = async (email: string, username: string) => {
+  const isUsernameExists = await prisma.user.findUnique({ where: { username } })
+
+  if (isUsernameExists) {
+    return {
+      status: 401,
+      message: 'Username already taken by another user.',
+    }
+  }
+
+  const user = await prisma.user.update({
+    where: {
+      email,
+    },
+    data: {
+      username: username,
+    },
+    select: {
+      name: true,
+      id: true,
+      profilePicture: true,
+      username: true,
+      role: true,
+    },
+  })
+
+  return {
+    status: 200,
+    user,
+  }
+}
+
 export const updateUserPassword = async (
-  email: string,
+  userId: string,
   password: string,
   newPassword: string,
   confirmPassword: string,
@@ -272,7 +305,7 @@ export const updateUserPassword = async (
   if (isPasswordMatched) {
     const user = await prisma.user.findUnique({
       where: {
-        email,
+        id: userId,
       },
     })
 
@@ -282,7 +315,7 @@ export const updateUserPassword = async (
         const hashPassword = await bcrypt.hash(newPassword, 10)
         await prisma.user.update({
           where: {
-            email,
+            email: user.email,
           },
           data: {
             password: hashPassword,
