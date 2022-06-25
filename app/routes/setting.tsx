@@ -1,13 +1,12 @@
 import { Link, Outlet, useLocation } from '@remix-run/react'
-import { H2, Paragraph } from '~/components/typography'
 
 const Profile = () => {
   const location = useLocation()
   return (
     <>
-      <div className='text-center py-16 bg-slate-600'>
-        <H2 className='text-white'>Account setting</H2>
-        <Paragraph className='text-white'>Need to tweak a setting</Paragraph>
+      <div className='text-center py-16 bg-slate-700'>
+        <h2 className='text-white font-3xl font-medium'>Account setting</h2>
+        <p className='text-white'>Need to tweak a setting</p>
       </div>
       <div className='grid grid-cols-10 py-4 mx-20 shadow-md mb-20 rounded-md'>
         <aside className='col-span-2 py-10 px-4 border-r border-slate-300 flex justify-center'>
