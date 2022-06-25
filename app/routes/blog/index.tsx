@@ -22,6 +22,7 @@ export type Post = {
   readTime: string
   html: string
   authorId: string
+  views: number
   comment: Array<[]>
 }
 
