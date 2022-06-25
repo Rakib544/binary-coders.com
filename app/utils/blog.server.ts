@@ -23,6 +23,7 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
         html,
         readTime: text,
         authorId,
+        views: 0,
       },
     })
     return {
@@ -65,6 +66,7 @@ export const getSingleBlog = async (slug: string) => {
     },
     select: {
       name: true,
+      username: true,
       profilePicture: true,
     },
   })
@@ -80,6 +82,33 @@ export const getSingleBlog = async (slug: string) => {
       status: 404,
       message: 'No blog found with this slug',
     }
+  }
+}
+
+export const getBlogViewers = async (slug: string) => {
+  const viewers = await prisma.blogPostViews.findMany({
+    where: {
+      slug,
+    },
+    include: {
+      viewer: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
+    },
+  })
+
+  if (viewers.length === 0) {
+    return {
+      totalViewers: 0,
+      viewers: null,
+    }
+  }
+  return {
+    viewers,
   }
 }
 
@@ -103,5 +132,51 @@ export const updateBlog = async (slug: string, title: string, html: string) => {
       status: 500,
       message: 'Something went wrong. Please try again.',
     }
+  }
+}
+
+export const addBlogReader = async (slug: string, id: string) => {
+  const blog = await prisma.blogPostViews.findMany({
+    where: {
+      slug,
+      viewerId: id,
+    },
+  })
+
+  if (blog.length === 0) {
+    await prisma.blogPostViews.create({
+      data: {
+        slug,
+        viewerId: id,
+      },
+    })
+
+    const result = await prisma.blogPosts.findUnique({
+      where: {
+        slug,
+      },
+      select: {
+        views: true,
+      },
+    })
+
+    await prisma.blogPosts.update({
+      where: {
+        slug,
+      },
+      data: {
+        views: (result as { views: number }).views + 1,
+      },
+    })
+
+    return {
+      status: 200,
+      message: 'Viewer added successful',
+    }
+  }
+
+  return {
+    status: 401,
+    message: 'User already viewed this blog',
   }
 }

@@ -51,6 +51,7 @@ model BlogPosts {
   readTime String 
   html String
   authorId String
+  views Int
 }
 
 model Question {
@@ -89,6 +90,7 @@ model Answers {
 model BlogPostViews {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   viewedAt DateTime @default(now())
+  slug String @unique
   viewer User @relation(fields: [viewerId], references: [id])
   viewerId String @db.ObjectId
 }

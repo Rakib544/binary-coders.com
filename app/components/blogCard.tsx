@@ -12,10 +12,11 @@ export type Post = {
   readTime: string
   html: string
   authorId: string
+  views: number
   comment: Array<[]>
 }
 
-const BlogCard = ({ slug, title, createdAt, readTime }: Post) => {
+const BlogCard = ({ slug, title, createdAt, readTime, views }: Post) => {
   return (
     <Link
       prefetch='intent'
@@ -27,7 +28,7 @@ const BlogCard = ({ slug, title, createdAt, readTime }: Post) => {
         <div className='flex space-x-2 md:hidden'>
           <div className='flex items-center space-x-1'>
             <EyeIcon />
-            <small>1</small>
+            <small>{views}</small>
           </div>
           <div className='flex items-center space-x-1'>
             <ReadTime />
@@ -43,7 +44,7 @@ const BlogCard = ({ slug, title, createdAt, readTime }: Post) => {
           <div className='hidden col-span-10 md:col-span-2 md:flex space-x-2'>
             <div className='flex items-center space-x-1'>
               <EyeIcon />
-              <small>1</small>
+              <small>{views}</small>
             </div>
             <div className='flex items-center space-x-1'>
               <ReadTime />
