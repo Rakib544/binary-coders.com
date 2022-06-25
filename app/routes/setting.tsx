@@ -5,7 +5,7 @@ const Profile = () => {
   return (
     <>
       <div className='text-center py-16 bg-slate-700'>
-        <h2 className='text-white font-3xl font-medium'>Account setting</h2>
+        <h2 className='text-white font-4xl font-medium'>Account setting</h2>
         <p className='text-white'>Need to tweak a setting</p>
       </div>
       <div className='grid grid-cols-10 py-4 mx-20 shadow-md mb-20 rounded-md'>
