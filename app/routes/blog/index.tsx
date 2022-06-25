@@ -30,8 +30,6 @@ const index = () => {
   const location = useLocation()
   const loaderData = useLoaderData()
 
-  console.log(loaderData)
-
   return (
     <>
       <Link

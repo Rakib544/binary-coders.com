@@ -12,7 +12,6 @@ interface MobileNavProps {
 }
 
 const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
-  console.log(fullName)
   const [navShow, setNavShow] = useState(false)
 
   const onToggleNav = () => {

@@ -39,7 +39,11 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
 }
 
 export const getAllBlogPosts = async () => {
-  const posts = await prisma.blogPosts.findMany()
+  const posts = await prisma.blogPosts.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
   if (posts) {
     return {
       status: 200,

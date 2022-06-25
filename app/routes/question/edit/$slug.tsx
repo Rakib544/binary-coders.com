@@ -47,7 +47,6 @@ const editQuestion = () => {
   const loaderData = useLoaderData()
   const transition = useTransition()
   const actionData = useActionData()
-  console.log(actionData)
 
   const [html, setHtml] = React.useState(loaderData?.question.description)
 
