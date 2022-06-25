@@ -39,6 +39,7 @@ model User {
   bio String
   githubLink String
   answers Answers[]
+  views BlogPostViews[]
 }
 
 model BlogPosts {
@@ -85,4 +86,9 @@ model Answers {
   answerCreatorId String @db.ObjectId
 }
 
-
+model BlogPostViews {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  viewedAt DateTime @default(now())
+  viewer User @relation(fields: [viewerId], references: [id])
+  viewerId String @db.ObjectId
+}
