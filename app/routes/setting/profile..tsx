@@ -1,9 +1,10 @@
 import { json, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import * as React from 'react'
-import { Input, Label } from '~/components/form-elements'
+import { Label } from '~/components/form-elements'
 import CameraIcon from '~/components/icons/camera'
 import { Spinner } from '~/components/icons/spinner'
+import { NotificationMessage } from '~/components/notification-message'
 import { H4 } from '~/components/typography'
 import { getUserInfoFromDB, updateUserInfo } from '~/utils/auth.server'
 import { createUserSession, getUserId } from '~/utils/session.server'
@@ -19,7 +20,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export const action: LoaderFunction = async ({ request }) => {
   const formData = await request.formData()
-  const { name, email, profilePicture } = Object.fromEntries(formData)
+  const { name, email, profilePicture, location, institute, webSiteLink, githubLink, bio } =
+    Object.fromEntries(formData)
 
   if (name.toString().length < 2) {
     return {
@@ -29,19 +31,32 @@ export const action: LoaderFunction = async ({ request }) => {
     }
   }
 
-  const res = await updateUserInfo(email as string, name as string, profilePicture as string)
-  return await createUserSession(
+  const res = await updateUserInfo(
+    email as string,
+    name as string,
+    profilePicture as string,
+    location as string,
+    institute as string,
+    webSiteLink as string,
+    githubLink as string,
+    bio as string,
+  )
+
+  await createUserSession(
     res.user?.name as string,
     res.user?.id as string,
     res?.user?.profilePicture as string,
     res?.user?.username as string,
     res?.user?.role as string,
-    '/profile',
+    '/setting/profile',
   )
+
+  return json(res)
 }
 
 const Me = () => {
-  const { name, email, profilePicture, env } = useLoaderData()
+  const { email, name, profilePicture, githubLink, websiteLink, bio, location, institute, env } =
+    useLoaderData()
   const transition = useTransition()
   const actionData = useActionData()
 
@@ -92,29 +107,67 @@ const Me = () => {
           </label>
         </div>
         <Form method='post'>
-          <div className='my-2'>
+          <input type='email' name='email' defaultValue={email} className='hidden' />
+          <div className='my-4'>
             <Label htmlFor='name'>Full Name</Label>
-            <Input name='name' placeholder='Enter name' defaultValue={name} />
+            <input
+              className='w-full py-1 bg-inherit border-b border-slate-200 focus:outline-none text-slate-500'
+              name='name'
+              placeholder='Enter name'
+              defaultValue={name}
+            />
             {actionData?.errorFor === 'name' && (
               <small className='text-red-500'>{actionData?.message}</small>
             )}
           </div>
+          <div className='my-6'>
+            <Label htmlFor='webSiteLink'>Website Link</Label>
+            <input
+              className='w-full py-1 bg-inherit border-b border-slate-200 focus:outline-none text-slate-500'
+              name='webSiteLink'
+              placeholder='Enter your site link'
+              defaultValue={websiteLink}
+            />
+          </div>
+          <div className='my-6'>
+            <Label htmlFor='location'>Location</Label>
+            <input
+              className='w-full py-1 bg-inherit border-b border-slate-200 focus:outline-none text-slate-500'
+              name='location'
+              placeholder='Enter your location'
+              defaultValue={location}
+            />
+          </div>
+          <div className='my-6'>
+            <Label htmlFor='institute'>Institute Name</Label>
+            <input
+              className='w-full py-1 bg-inherit border-b border-slate-200 focus:outline-none text-slate-500'
+              name='institute'
+              placeholder='Enter your institute name'
+              defaultValue={institute}
+            />
+          </div>
+          <div className='my-6'>
+            <Label htmlFor='githubLink'>Github link</Label>
+            <input
+              className='w-full py-1 bg-inherit border-b border-slate-200 focus:outline-none text-slate-500'
+              name='githubLink'
+              placeholder='Enter your github link'
+              defaultValue={githubLink}
+            />
+          </div>
+          <div className='my-6'>
+            <Label htmlFor='bio'>Bio</Label>
+            <textarea
+              className='w-full py-1 bg-inherit border-b border-slate-200 focus:outline-none text-slate-500'
+              name='bio'
+              placeholder='Enter your github link'
+              defaultValue={bio}
+            />
+          </div>
+          {/* img part */}
           <div>
             <input type='text' defaultValue={img} name='profilePicture' className='hidden' />
-          </div>
-          <div className='my-2'>
-            <label className='text-sm mb-1 font-medium' htmlFor='email'>
-              Email Address (Email address can&apos;t be changed)
-            </label>
-            <Input
-              name='email'
-              placeholder='Enter Email'
-              type='email'
-              defaultValue={email}
-              value={email}
-              onChange={() => console.log()}
-              className='disabled:opacity-75 bg-white'
-            />
           </div>
           <div className='flex justify-end'>
             <button
@@ -135,6 +188,11 @@ const Me = () => {
           </div>
         </Form>
       </div>
+      {actionData?.status === 200 && (
+        <NotificationMessage>
+          <p>Profile updated successful</p>
+        </NotificationMessage>
+      )}
     </div>
   )
 }

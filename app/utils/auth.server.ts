@@ -227,9 +227,13 @@ export const getUserInfoFromDB = async (id: string) => {
       id: id,
     },
     select: {
-      name: true,
-      username: true,
       email: true,
+      name: true,
+      bio: true,
+      websiteLink: true,
+      githubLink: true,
+      location: true,
+      institute: true,
       profilePicture: true,
     },
   })
@@ -237,7 +241,16 @@ export const getUserInfoFromDB = async (id: string) => {
   return user
 }
 
-export const updateUserInfo = async (email: string, name: string, profilePicture: string) => {
+export const updateUserInfo = async (
+  email: string,
+  name: string,
+  profilePicture: string,
+  location: string,
+  institute: string,
+  websiteLink: string,
+  githubLink: string,
+  bio: string,
+) => {
   try {
     const user = await prisma.user.update({
       where: {
@@ -246,6 +259,18 @@ export const updateUserInfo = async (email: string, name: string, profilePicture
       data: {
         name,
         profilePicture,
+        location,
+        institute,
+        websiteLink: websiteLink,
+        githubLink,
+        bio,
+      },
+      select: {
+        name: true,
+        id: true,
+        profilePicture: true,
+        username: true,
+        role: true,
       },
     })
 
