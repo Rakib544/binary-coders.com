@@ -59,8 +59,6 @@ const SingleBlog = () => {
 
   const { blog, creatorInfo } = loaderData
 
-  console.log(actionData)
-
   const fetcher = useFetcher()
 
   React.useEffect(() => {
