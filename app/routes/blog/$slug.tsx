@@ -1,4 +1,4 @@
-import { ActionFunction, json, LinksFunction, LoaderFunction } from '@remix-run/node'
+import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, useActionData, useFetcher, useLoaderData } from '@remix-run/react'
 import { motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
@@ -22,10 +22,13 @@ export const links: LinksFunction = () => {
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
+  const { userId } = await getUserInfo(request)
+  if (!userId) {
+    return redirect('/auth/login')
+  }
   const formData = await request.formData()
   const { action } = Object.fromEntries(formData)
   if (action === 'incrementView') {
-    const { userId } = await getUserInfo(request)
     await addBlogReader(params.slug as string, userId as string)
     return null
   }
