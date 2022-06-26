@@ -102,7 +102,7 @@ const Index = () => {
             </label>
           </div>
           <div className='my-10'>
-            {loaderData?.questions.map((post: Question) => (
+            {loaderData?.questions?.map((post: Question) => (
               <QuestionCard key={post.slug} {...post} />
             ))}
           </div>
