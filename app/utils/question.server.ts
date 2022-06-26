@@ -26,6 +26,8 @@ export const createQuestion = async (
         description: html,
         authorId,
         tags,
+        views: 0,
+        comments: 0,
       },
     })
     return {
@@ -45,6 +47,15 @@ export const getSingleQuestion = async (slug: string) => {
     where: {
       slug,
     },
+    include: {
+      creator: {
+        select: {
+          username: true,
+          profilePicture: true,
+          name: true,
+        },
+      },
+    },
   })
 
   const answers = await prisma.answers.findMany({
@@ -56,6 +67,7 @@ export const getSingleQuestion = async (slug: string) => {
         select: {
           profilePicture: true,
           name: true,
+          username: true,
         },
       },
     },
@@ -75,36 +87,6 @@ export const getSingleQuestion = async (slug: string) => {
   }
 }
 
-// export const createComment = async (slug: string, answer: string, id: string, username: string) => {
-//   const comment = {
-//     answerCreatorId: id,
-//     answeredBy: username,
-//     answer,
-//   }
-//   try {
-//     await prisma.question.update({
-//       where: {
-//         slug,
-//       },
-//       data: {
-//         answers: {
-//           push: comment,
-//         },
-//       },
-//     })
-
-//     return {
-//       status: 201,
-//       message: 'Comment posted successful',
-//     }
-//   } catch (error) {
-//     return {
-//       status: 500,
-//       message: 'Something went wrong. Please try again',
-//     }
-//   }
-// }
-
 export const createAnswer = async (slug: string, answer: string, id: string) => {
   await prisma.answers.create({
     data: {
@@ -114,37 +96,89 @@ export const createAnswer = async (slug: string, answer: string, id: string) => 
     },
   })
 
+  const question = await prisma.question.findUnique({
+    where: {
+      slug,
+    },
+  })
+
+  await prisma.question.update({
+    where: {
+      slug,
+    },
+    data: {
+      comments: (question as { comments: number }).comments + 1,
+    },
+  })
+
   return {
     status: 201,
     message: 'Answer created successful',
   }
 }
 
-export const incrementView = async (slug: string, id: string) => {
-  const post = await prisma.question.findUnique({
+export const addQuestionReader = async (slug: string, id: string) => {
+  const questions = await prisma.questionViews.findMany({
     where: {
       slug,
+      viewerId: id,
     },
   })
 
-  const isAlreadyViewedPost = post?.view?.includes(id)
-  if (!isAlreadyViewedPost) {
+  if (questions.length === 0) {
+    await prisma.questionViews.create({
+      data: {
+        slug,
+        viewerId: id,
+      },
+    })
+
+    const result = await prisma.question.findUnique({
+      where: {
+        slug,
+      },
+      select: {
+        views: true,
+      },
+    })
+
     await prisma.question.update({
       where: {
         slug,
       },
       data: {
-        view: {
-          push: id.toString(),
-        },
+        views: (result as { views: number }).views + 1,
       },
     })
+
+    return {
+      status: 200,
+      message: 'Viewer added successful',
+    }
+  }
+
+  return {
+    status: 401,
+    message: 'User already viewed this blog',
   }
 }
 
 export const getAllQuestions = async () => {
   try {
-    const questions = await prisma.question.findMany()
+    const questions = await prisma.question.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        creator: {
+          select: {
+            username: true,
+            profilePicture: true,
+            name: true,
+          },
+        },
+      },
+    })
     return {
       questions,
       status: 200,
@@ -177,5 +211,32 @@ export const updateQuestion = async (slug: string, title: string, description: s
       status: 500,
       message: 'Something went wrong. Please try again.',
     }
+  }
+}
+
+export const getQuestionViewers = async (slug: string) => {
+  const viewers = await prisma.questionViews.findMany({
+    where: {
+      slug,
+    },
+    include: {
+      viewer: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
+    },
+  })
+
+  if (viewers.length === 0) {
+    return {
+      totalViewers: 0,
+      viewers: null,
+    }
+  }
+  return {
+    viewers,
   }
 }

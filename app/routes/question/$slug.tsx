@@ -1,20 +1,36 @@
-import { LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
-import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
+import modalStyles from '@reach/dialog/styles.css'
+import { json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  Form,
+  Link,
+  useActionData,
+  useFetcher,
+  useLoaderData,
+  useTransition,
+} from '@remix-run/react'
 import { motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import moment from 'moment'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
 import { ClientOnly } from 'remix-utils'
+import EyeIcon from '~/components/icons/eye'
 import { Spinner } from '~/components/icons/spinner'
 import Quill from '~/components/quill.client'
-import { createAnswer, getSingleQuestion, incrementView } from '~/utils/question.server'
+import ViewersModal from '~/components/viewers-modal'
+import {
+  addQuestionReader,
+  createAnswer,
+  getQuestionViewers,
+  getSingleQuestion,
+} from '~/utils/question.server'
 import { getUserId } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [
-    { rel: 'stylesheet', href: quillCss },
     { rel: 'stylesheet', href: highlightCss },
+    { rel: 'stylesheet', href: quillCss },
+    { rel: 'stylesheet', href: modalStyles },
   ]
 }
 
@@ -24,7 +40,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return redirect('/auth/login')
   }
 
-  await incrementView(params.slug as string, userId as string)
   const res = await getSingleQuestion(params.slug as string)
   return {
     ...res,
@@ -36,7 +51,16 @@ export const action: LoaderFunction = async ({ request, params }) => {
   const userId = await getUserId(request)
 
   const formData = await request.formData()
-  const { answer } = Object.fromEntries(formData)
+  const { answer, action } = Object.fromEntries(formData)
+
+  if (action === 'getBlogViewers') {
+    const res = await getQuestionViewers(params.slug as string)
+    return json(res)
+  }
+  if (action === 'incrementView') {
+    await addQuestionReader(params.slug as string, userId as string)
+    return null
+  }
   const res = await createAnswer(
     params.slug as string,
     JSON.parse(answer as string),
@@ -58,6 +82,7 @@ type Answer = {
   creator: {
     profilePicture: string
     name: string
+    username: string
   }
 }
 
@@ -68,11 +93,21 @@ const SingleQuestion = () => {
   const transition = useTransition()
   const actionData = useActionData()
 
+  const fetcher = useFetcher()
+
   React.useEffect(() => {
     if (actionData?.status === 201) {
       setShouldQuillEmpty(true)
     }
   }, [actionData?.status])
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      fetcher.submit({ action: 'incrementView' }, { method: 'post' })
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <motion.div
@@ -82,11 +117,45 @@ const SingleQuestion = () => {
       transition={{ duration: 0.5 }}
     >
       <div className='my-6 border-b border-gray-200 py-4'>
-        <h1 className='text-4xl font-bold'>{question.title}</h1>
-        <div className='space-x-4'>
-          <small>Asked - {new Date(question?.createdAt).toDateString()}</small>
-          <small>Modified - {new Date(question?.updatedAt).toDateString()}</small>
-          <small>Viewed - {question?.view.length} times</small>
+        <div className='flex justify-end' title='See viewers'>
+          <Form method='post'>
+            <button
+              type='submit'
+              name='action'
+              value='getBlogViewers'
+              className='flex items-center space-x-1 cursor-pointer'
+            >
+              <EyeIcon />{' '}
+              <small className='text-xs text-slate-500 font-medium'>{question.views}</small>
+            </button>
+          </Form>
+        </div>
+        <h1 className='text-4xl font-semibold'>{question.title}</h1>
+        <div className='flex space-x-2 mt-2 items-center'>
+          <img
+            src={question.creator.profilePicture}
+            alt={question.creator.name}
+            className='h-10 w-10 rounded-xl object-cover'
+          />
+          <div>
+            <Link
+              prefetch='intent'
+              to={`/user/${question.creator.username}`}
+              className='font-medium text-sky-500'
+            >
+              {question.creator.name}
+            </Link>
+            <small className='block text-xs font-medium text-slate-500'>
+              <Link
+                prefetch='intent'
+                to={`/user/${question.creator.username}`}
+                className='text-sky-500'
+              >
+                {question.creator.name}
+              </Link>{' '}
+              asked {moment(question.createdAt).fromNow()}
+            </small>
+          </div>
         </div>
       </div>
       <div
@@ -102,17 +171,32 @@ const SingleQuestion = () => {
           {answers?.map((answer: Answer) => (
             <div
               key={new Date() + answer.answerCreatorId + Math.random()}
-              className='py-4 border-b border-gray-200'
+              className='p-4 bg-white rounded-xl border border-slate-100 my-4'
             >
-              <div className='flex space-x-4'>
+              <div className='flex items-center space-x-2'>
                 <img
                   src={answer.creator.profilePicture}
                   alt={answer.creator.name}
                   className='h-12 w-12 rounded-full'
                 />
                 <div className='mb-4'>
-                  <h3 className='font-medium'>{answer.creator.name}</h3>
-                  <small>{moment(answer.answeredTime).fromNow()}</small>
+                  <Link
+                    prefetch='intent'
+                    to={`/user/${answer.creator.username}`}
+                    className='font-medium text-sky-500 text-sm block'
+                  >
+                    {answer.creator.name}
+                  </Link>
+                  <small className='font-medium text-slate-500'>
+                    <Link
+                      prefetch='intent'
+                      to={`/user/${answer.creator.username}`}
+                      className='text-sky-500'
+                    >
+                      {answer.creator.name}
+                    </Link>{' '}
+                    answered {moment(answer.answeredTime).fromNow()}
+                  </small>
                 </div>
               </div>
               <div
@@ -158,7 +242,7 @@ const SingleQuestion = () => {
           )}
         </ClientOnly>
       </div>
-      {/* )} */}
+      {actionData?.viewers && <ViewersModal viewers={actionData?.viewers} />}
     </motion.div>
   )
 }

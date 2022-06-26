@@ -1,4 +1,6 @@
 {
+  "css.validate": false,
+  "tailwindCSS.emmetCompletions": true,
   "cSpell.words": [
     "SENDGRID",
     "webp"

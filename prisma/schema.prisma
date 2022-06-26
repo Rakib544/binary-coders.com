@@ -40,6 +40,9 @@ model User {
   githubLink String
   answers Answers[]
   views BlogPostViews[]
+  questionViews QuestionViews[]
+  question Question[]
+  blog BlogPosts[]
 }
 
 model BlogPosts {
@@ -50,6 +53,7 @@ model BlogPosts {
   slug String @unique
   readTime String 
   html String
+  creator User @relation(fields: [authorId], references: [id])
   authorId String
   views Int
 }
@@ -62,8 +66,10 @@ model Question {
   slug String @unique
   description String
   tags String[]
+  creator User @relation(fields: [authorId], references: [id])
   authorId String
-  view String[]
+  comments Int?
+  views Int?
 }
 
 
@@ -89,6 +95,14 @@ model Answers {
 
 model BlogPostViews {
   id String @id @default(auto()) @map("_id") @db.ObjectId
+  viewedAt DateTime @default(now())
+  slug String @unique
+  viewer User @relation(fields: [viewerId], references: [id])
+  viewerId String @db.ObjectId
+}
+
+model QuestionViews {
+   id String @id @default(auto()) @map("_id") @db.ObjectId
   viewedAt DateTime @default(now())
   slug String @unique
   viewer User @relation(fields: [viewerId], references: [id])

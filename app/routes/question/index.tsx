@@ -1,6 +1,6 @@
 import { LoaderFunction } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { Link, useLoaderData, useLocation } from '@remix-run/react'
+import QuestionCard from '~/components/question-card'
 import { getAllQuestions } from '~/utils/question.server'
 import { getUserInfo } from '~/utils/session.server'
 
@@ -13,15 +13,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 }
 
-type Answer = {
-  answer: string
-  answerCreatorId: string
-  answeredBy: string
-  answeredTime: string
-}
-
 type Question = {
-  answers: Array<Answer>
   authorId: string
   createdAt: string
   description: string
@@ -29,76 +21,94 @@ type Question = {
   slug: string
   tags: Array<string>
   title: string
-  updatedAt: string
-  view: Array<string>
+  views: number
+  comments: number
+  creator: {
+    username: string
+    profilePicture: string
+    name: string
+  }
 }
 
 const Index = () => {
   const loaderData = useLoaderData()
-  const shouldReduceMotion = useReducedMotion()
+  // const shouldReduceMotion = useReducedMotion()
 
-  const childVariants = {
-    initial: { opacity: 0, y: shouldReduceMotion ? 0 : 25 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  }
+  // const childVariants = {
+  //   initial: { opacity: 0, y: shouldReduceMotion ? 0 : 25 },
+  //   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  // }
 
+  const location = useLocation()
   return (
-    <motion.div
-      className='px-4 md:px-20 lg:px-60 py-20'
-      initial='initial'
-      animate='visible'
-      variants={{
-        initial: { opacity: 0 },
-        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
-      }}
-    >
-      <motion.div
-        variants={childVariants}
-        className='flex justify-between py-4 border-b border-gray-100 items-center'
+    <>
+      <Link
+        prefetch='intent'
+        to='/blog/create'
+        className='inline-block md:hidden mx-8 bg-blue-500 py-3 px-12 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
       >
-        <h2 className='text-xl md:text-3xl'>All Questions</h2>
-        {loaderData?.userId && (
-          <Link
-            to='/question/create'
-            className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
-          >
-            Ask Question
-          </Link>
-        )}
-      </motion.div>
-      <motion.ul variants={childVariants}>
-        {loaderData?.questions?.map((question: Question) => (
-          <motion.li variants={childVariants} key={question.slug}>
+        Write blog
+      </Link>
+
+      <div className='grid grid-cols-10 gap-4'>
+        <aside className='col-span-10 hidden md:col-span-3 md:flex justify-center'>
+          <div className='w-full px-16 my-10'>
             <Link
-              to={`/question/${question.slug}`}
-              className='block my-2 shadow-sm border transition duration-300 border-gray-100 p-4 rounded-md bg-white hover:bg-gray-50 shadow-slate-200/10 hover:shadow-md'
+              prefetch='intent'
+              to='/question/create'
+              className='block bg-blue-500 py-3 px-4 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
             >
-              <div>
-                <h2 className='text-lg font-medium'>{question.title}</h2>
-                <div className='space-x-4'>
-                  <small>Viewed - {question.view?.length}</small>
-                </div>
-                <ul className='flex space-x-2 my-2'>
-                  {question.tags?.map((tag) => (
-                    <li key={tag}>
-                      <small className='px-2 py-1 rounded-md text-sky-600 bg-sky-400/10'>
-                        {tag}
-                      </small>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  to={`/question/${question.slug}`}
-                  className='text-sm text-sky-500 font-medium my-1 inline-block'
-                >
-                  View More &rarr;
-                </Link>
-              </div>
+              Ask question
             </Link>
-          </motion.li>
-        ))}
-      </motion.ul>
-    </motion.div>
+            <Link
+              to='/question'
+              prefetch='intent'
+              className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+                location.search === '' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+              }`}
+            >
+              All Questions
+            </Link>
+            <Link
+              to='/question?query=me'
+              prefetch='intent'
+              className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+                location.search === '?query=me' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+              }`}
+            >
+              My Questions
+            </Link>
+          </div>
+        </aside>
+        <div className='col-span-10 md:col-span-7 px-4 md:px-12'>
+          <div className='flex justify-end'>
+            <label className='relative block'>
+              <span className='sr-only'>Search</span>
+              <span className='absolute inset-y-0 left-0 flex items-center pl-2'>
+                <svg className='h-5 w-5 fill-slate-300' viewBox='0 0 20 20'>
+                  <path
+                    fillRule='evenodd'
+                    d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </span>
+              <input
+                className='placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm'
+                placeholder='Search for anything...'
+                type='text'
+                name='search'
+              />
+            </label>
+          </div>
+          <div className='my-10'>
+            {loaderData?.questions.map((post: Question) => (
+              <QuestionCard key={post.slug} {...post} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
 
