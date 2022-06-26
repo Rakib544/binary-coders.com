@@ -11,7 +11,7 @@ import ViewersModal from '~/components/viewers-modal'
 import { addBlogReader, getBlogViewers, getSingleBlog } from '~/utils/blog.server'
 
 import modalStyles from '@reach/dialog/styles.css'
-import { getUserInfo } from '~/utils/session.server'
+import { getUserId, getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [
@@ -22,13 +22,10 @@ export const links: LinksFunction = () => {
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
-  const { userId } = await getUserInfo(request)
-  if (!userId) {
-    return redirect('/auth/login')
-  }
   const formData = await request.formData()
   const { action } = Object.fromEntries(formData)
   if (action === 'incrementView') {
+    const { userId } = await getUserInfo(request)
     await addBlogReader(params.slug as string, userId as string)
     return null
   }
@@ -36,8 +33,12 @@ export const action: ActionFunction = async ({ request, params }) => {
   return json(res)
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
   try {
+    const userId = await getUserId(request)
+    if (!userId) {
+      return redirect('/auth/login')
+    }
     const res = await getSingleBlog(params.slug as string)
     return {
       ...res,
