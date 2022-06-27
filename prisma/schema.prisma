@@ -44,6 +44,7 @@ model User {
   questionViews QuestionViews[]
   question Question[]
   blog BlogPosts[]
+  problem ProblemViews[]
 }
 
 model BlogPosts {
@@ -104,6 +105,14 @@ model BlogPostViews {
 }
 
 model QuestionViews {
+   id String @id @default(auto()) @map("_id") @db.ObjectId
+  viewedAt DateTime @default(now())
+  slug String @unique
+  viewer User @relation(fields: [viewerId], references: [id])
+  viewerId String @db.ObjectId
+}
+
+model ProblemViews {
    id String @id @default(auto()) @map("_id") @db.ObjectId
   viewedAt DateTime @default(now())
   slug String @unique

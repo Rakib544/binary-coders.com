@@ -120,7 +120,7 @@ const SingleBlog = () => {
         dangerouslySetInnerHTML={{ __html: blog.html }}
         className='prose prose-slate lg:prose-lg max-w-none mb-24 prose-a:text-blue-600'
       ></div>
-      {actionData?.viewers && <ViewersModal viewers={actionData?.viewers} />}
+      {actionData?.viewers && <ViewersModal viewers={actionData?.viewers} pageName='blog' />}
     </motion.div>
   )
 }

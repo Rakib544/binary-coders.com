@@ -20,9 +20,10 @@ interface ModalProps {
 
 interface Props {
   viewers: ModalProps[]
+  pageName: string
 }
 
-const ViewersModal = ({ viewers }: Props): JSX.Element => {
+const ViewersModal = ({ viewers, pageName }: Props): JSX.Element => {
   const [showDialog, setShowDialog] = React.useState(true)
   const close = () => setShowDialog(false)
 
@@ -35,7 +36,7 @@ const ViewersModal = ({ viewers }: Props): JSX.Element => {
           </span>
         </button>
         <div>
-          <H6 className='my-4'>People viewed this blog.</H6>
+          <H6 className='my-4'>People viewed this {pageName}.</H6>
           {viewers.map((viewer: ModalProps) => (
             <Link
               prefetch='intent'

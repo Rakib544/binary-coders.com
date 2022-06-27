@@ -50,6 +50,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export const action: LoaderFunction = async ({ request, params }) => {
   const userId = await getUserId(request)
 
+  if (!userId) {
+    return redirect('/auth/login')
+  }
+
   const formData = await request.formData()
   const { answer, action } = Object.fromEntries(formData)
 
@@ -242,7 +246,7 @@ const SingleQuestion = () => {
           )}
         </ClientOnly>
       </div>
-      {actionData?.viewers && <ViewersModal viewers={actionData?.viewers} />}
+      {actionData?.viewers && <ViewersModal viewers={actionData?.viewers} pageName='question' />}
     </motion.div>
   )
 }

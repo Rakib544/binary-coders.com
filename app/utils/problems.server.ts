@@ -26,6 +26,7 @@ export const createProblem = async (
         description,
         authorId: userId,
         tags: tags,
+        views: 0,
       },
     })
     return {
@@ -109,5 +110,78 @@ export const updateProblem = async (slug: string, title: string, description: st
       status: 500,
       message: 'Something went wrong. Please try again.',
     }
+  }
+}
+
+export const addProblemReader = async (slug: string, id: string) => {
+  const blog = await prisma.problemViews.findMany({
+    where: {
+      slug,
+      viewerId: id,
+    },
+  })
+
+  if (blog.length === 0) {
+    await prisma.problemViews.create({
+      data: {
+        slug,
+        viewerId: id,
+      },
+    })
+
+    const result = await prisma.problem.findUnique({
+      where: {
+        slug,
+      },
+      select: {
+        views: true,
+      },
+    })
+
+    await prisma.problem.update({
+      where: {
+        slug,
+      },
+      data: {
+        views: (result as { views: number }).views + 1,
+      },
+    })
+
+    return {
+      status: 200,
+      message: 'Viewer added successful',
+    }
+  }
+
+  return {
+    status: 401,
+    message: 'User already viewed this blog',
+  }
+}
+
+export const getProblemViewers = async (slug: string) => {
+  const viewers = await prisma.problemViews.findMany({
+    where: {
+      slug,
+    },
+    include: {
+      viewer: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
+    },
+  })
+
+  if (viewers.length === 0) {
+    return {
+      totalViewers: 0,
+      viewers: null,
+    }
+  }
+  return {
+    viewers,
   }
 }
