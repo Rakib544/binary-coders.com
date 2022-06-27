@@ -1,5 +1,7 @@
 import { LoaderFunction } from '@remix-run/node'
 import { Link, useLoaderData, useLocation } from '@remix-run/react'
+import EyeIcon from '~/components/icons/eye'
+import { H6 } from '~/components/typography'
 // import { useReducedMotion } from 'framer-motion'
 import { getAllProblems } from '~/utils/problems.server'
 import { getUserInfo } from '~/utils/session.server'
@@ -24,6 +26,7 @@ type Problem = {
   tags: Array<string>
   title: string
   updatedAt: string
+  views: number
 }
 
 const Index = () => {
@@ -112,7 +115,17 @@ const Index = () => {
               className='block my-2 border border-gray-100 p-4 bg-white rounded-xl transition duration-300 hover:border-blue-500'
             >
               <div>
-                <h2 className='text-lg font-medium'>{problem.title}</h2>
+                <div className='grid grid-cols-10 items-center flex-end'>
+                  <H6 className='md:truncate col-span-10 mt-4 md:mt-0 md:col-span-9 hover:underline'>
+                    {problem.title}
+                  </H6>
+                  <div className='hidden col-span-10 md:col-span-1 md:flex space-x-2'>
+                    <div className='flex items-center space-x-1'>
+                      <EyeIcon />
+                      <small>{problem.views}</small>
+                    </div>
+                  </div>
+                </div>
                 <ul className='flex space-x-2 my-2'>
                   {problem.tags?.map((tag) => (
                     <li key={tag}>
