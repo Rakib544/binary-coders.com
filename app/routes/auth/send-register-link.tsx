@@ -37,7 +37,7 @@ const verify = () => {
                 {transition.state}
               </div>
             ) : (
-              'Sent register link'
+              'Send register link'
             )}
           </button>
         </Form>
