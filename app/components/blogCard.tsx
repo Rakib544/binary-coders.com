@@ -13,10 +13,14 @@ export type Post = {
   html: string
   authorId: string
   views: number
-  comment: Array<[]>
+  creator: {
+    username: string
+    profilePicture: string
+    name: string
+  }
 }
 
-const BlogCard = ({ slug, title, createdAt, readTime, views }: Post) => {
+const BlogCard = ({ slug, title, createdAt, readTime, views, creator }: Post) => {
   return (
     <Link
       prefetch='intent'
@@ -24,7 +28,7 @@ const BlogCard = ({ slug, title, createdAt, readTime, views }: Post) => {
       className='bg-white py-4 px-4 rounded-xl grid grid-cols-10 my-4'
     >
       <div className='col-span-10 md:col-span-1 flex justify-between'>
-        <img src='https://i.ibb.co/JdLgZmq/user1.jpg' alt='test' className='rounded-xl h-14' />
+        <img src={creator?.profilePicture} alt={creator?.name} className='rounded-xl h-14' />
         <div className='flex space-x-2 md:hidden'>
           <div className='flex items-center space-x-1'>
             <EyeIcon />
@@ -53,8 +57,12 @@ const BlogCard = ({ slug, title, createdAt, readTime, views }: Post) => {
           </div>
         </div>
         <small className='mt-4 block text-xs'>
-          <Link to={'/user/rakib'} className='text-blue-500 font-medium'>
-            Rakib
+          <Link
+            to={`/user/${creator.username}`}
+            prefetch='intent'
+            className='text-blue-500 font-medium'
+          >
+            {creator.name}
           </Link>
           {'  '}posted <span className='font-medium'>{moment(createdAt).fromNow()}</span>
         </small>

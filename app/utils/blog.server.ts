@@ -38,10 +38,28 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
   }
 }
 
-export const getAllBlogPosts = async () => {
+export const getAllBlogPosts = async (userId: string | null) => {
+  let id
+  if (userId) {
+    id = userId
+  } else {
+    id = undefined
+  }
   const posts = await prisma.blogPosts.findMany({
+    where: {
+      authorId: id,
+    },
     orderBy: {
       createdAt: 'desc',
+    },
+    include: {
+      creator: {
+        select: {
+          username: true,
+          profilePicture: true,
+          name: true,
+        },
+      },
     },
   })
   if (posts) {

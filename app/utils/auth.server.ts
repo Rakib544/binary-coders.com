@@ -230,6 +230,7 @@ export const getUserInfoFromDB = async (id: string) => {
       email: true,
       name: true,
       bio: true,
+      username: true,
       websiteLink: true,
       githubLink: true,
       location: true,

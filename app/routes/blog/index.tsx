@@ -5,11 +5,22 @@ import { getAllBlogPosts } from '~/utils/blog.server'
 import { getUserInfo } from '~/utils/session.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url)
+
   const { userId } = await getUserInfo(request)
-  const posts = await getAllBlogPosts()
-  return {
-    ...posts,
-    userId,
+
+  if (url.search === '?query=me') {
+    const posts = await getAllBlogPosts(userId as string)
+    return {
+      ...posts,
+      userId,
+    }
+  } else {
+    const posts = await getAllBlogPosts(null)
+    return {
+      ...posts,
+      userId,
+    }
   }
 }
 
@@ -23,7 +34,11 @@ export type Post = {
   html: string
   authorId: string
   views: number
-  comment: Array<[]>
+  creator: {
+    username: string
+    profilePicture: string
+    name: string
+  }
 }
 
 const index = () => {
@@ -59,15 +74,17 @@ const index = () => {
             >
               All Blogs
             </Link>
-            <Link
-              to='/blog?query=me'
-              prefetch='intent'
-              className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-                location.search === '?query=me' ? 'ring-1 ring-blue-500 text-blue-500' : ''
-              }`}
-            >
-              My Blogs
-            </Link>
+            {loaderData.userId && (
+              <Link
+                to='/blog?query=me'
+                prefetch='intent'
+                className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+                  location.search === '?query=me' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+                }`}
+              >
+                My Blogs
+              </Link>
+            )}
           </div>
         </aside>
         <div className='col-span-10 md:col-span-7 px-4 md:px-12'>

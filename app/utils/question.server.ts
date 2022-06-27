@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import slugify from 'slugify'
 import { prisma } from './prisma.server'
 
@@ -163,9 +164,18 @@ export const addQuestionReader = async (slug: string, id: string) => {
   }
 }
 
-export const getAllQuestions = async () => {
+export const getAllQuestions = async (userId: string | null) => {
+  let id
+  if (userId) {
+    id = userId
+  } else {
+    id = undefined
+  }
   try {
     const questions = await prisma.question.findMany({
+      where: {
+        authorId: id,
+      },
       orderBy: {
         createdAt: 'desc',
       },

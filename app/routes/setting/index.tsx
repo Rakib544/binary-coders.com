@@ -43,6 +43,7 @@ export const action: LoaderFunction = async ({ request }) => {
 
 const Me = () => {
   const { username, email } = useLoaderData()
+
   const transition = useTransition()
   const actionData = useActionData()
   return (

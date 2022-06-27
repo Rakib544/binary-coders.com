@@ -5,11 +5,20 @@ import { getAllQuestions } from '~/utils/question.server'
 import { getUserInfo } from '~/utils/session.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url)
   const { userId } = await getUserInfo(request)
-  const res = await getAllQuestions()
-  return {
-    ...res,
-    userId,
+  if (url.search === '?query=me') {
+    const res = await getAllQuestions(userId as string)
+    return {
+      ...res,
+      userId,
+    }
+  } else {
+    const res = await getAllQuestions(null)
+    return {
+      ...res,
+      userId,
+    }
   }
 }
 
@@ -39,17 +48,15 @@ const Index = () => {
   //   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   // }
 
-  console.log(loaderData)
-
   const location = useLocation()
   return (
     <>
       <Link
         prefetch='intent'
-        to='/blog/create'
+        to='/question/create'
         className='inline-block md:hidden mx-8 bg-blue-500 py-3 px-12 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
       >
-        Write blog
+        Ask Question
       </Link>
 
       <div className='grid grid-cols-10 gap-4'>
@@ -71,15 +78,17 @@ const Index = () => {
             >
               All Questions
             </Link>
-            <Link
-              to='/question?query=me'
-              prefetch='intent'
-              className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-                location.search === '?query=me' ? 'ring-1 ring-blue-500 text-blue-500' : ''
-              }`}
-            >
-              My Questions
-            </Link>
+            {loaderData.userId && (
+              <Link
+                to='/question?query=me'
+                prefetch='intent'
+                className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+                  location.search === '?query=me' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+                }`}
+              >
+                My Questions
+              </Link>
+            )}
           </div>
         </aside>
         <div className='col-span-10 md:col-span-7 px-4 md:px-12'>
