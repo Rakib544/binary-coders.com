@@ -41,12 +41,26 @@ export const createProblem = async (
   }
 }
 
-export const getAllProblems = async () => {
+export const getAllProblems = async (tag: string) => {
   try {
-    const problems = await prisma.problem.findMany()
-    return {
-      status: 200,
-      problems,
+    if (tag) {
+      const problems = await prisma.problem.findMany({
+        where: {
+          tags: {
+            has: tag,
+          },
+        },
+      })
+      return {
+        status: 200,
+        problems,
+      }
+    } else {
+      const problems = await prisma.problem.findMany()
+      return {
+        status: 200,
+        problems,
+      }
     }
   } catch (error) {
     return {

@@ -83,6 +83,7 @@ model Problem {
   description String
   tags String[]
   authorId String
+  views Int?
 }
 
 model Answers {

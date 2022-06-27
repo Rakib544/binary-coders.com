@@ -44,9 +44,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 const options = [
-  { value: 'javascript', label: 'Javascript' },
-  { value: 'react', label: 'React' },
-  { value: 'remix.run', label: 'Remix.run' },
+  { value: 'variable', label: 'Variable' },
+  { value: 'condition', label: 'Condition' },
+  { value: 'array', label: 'Array' },
+  { value: 'loop', label: 'Loop' },
+  { value: 'function', label: 'Function' },
 ]
 
 const create = () => {

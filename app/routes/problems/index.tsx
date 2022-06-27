@@ -1,12 +1,14 @@
 import { LoaderFunction } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { Link, useLoaderData, useLocation } from '@remix-run/react'
+// import { useReducedMotion } from 'framer-motion'
 import { getAllProblems } from '~/utils/problems.server'
 import { getUserInfo } from '~/utils/session.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
   const { role } = await getUserInfo(request)
-  const res = await getAllProblems()
+  const url = new URL(request.url)
+  const tag = url.search.split('=')[1]
+  const res = await getAllProblems(tag as string)
   return {
     ...res,
     role,
@@ -26,44 +28,88 @@ type Problem = {
 
 const Index = () => {
   const loaderData = useLoaderData()
-  const shouldReduceMotion = useReducedMotion()
+  // const shouldReduceMotion = useReducedMotion()
 
-  const childVariants = {
-    initial: { opacity: 0, y: shouldReduceMotion ? 0 : 25 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  }
+  // const childVariants = {
+  //   initial: { opacity: 0, y: shouldReduceMotion ? 0 : 25 },
+  //   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  // }
+
+  const location = useLocation()
 
   return (
-    <motion.div
-      className='px-4 md:px-20 lg:px-60 py-20'
-      initial='initial'
-      animate='visible'
-      variants={{
-        initial: { opacity: 0 },
-        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
-      }}
-    >
-      <motion.div
-        variants={childVariants}
-        className='flex justify-between py-4 border-b border-gray-100 items-center'
-      >
-        <h2 className='text-xl md:text-3xl'>All Problems</h2>
-        {loaderData?.role === 'admin' && (
+    <div className='grid grid-cols-10 gap-4'>
+      <aside className='col-span-10 hidden md:col-span-3 md:flex justify-center'>
+        <div className='w-full px-16 my-10'>
+          {loaderData?.role === 'admin' && (
+            <Link
+              prefetch='intent'
+              to='/problems/create'
+              className='block bg-blue-500 py-3 px-4 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
+            >
+              Set Problems
+            </Link>
+          )}
+
           <Link
-            to='/problems/create'
-            className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
+            to='/problems'
+            prefetch='intent'
+            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+              location.search === '' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+            }`}
           >
-            Set Problem
+            All
           </Link>
-        )}
-      </motion.div>
-      <motion.ul variants={childVariants}>
+          <Link
+            to='/problems?query=variable'
+            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+              location.search === '?query=variable' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+            }`}
+          >
+            Variable
+          </Link>
+          <Link
+            to='/problems?query=condition'
+            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+              location.search === '?query=condition' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+            }`}
+          >
+            Condition
+          </Link>
+          <Link
+            to='/problems?query=array'
+            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+              location.search === '?query=array' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+            }`}
+          >
+            Array
+          </Link>
+          <Link
+            to='/problems?query=loop'
+            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+              location.search === '?query=loop' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+            }`}
+          >
+            Loop
+          </Link>
+          <Link
+            to='/problems?query=function'
+            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+              location.search === '?query=function' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+            }`}
+          >
+            Function
+          </Link>
+        </div>
+      </aside>
+      <ul className='col-span-10 md:col-span-7 px-4 md:px-12 my-16'>
         {loaderData?.problems?.map((problem: Problem) => (
           <li key={problem.slug}>
             <Link
+              prefetch='intent'
               to={`/problems/${problem.slug}`}
               // variants={childVariants}
-              className='block my-2 shadow-sm border transition duration-300 border-gray-100 p-4 rounded-md bg-white hover:bg-gray-50 shadow-slate-200/10 hover:shadow-md'
+              className='block my-2 border border-gray-100 p-4 bg-white rounded-xl transition duration-300 hover:border-blue-500'
             >
               <div>
                 <h2 className='text-lg font-medium'>{problem.title}</h2>
@@ -86,8 +132,8 @@ const Index = () => {
             </Link>
           </li>
         ))}
-      </motion.ul>
-    </motion.div>
+      </ul>
+    </div>
   )
 }
 
