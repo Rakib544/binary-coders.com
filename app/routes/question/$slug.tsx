@@ -14,6 +14,7 @@ import moment from 'moment'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
 import { ClientOnly } from 'remix-utils'
+import { BackButton } from '~/components/button'
 import EyeIcon from '~/components/icons/eye'
 import { Spinner } from '~/components/icons/spinner'
 import MenuDropDown from '~/components/menu-dropdown'
@@ -123,6 +124,7 @@ const SingleQuestion = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      <BackButton to='/question' />
       <div className='my-6 border-b border-gray-200 py-4'>
         <div className='flex justify-end items-center' title='See viewers'>
           <Form method='post'>

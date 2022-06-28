@@ -11,6 +11,7 @@ import ViewersModal from '~/components/viewers-modal'
 import { addBlogReader, getBlogViewers, getSingleBlog } from '~/utils/blog.server'
 
 import modalStyles from '@reach/dialog/styles.css'
+import { BackButton } from '~/components/button'
 import MenuDropDown from '~/components/menu-dropdown'
 import { getUserId, getUserInfo } from '~/utils/session.server'
 
@@ -85,6 +86,7 @@ const SingleBlog = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      <BackButton to='/blog' />
       <div className='my-10'>
         <div className='flex justify-end items-center space-x-4'>
           <div className='flex items-center space-x-1 cursor-pointer' title='See viewers'>
