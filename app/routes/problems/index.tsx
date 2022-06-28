@@ -1,6 +1,7 @@
 import { LoaderFunction } from '@remix-run/node'
 import { Link, useLoaderData, useLocation } from '@remix-run/react'
 import EyeIcon from '~/components/icons/eye'
+import SelectBox from '~/components/select'
 import { H6 } from '~/components/typography'
 // import { useReducedMotion } from 'framer-motion'
 import { getAllProblems } from '~/utils/problems.server'
@@ -28,6 +29,39 @@ type Problem = {
   updatedAt: string
   views: number
 }
+
+const options = [
+  {
+    id: 1,
+    name: 'All Problems',
+    url: '/problems',
+  },
+  {
+    id: 2,
+    name: 'Variable',
+    url: '/problems?query=variable',
+  },
+  {
+    id: 3,
+    name: 'Condition',
+    url: '/problems?query=condition',
+  },
+  {
+    id: 4,
+    name: 'Array',
+    url: '/problems?query=array',
+  },
+  {
+    id: 5,
+    name: 'Loop',
+    url: '/problems?query=loop',
+  },
+  {
+    id: 6,
+    name: 'Function',
+    url: '/problems?query=function',
+  },
+]
 
 const Index = () => {
   const loaderData = useLoaderData()
@@ -111,6 +145,9 @@ const Index = () => {
         </div>
       </aside>
       <ul className='col-span-10 md:col-span-7 px-4 md:px-12 my-16'>
+        <div>
+          <SelectBox options={options} />
+        </div>
         {loaderData?.problems?.map((problem: Problem) => (
           <li key={problem.slug}>
             <Link

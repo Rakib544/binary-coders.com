@@ -1,6 +1,7 @@
 import type { LoaderFunction } from '@remix-run/node'
 import { Link, useLoaderData, useLocation } from '@remix-run/react'
 import BlogCard from '~/components/blogCard'
+import SelectBox from '~/components/select'
 import { getAllBlogPosts } from '~/utils/blog.server'
 import { getUserInfo } from '~/utils/session.server'
 
@@ -40,6 +41,19 @@ export type Post = {
     name: string
   }
 }
+
+const options = [
+  {
+    id: 1,
+    name: 'All Blogs',
+    url: '/blog',
+  },
+  {
+    id: 2,
+    name: 'My Blogs',
+    url: '/blog?query=me',
+  },
+]
 
 const index = () => {
   const location = useLocation()
@@ -110,6 +124,9 @@ const index = () => {
               />
             </label>
           </div> */}
+          <div>
+            <SelectBox options={options} />
+          </div>
           <div className='my-10'>
             {loaderData?.posts.map((post: Post) => (
               <BlogCard key={post.slug} {...post} />

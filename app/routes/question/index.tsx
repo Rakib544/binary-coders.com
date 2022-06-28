@@ -1,6 +1,7 @@
 import { LoaderFunction } from '@remix-run/node'
 import { Link, useLoaderData, useLocation } from '@remix-run/react'
 import QuestionCard from '~/components/question-card'
+import SelectBox from '~/components/select'
 import { getAllQuestions } from '~/utils/question.server'
 import { getUserInfo } from '~/utils/session.server'
 
@@ -38,6 +39,19 @@ type Question = {
     name: string
   }
 }
+
+const options = [
+  {
+    id: 1,
+    name: 'All Questions',
+    url: '/question',
+  },
+  {
+    id: 2,
+    name: 'My Questions',
+    url: '/question?query=me',
+  },
+]
 
 const Index = () => {
   const loaderData = useLoaderData()
@@ -114,6 +128,9 @@ const Index = () => {
               />
             </label>
           </div> */}
+          <div>
+            <SelectBox options={options} />
+          </div>
           <div className='my-10'>
             {loaderData?.questions?.map((post: Question) => (
               <QuestionCard key={post.slug} {...post} />
