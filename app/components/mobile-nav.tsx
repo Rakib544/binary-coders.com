@@ -80,6 +80,7 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
           {mobileNavLinks.map((link) => (
             <div key={link.title} className=' px-4 py-4'>
               <Link
+                prefetch='intent'
                 to={link.href}
                 className={'text-lg font-medium tracking-widest text-gray-900'}
                 onClick={onToggleNav}
@@ -90,6 +91,7 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
           ))}
           {!username ? (
             <Link
+              prefetch='intent'
               to='/auth/login'
               className='mt-4 inline-block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'
             >

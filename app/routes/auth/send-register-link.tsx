@@ -1,11 +1,12 @@
 import { ActionFunction, LinksFunction } from '@remix-run/node'
-import { Form, useActionData, useTransition } from '@remix-run/react'
+import { Form, Link, useActionData, useTransition } from '@remix-run/react'
+import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
-import SuccessModal from '~/components/success-modal'
 import { sendRegisterAccountLink } from '~/utils/auth.server'
 
 import modalStyles from '@reach/dialog/styles.css'
+import SuccessModal from '~/components/success-modal'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: modalStyles }]
@@ -18,12 +19,33 @@ export const action: ActionFunction = async ({ request }) => {
   return { ...res }
 }
 
-const verify = () => {
+const registerLink = () => {
   const actionData = useActionData()
   const transition = useTransition()
+
+  const [showDialog, setShowDialog] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    if (actionData?.status === 200) {
+      setShowDialog(true)
+    }
+  }, [actionData])
+
   return (
-    <div className='flex justify-center items-center h-screen'>
-      <div className='w-full p-4 md:w-1/2 mx-auto'>
+    <div className='grid grid-cols-2 items-center gap-12 h-screen'>
+      <div className='hidden lg:block md:col-span-1'>
+        <img src='/images/login.png' alt='register' className='p-20' />
+      </div>
+      <div className='col-span-2 lg:col-span-1 p-4 md:p-20'>
+        <h1 className='text-3xl font-bold text-center md:text-left'>Let&apos;s Get Started!</h1>
+        <p className='mb-4 text-center md:text-left'>
+          Create an account to Binary Coders to get all features
+        </p>
+        {actionData?.status === 500 && (
+          <div role='alert'>
+            <p className='text-red-500'>{actionData?.message}</p>
+          </div>
+        )}
         <Form method='post'>
           <Label htmlFor='email'>Enter Email</Label>
           <Input type='email' name='email' placeholder='Enter email' />
@@ -41,10 +63,24 @@ const verify = () => {
             )}
           </button>
         </Form>
+        <div>
+          <p className='text-sm font-medium pt-8 text-center'>
+            Already Registered?{' '}
+            <Link prefetch='intent' className='text-blue-600' to='/auth/login'>
+              Login Here
+            </Link>
+          </p>
+        </div>
       </div>
-      {actionData?.status === 200 && <SuccessModal email={actionData?.email} />}
+      {actionData?.status === 200 && (
+        <SuccessModal
+          email={actionData?.email}
+          showDialog={showDialog}
+          setShowDialog={setShowDialog}
+        />
+      )}
     </div>
   )
 }
 
-export default verify
+export default registerLink

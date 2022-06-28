@@ -141,12 +141,13 @@ const Register = () => {
           </Paragraph>
           <Paragraph>
             Back to the{' '}
-            <Link to='/auth/send-registration-link' className='text-blue-500'>
+            <Link prefetch='intent' to='/auth/send-registration-link' className='text-blue-500'>
               Send Registration Link
             </Link>{' '}
             to send registration link via Email and then complete your registration.
           </Paragraph>
           <Link
+            prefetch='intent'
             to='/auth/send-register-link'
             className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-8 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
           >
@@ -316,16 +317,13 @@ const Register = () => {
           <div>
             <p className='text-sm font-medium pt-8 text-center'>
               Already Registered?{' '}
-              <Link className='text-blue-600' to='/auth/login'>
+              <Link prefetch='intent' className='text-blue-600' to='/auth/login'>
                 Login Here
               </Link>
             </p>
           </div>
         </Form>
       </motion.div>
-      {/* <SuccessModal
-        email={actionData?.status === 201 && actionData?.email ? actionData?.email : ''}
-      /> */}
     </motion.div>
   )
 }

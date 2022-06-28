@@ -36,6 +36,7 @@ export default function MenuDropDown({ url }: Props) {
             <Menu.Item>
               {({ active }) => (
                 <Link
+                  prefetch='intent'
                   to={url}
                   className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',

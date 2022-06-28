@@ -49,7 +49,7 @@ const Navbar = ({
       {!isNavbarHide ? (
         <div className='flex justify-between items-center py-4 px-2 md:px-10'>
           <div className='flex items-center justify-between w-full'>
-            <Link to='/'>
+            <Link prefetch='intent' to='/'>
               <img
                 src='https://i.ibb.co/KX9YN7Z/logo-01.png'
                 alt='logo'

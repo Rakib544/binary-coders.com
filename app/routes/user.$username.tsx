@@ -25,7 +25,7 @@ const publicProfile = () => {
       <div>
         <H5>Recent blogs</H5>
         {blogs?.map((blog) => (
-          <Link key={blog.id} to={`/blog/${blog.slug}`}>
+          <Link prefetch='intent' key={blog.id} to={`/blog/${blog.slug}`}>
             <Paragraph className='font-medium'>{blog.title}</Paragraph>
           </Link>
         ))}
@@ -33,7 +33,7 @@ const publicProfile = () => {
       <div>
         <H5>Recent Asked Question</H5>
         {questions?.map((question) => (
-          <Link key={question.id} to={`/blog/${question.slug}`}>
+          <Link prefetch='intent' key={question.id} to={`/blog/${question.slug}`}>
             <Paragraph className='font-medium'>{question.title}</Paragraph>
           </Link>
         ))}

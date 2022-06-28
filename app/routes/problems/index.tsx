@@ -64,6 +64,7 @@ const Index = () => {
             All
           </Link>
           <Link
+            prefetch='intent'
             to='/problems?query=variable'
             className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
               location.search === '?query=variable' ? 'ring-1 ring-blue-500 text-blue-500' : ''
@@ -72,6 +73,7 @@ const Index = () => {
             Variable
           </Link>
           <Link
+            prefetch='intent'
             to='/problems?query=condition'
             className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
               location.search === '?query=condition' ? 'ring-1 ring-blue-500 text-blue-500' : ''
@@ -80,6 +82,7 @@ const Index = () => {
             Condition
           </Link>
           <Link
+            prefetch='intent'
             to='/problems?query=array'
             className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
               location.search === '?query=array' ? 'ring-1 ring-blue-500 text-blue-500' : ''
@@ -88,6 +91,7 @@ const Index = () => {
             Array
           </Link>
           <Link
+            prefetch='intent'
             to='/problems?query=loop'
             className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
               location.search === '?query=loop' ? 'ring-1 ring-blue-500 text-blue-500' : ''
@@ -96,6 +100,7 @@ const Index = () => {
             Loop
           </Link>
           <Link
+            prefetch='intent'
             to='/problems?query=function'
             className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
               location.search === '?query=function' ? 'ring-1 ring-blue-500 text-blue-500' : ''
@@ -136,6 +141,7 @@ const Index = () => {
                   ))}
                 </ul>
                 <Link
+                  prefetch='intent'
                   to={`/problems/${problem.slug}`}
                   className='text-sm text-sky-500 font-medium my-1 inline-block'
                 >

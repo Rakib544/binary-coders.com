@@ -38,6 +38,7 @@ const Heading = () => {
               className='buttons mt-6 md:flex items-center space-x-4'
             >
               <Link
+                prefetch='intent'
                 to='/blog'
                 className='px-8 sm:px-12 py-2 sm:py-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block'
               >
@@ -45,17 +46,12 @@ const Heading = () => {
               </Link>
 
               <Link
+                prefetch='intent'
                 to='/problems'
                 className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block'
               >
                 Solve Problems
               </Link>
-              {/* <Link
-                to='/problems'
-                className='mt-4 px-8 sm:px-12 py-3 border-2  border-blue-600 text-black hover:bg-blue-600 transition duration-300 hover:text-white rounded-full inline-block'
-              >
-                Solve Problems
-              </Link> */}
             </motion.div>
           </motion.div>
         </div>

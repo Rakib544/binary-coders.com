@@ -12,6 +12,7 @@ const Profile = () => {
         <aside className='col-span-2 py-10 px-4 border-r border-slate-300 flex justify-center'>
           <div className='w-full'>
             <Link
+              prefetch='intent'
               to='/setting'
               className={`block px-4 py-3 bg-gray-200 font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
                 location.pathname === '/setting' ? 'ring-1 ring-blue-500 text-blue-500' : ''
@@ -20,6 +21,7 @@ const Profile = () => {
               Account
             </Link>
             <Link
+              prefetch='intent'
               to='profile'
               className={`block px-4 py-3 bg-gray-200 font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
                 location.pathname === '/setting/profile' ? 'ring-1 ring-blue-500 text-blue-500' : ''
@@ -28,6 +30,7 @@ const Profile = () => {
               Profile
             </Link>
             <Link
+              prefetch='intent'
               to='password'
               className={`block px-4 py-3 bg-gray-200 font-medium text-sm my-2 rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
                 location.pathname === '/setting/password'

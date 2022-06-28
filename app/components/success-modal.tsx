@@ -4,18 +4,13 @@ import * as React from 'react'
 
 interface ModalProps {
   email: string
+  showDialog: boolean
+  setShowDialog: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SuccessModal = ({ email = '' }: ModalProps): JSX.Element => {
-  const [showDialog, setShowDialog] = React.useState(false)
+const SuccessModal = ({ email, showDialog, setShowDialog }: ModalProps): JSX.Element => {
   const close = () => setShowDialog(false)
-  React.useEffect(() => {
-    if (email.length > 0) {
-      setShowDialog(true)
-    } else {
-      setShowDialog(false)
-    }
-  }, [email.length])
+
   return (
     <div>
       <Dialog isOpen={showDialog} onDismiss={close} className='w-full'>

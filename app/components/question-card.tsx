@@ -55,7 +55,11 @@ const QuestionCard = ({ slug, title, createdAt, views, comments, creator }: Post
           </div>
         </div>
         <small className='mt-4 block text-xs'>
-          <Link to={`/user/${creator.username}`} className='text-blue-500 font-medium'>
+          <Link
+            prefetch='intent'
+            to={`/user/${creator.username}`}
+            className='text-blue-500 font-medium'
+          >
             {creator.name}
           </Link>
           {'  '}posted <span className='font-medium'>{moment(createdAt).fromNow()}</span>

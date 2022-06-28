@@ -157,7 +157,11 @@ const Login = () => {
                 : ''}
             </span>
           </div>
-          <Link className='text-blue-600 underline text-right block' to='/auth/reset'>
+          <Link
+            prefetch='intent'
+            className='text-blue-600 underline text-right block'
+            to='/auth/reset'
+          >
             Reset Password
           </Link>
           <div className='mb-2 flex justify-center'>
@@ -178,7 +182,7 @@ const Login = () => {
           <div>
             <p className='text-sm font-medium pt-8 text-center'>
               Not Registered yet?{' '}
-              <Link className='text-blue-600' to='/auth/send-register-link'>
+              <Link prefetch='intent' className='text-blue-600' to='/auth/send-register-link'>
                 Create An Account
               </Link>
             </p>

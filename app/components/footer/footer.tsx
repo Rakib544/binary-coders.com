@@ -56,17 +56,17 @@ const Footer = () => {
           </h2>
           <ul className='space-y-3'>
             <li>
-              <Link className='hover:border-b-2' to='/blog'>
+              <Link prefetch='intent' className='hover:border-b-2' to='/blog'>
                 Know more about us
               </Link>
             </li>
             <li>
-              <Link className='hover:border-b-2' to='/blog'>
+              <Link prefetch='intent' className='hover:border-b-2' to='/blog'>
                 Blog
               </Link>
             </li>
             <li>
-              <Link className='hover:border-b-2' to='/blog'>
+              <Link prefetch='intent' className='hover:border-b-2' to='/blog'>
                 Create forms
               </Link>
             </li>
