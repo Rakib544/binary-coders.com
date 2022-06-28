@@ -62,13 +62,15 @@ const Index = () => {
       <div className='grid grid-cols-10 gap-4'>
         <aside className='col-span-10 hidden md:col-span-3 md:flex justify-center'>
           <div className='w-full px-16 my-10'>
-            <Link
-              prefetch='intent'
-              to='/question/create'
-              className='block bg-blue-500 py-3 px-4 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
-            >
-              Ask question
-            </Link>
+            {loaderData?.userId && (
+              <Link
+                prefetch='intent'
+                to='/question/create'
+                className='block bg-blue-500 py-3 px-4 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
+              >
+                Ask question
+              </Link>
+            )}
             <Link
               to='/question'
               prefetch='intent'

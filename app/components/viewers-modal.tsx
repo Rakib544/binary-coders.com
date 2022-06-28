@@ -21,10 +21,12 @@ interface ModalProps {
 interface Props {
   viewers: ModalProps[]
   pageName: string
+  showDialog: boolean
+  setShowDialog: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ViewersModal = ({ viewers, pageName }: Props): JSX.Element => {
-  const [showDialog, setShowDialog] = React.useState(true)
+const ViewersModal = ({ viewers, pageName, showDialog, setShowDialog }: Props): JSX.Element => {
+  // const [showDialog, setShowDialog] = React.useState(true)
   const close = () => setShowDialog(false)
 
   return (
@@ -42,7 +44,7 @@ const ViewersModal = ({ viewers, pageName }: Props): JSX.Element => {
               prefetch='intent'
               to={`/user/${viewer.viewer.username}`}
               key={viewer.viewer.username}
-              className='my-4 w-full'
+              className='my-4 w-full block'
             >
               <div className='flex items-center space-x-2'>
                 <img

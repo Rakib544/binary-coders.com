@@ -94,6 +94,7 @@ const SingleQuestion = () => {
   const { question, env, answers } = useLoaderData()
   const [html, setHtml] = React.useState<string>()
   const [shouldQuillEmpty, setShouldQuillEmpty] = React.useState<boolean>(false)
+  const [showDialog, setShowDialog] = React.useState(true)
   const transition = useTransition()
   const actionData = useActionData()
 
@@ -128,6 +129,7 @@ const SingleQuestion = () => {
               name='action'
               value='getBlogViewers'
               className='flex items-center space-x-1 cursor-pointer'
+              onClick={() => setShowDialog(true)}
             >
               <EyeIcon />{' '}
               <small className='text-xs text-slate-500 font-medium'>{question.views}</small>
@@ -246,7 +248,14 @@ const SingleQuestion = () => {
           )}
         </ClientOnly>
       </div>
-      {actionData?.viewers && <ViewersModal viewers={actionData?.viewers} pageName='question' />}
+      {actionData?.viewers && (
+        <ViewersModal
+          showDialog={showDialog}
+          setShowDialog={setShowDialog}
+          viewers={actionData?.viewers}
+          pageName='question'
+        />
+      )}
     </motion.div>
   )
 }

@@ -54,6 +54,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 const SingleBlog = () => {
   const actionData = useActionData()
   const loaderData = useLoaderData()
+
+  const [showDialog, setShowDialog] = React.useState<boolean>(false)
+
   if (loaderData.status === 404) {
     return <div>{loaderData.message}</div>
   }
@@ -84,7 +87,11 @@ const SingleBlog = () => {
         <div className='flex justify-end items-center space-x-4'>
           <div className='flex items-center space-x-1 cursor-pointer' title='See viewers'>
             <Form method='post'>
-              <button type='submit' className='flex items-center space-x-1 cursor-pointer'>
+              <button
+                type='submit'
+                className='flex items-center space-x-1 cursor-pointer'
+                onClick={() => setShowDialog(true)}
+              >
                 <EyeIcon />{' '}
                 <small className='text-xs text-slate-500 font-medium'>{blog.views}</small>
               </button>
@@ -120,7 +127,14 @@ const SingleBlog = () => {
         dangerouslySetInnerHTML={{ __html: blog.html }}
         className='prose prose-slate lg:prose-lg max-w-none mb-24 prose-a:text-blue-600'
       ></div>
-      {actionData?.viewers && <ViewersModal viewers={actionData?.viewers} pageName='blog' />}
+      {actionData?.viewers && (
+        <ViewersModal
+          showDialog={showDialog}
+          setShowDialog={setShowDialog}
+          viewers={actionData?.viewers}
+          pageName='blog'
+        />
+      )}
     </motion.div>
   )
 }

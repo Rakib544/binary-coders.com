@@ -51,6 +51,8 @@ const SingleQuestion = () => {
   const { problem } = useLoaderData()
   const actionData = useActionData()
 
+  const [showDialog, setShowDialog] = React.useState<boolean>(false)
+
   const fetcher = useFetcher()
 
   React.useEffect(() => {
@@ -80,6 +82,7 @@ const SingleQuestion = () => {
                 name='action'
                 value='getBlogViewers'
                 className='flex items-center space-x-1 cursor-pointer'
+                onClick={() => setShowDialog(true)}
               >
                 <EyeIcon />{' '}
                 <small className='text-xs text-slate-500 font-medium'>{problem.views}</small>
@@ -105,7 +108,14 @@ const SingleQuestion = () => {
           // hideNew={true as boolean}
         ></iframe>
       </div>
-      {actionData?.viewers && <ViewersModal viewers={actionData?.viewers} pageName='problem' />}
+      {actionData?.viewers && (
+        <ViewersModal
+          showDialog={showDialog}
+          setShowDialog={setShowDialog}
+          viewers={actionData?.viewers}
+          pageName='problem'
+        />
+      )}
     </motion.div>
   )
 }
