@@ -107,7 +107,7 @@ const SingleBlog = () => {
           </div>
           {blog.authorId === loaderData?.userId && <MenuDropDown url={`/blog/edit/${blog.slug}`} />}
         </div>
-        <h1 className='text-2xl md:text-4xl font-extrabold text-slate-800'>{blog.title}</h1>
+        <h1 className='text-2xl md:text-4xl font-extrabold text-slate-700 my-2'>{blog.title}</h1>
         <div className='flex items-center text-sky-600 text-md mt-2 space-x-2'>
           <img
             className='rounded-xl object-center h-14 w-12 object-cover'

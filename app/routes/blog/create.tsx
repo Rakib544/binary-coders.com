@@ -51,7 +51,7 @@ const CreateBlogPost = () => {
   const { env } = useLoaderData()
 
   return (
-    <div className='px-20 my-10'>
+    <div className='px-4 md:px-20 my-10'>
       <ClientOnly fallback={<div style={{ width: 500, height: 300 }}></div>}>
         {() => (
           <Form method='post'>
@@ -63,7 +63,7 @@ const CreateBlogPost = () => {
               onChange={() => console.log('hello')}
               className='hidden'
             />
-            <Quill setHtml={setHtml} defaultValue={'<p>Hello world</p>'} env={env} />
+            <Quill setHtml={setHtml} defaultValue={'<p></p>'} env={env} />
             <button
               type='submit'
               className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'

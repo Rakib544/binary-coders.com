@@ -26,7 +26,11 @@ const QuestionCard = ({ slug, title, createdAt, views, comments, creator }: Post
       className='bg-white py-4 px-4 rounded-xl grid grid-cols-10 my-4'
     >
       <div className='col-span-10 md:col-span-1 flex justify-between'>
-        <img src={creator.profilePicture} alt={creator.name} className='rounded-xl h-14' />
+        <img
+          src={creator.profilePicture}
+          alt={creator.name}
+          className='rounded-xl h-14 w-14 object-cover'
+        />
         <div className='flex space-x-2 md:hidden'>
           <div className='flex items-center space-x-1'>
             <EyeIcon />

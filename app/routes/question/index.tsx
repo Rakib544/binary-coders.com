@@ -54,7 +54,7 @@ const Index = () => {
       <Link
         prefetch='intent'
         to='/question/create'
-        className='inline-block md:hidden mx-8 bg-blue-500 py-3 px-12 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
+        className='inline-block md:hidden mx-2 bg-blue-500 py-3 px-12 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
       >
         Ask Question
       </Link>
@@ -94,7 +94,7 @@ const Index = () => {
           </div>
         </aside>
         <div className='col-span-10 md:col-span-7 px-4 md:px-12'>
-          <div className='flex justify-end'>
+          {/* <div className='flex justify-end'>
             <label className='relative block'>
               <span className='sr-only'>Search</span>
               <span className='absolute inset-y-0 left-0 flex items-center pl-2'>
@@ -113,7 +113,7 @@ const Index = () => {
                 name='search'
               />
             </label>
-          </div>
+          </div> */}
           <div className='my-10'>
             {loaderData?.questions?.map((post: Question) => (
               <QuestionCard key={post.slug} {...post} />

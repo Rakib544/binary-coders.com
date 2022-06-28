@@ -53,7 +53,7 @@ const create = () => {
   const [selectedOption, setSelectedOption] = React.useState(null)
 
   return (
-    <div className='px-20 my-10'>
+    <div className='px-4 md:px-20 my-10'>
       <ClientOnly fallback={<div style={{ width: 500, height: 300 }}></div>}>
         {() => (
           <Form method='post'>
@@ -65,7 +65,7 @@ const create = () => {
               onChange={() => console.log('hello')}
               className='hidden'
             />
-            <Quill setHtml={setHtml} defaultValue={'<p>Hello world</p>'} env={env} />
+            <Quill setHtml={setHtml} defaultValue={'<p></p>'} env={env} />
             <div className='my-4 md:w-1/2'>
               <Label htmlFor='select'>Add tags</Label>
               <input

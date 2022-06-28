@@ -143,7 +143,9 @@ const SingleQuestion = () => {
             <MenuDropDown url={`/question/edit/${question.slug}`} />
           )}
         </div>
-        <h1 className='text-4xl font-semibold'>{question.title}</h1>
+        <h1 className='text-2xl md:text-4xl font-extrabold text-slate-700 my-2'>
+          {question.title}
+        </h1>
         <div className='flex space-x-2 mt-2 items-center'>
           <img
             src={question.creator.profilePicture}
@@ -226,7 +228,7 @@ const SingleQuestion = () => {
           {() => (
             <Form method='post'>
               <Quill
-                defaultValue={'<p>Hello world</p>'}
+                defaultValue={'<p></p>'}
                 setHtml={setHtml}
                 env={env}
                 shouldQuillEmpty={shouldQuillEmpty}
@@ -240,7 +242,7 @@ const SingleQuestion = () => {
               />
               <button
                 type='submit'
-                className='py-4 px-16 rounded-full bg-blue-500 text-white my-10'
+                className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-8 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
               >
                 {transition.submission ? (
                   <div className='flex justify-center items-center'>

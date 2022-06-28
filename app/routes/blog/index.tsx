@@ -50,7 +50,7 @@ const index = () => {
       <Link
         prefetch='intent'
         to='/blog/create'
-        className='inline-block md:hidden mx-8 bg-blue-500 py-3 px-12 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
+        className='inline-block md:hidden mx-2 bg-blue-500 py-3 px-12 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
       >
         Write blog
       </Link>
@@ -90,7 +90,7 @@ const index = () => {
           </div>
         </aside>
         <div className='col-span-10 md:col-span-7 px-4 md:px-12'>
-          <div className='flex justify-end'>
+          {/* <div className='flex justify-end'>
             <label className='relative block'>
               <span className='sr-only'>Search</span>
               <span className='absolute inset-y-0 left-0 flex items-center pl-2'>
@@ -109,7 +109,7 @@ const index = () => {
                 name='search'
               />
             </label>
-          </div>
+          </div> */}
           <div className='my-10'>
             {loaderData?.posts.map((post: Post) => (
               <BlogCard key={post.slug} {...post} />
