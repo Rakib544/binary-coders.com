@@ -7,9 +7,10 @@ import moment from 'moment'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
 import EyeIcon from '~/components/icons/eye'
+import MenuDropDown from '~/components/menu-dropdown'
 import ViewersModal from '~/components/viewers-modal'
 import { addProblemReader, getProblemViewers, getSingleProblem } from '~/utils/problems.server'
-import { getUserId } from '~/utils/session.server'
+import { getUserId, getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [
@@ -19,10 +20,18 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const userId = await getUserId(request)
+
+  if (!userId) {
+    return redirect('/auth/login')
+  }
+
+  const { role } = await getUserInfo(request)
   const res = await getSingleProblem(params.slug as string)
   return {
     ...res,
+    role,
   }
 }
 
@@ -48,7 +57,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 }
 
 const SingleQuestion = () => {
-  const { problem } = useLoaderData()
+  const { problem, role } = useLoaderData()
   const actionData = useActionData()
 
   const [showDialog, setShowDialog] = React.useState<boolean>(false)
@@ -88,6 +97,7 @@ const SingleQuestion = () => {
                 <small className='text-xs text-slate-500 font-medium'>{problem.views}</small>
               </button>
             </Form>
+            {role === 'admin' && <MenuDropDown url={`/problems/edit/${problem?.slug}`} />}
           </div>
           <h1 className='text-4xl font-bold'>{problem?.title}</h1>
           <small className='font-medium text-slate-500'>
