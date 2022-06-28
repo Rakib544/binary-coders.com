@@ -8,6 +8,7 @@ import {
 } from '@remix-run/node'
 import { Form, useActionData, useTransition } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
+import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import SuccessModal from '~/components/success-modal'
@@ -58,6 +59,14 @@ const Reset = () => {
   const transition = useTransition()
 
   const shouldReducedMotion = useReducedMotion()
+
+  const [showDialog, setShowDialog] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    if (actionData?.status === 200) {
+      setShowDialog(true)
+    }
+  }, [actionData])
 
   const childVariants = {
     initial: { opacity: 0, y: shouldReducedMotion ? 0 : 25 },
@@ -126,7 +135,13 @@ const Reset = () => {
           </div>
         </Form>
       </motion.div>
-      <SuccessModal email={actionData?.email} />
+      {actionData?.status === 200 && (
+        <SuccessModal
+          email={actionData?.email}
+          showDialog={showDialog}
+          setShowDialog={setShowDialog}
+        />
+      )}
     </motion.div>
   )
 }
