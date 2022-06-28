@@ -151,7 +151,7 @@ const Register = () => {
             to='/auth/send-register-link'
             className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-8 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
           >
-            Back to send regoster page
+            Back to send register page
           </Link>
         </div>
       </div>
