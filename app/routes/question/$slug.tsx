@@ -1,5 +1,5 @@
 import modalStyles from '@reach/dialog/styles.css'
-import { json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import {
   Form,
   Link,
@@ -16,6 +16,7 @@ import * as React from 'react'
 import { ClientOnly } from 'remix-utils'
 import EyeIcon from '~/components/icons/eye'
 import { Spinner } from '~/components/icons/spinner'
+import MenuDropDown from '~/components/menu-dropdown'
 import Quill from '~/components/quill.client'
 import ViewersModal from '~/components/viewers-modal'
 import {
@@ -44,10 +45,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   return {
     ...res,
     env: process.env.IMAGE_BB_KEY,
+    userId: userId,
   }
 }
 
-export const action: LoaderFunction = async ({ request, params }) => {
+export const action: ActionFunction = async ({ request, params }) => {
   const userId = await getUserId(request)
 
   if (!userId) {
@@ -91,7 +93,7 @@ type Answer = {
 }
 
 const SingleQuestion = () => {
-  const { question, env, answers } = useLoaderData()
+  const { question, env, answers, userId } = useLoaderData()
   const [html, setHtml] = React.useState<string>()
   const [shouldQuillEmpty, setShouldQuillEmpty] = React.useState<boolean>(false)
   const [showDialog, setShowDialog] = React.useState(true)
@@ -122,7 +124,7 @@ const SingleQuestion = () => {
       transition={{ duration: 0.5 }}
     >
       <div className='my-6 border-b border-gray-200 py-4'>
-        <div className='flex justify-end' title='See viewers'>
+        <div className='flex justify-end items-center' title='See viewers'>
           <Form method='post'>
             <button
               type='submit'
@@ -135,6 +137,9 @@ const SingleQuestion = () => {
               <small className='text-xs text-slate-500 font-medium'>{question.views}</small>
             </button>
           </Form>
+          {question?.authorId === userId && (
+            <MenuDropDown url={`/question/edit/${question.slug}`} />
+          )}
         </div>
         <h1 className='text-4xl font-semibold'>{question.title}</h1>
         <div className='flex space-x-2 mt-2 items-center'>

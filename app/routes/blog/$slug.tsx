@@ -11,6 +11,7 @@ import ViewersModal from '~/components/viewers-modal'
 import { addBlogReader, getBlogViewers, getSingleBlog } from '~/utils/blog.server'
 
 import modalStyles from '@reach/dialog/styles.css'
+import MenuDropDown from '~/components/menu-dropdown'
 import { getUserId, getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
@@ -42,6 +43,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const res = await getSingleBlog(params.slug as string)
     return {
       ...res,
+      userId: userId,
     }
   } catch (error) {
     return {
@@ -101,6 +103,7 @@ const SingleBlog = () => {
             <ReadTime />{' '}
             <small className='text-xs text-slate-500 font-medium'>{blog.readTime}</small>
           </div>
+          {blog.authorId === loaderData?.userId && <MenuDropDown url={`/blog/edit/${blog.slug}`} />}
         </div>
         <h1 className='text-2xl md:text-4xl font-extrabold text-slate-800'>{blog.title}</h1>
         <div className='flex items-center text-sky-600 text-md mt-2 space-x-2'>

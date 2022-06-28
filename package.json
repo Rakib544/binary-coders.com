@@ -12,6 +12,7 @@
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,md,json}' --config ./.prettierrc"
   },
   "dependencies": {
+    "@headlessui/react": "^1.6.5",
     "@prisma/client": "^3.15.1",
     "@reach/dialog": "^0.17.0",
     "@remix-run/node": "^1.5.1",
