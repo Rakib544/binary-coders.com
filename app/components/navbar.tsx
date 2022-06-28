@@ -1,6 +1,5 @@
 import { Link, useLocation } from '@remix-run/react'
 import { headerNavLinks } from 'data/navbar'
-import * as React from 'react'
 import Dropdown from './dropdown'
 import MobileNav from './mobile-nav'
 
@@ -45,8 +44,6 @@ const Navbar = ({
   const location = useLocation()
   const isNavbarHide = NAVBAR_HIDES_FROM.includes(location.pathname)
 
-  const [showDropMenu, setShowDropMenu] = React.useState<boolean>(false)
-
   return (
     <>
       {!isNavbarHide ? (
@@ -66,23 +63,7 @@ const Navbar = ({
                 </NavLink>
               ))}
               {username ? (
-                <div className='relative' onClick={() => setShowDropMenu(!showDropMenu)}>
-                  <div className='bg-gradient-to-r from-cyan-500 to-blue-500  p-0.5 rounded-full'>
-                    <div className='bg-white p-0.5 rounded-full'>
-                      <img
-                        src={profilePicture}
-                        alt={username}
-                        className='h-12 w-12 rounded-full object-cover block object-center align-middle cursor-pointer'
-                      />
-                    </div>
-                  </div>
-                  <Dropdown
-                    fullName={fullName}
-                    username={username}
-                    profilePicture={profilePicture}
-                    showDropMenu={showDropMenu}
-                  />
-                </div>
+                <Dropdown fullName={fullName} username={username} profilePicture={profilePicture} />
               ) : (
                 <Link
                   to='/auth/login'
