@@ -74,7 +74,7 @@ const ResetPassword = () => {
         visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
       }}
     >
-      <div className='w-full md:w-1/3 p-4'>
+      <div className='w-full md:w-1/2'>
         {actionData?.status === 200 ? (
           <p>{actionData?.message}</p>
         ) : (
@@ -100,7 +100,11 @@ const ResetPassword = () => {
         )}
 
         {loaderData?.status === 201 && (
-          <motion.div variants={childVariants}>
+          <motion.div
+            variants={childVariants}
+            className='bg-white p-4 md:p-10 mx-4 md:mx-10 rounded-xl'
+          >
+            <h1 className='text-3xl font-semibold text-slate-800 py-4'>Change your password</h1>
             {actionData?.status === 200 ? (
               ''
             ) : (
@@ -131,7 +135,7 @@ const ResetPassword = () => {
               <div className='flex justify-center'>
                 <button
                   type='submit'
-                  className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+                  className='px-16 py-3 rounded-lg w-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700 border-2 border-blue-600 hover:border-blue-700'
                 >
                   {transition.submission ? (
                     <div className='flex justify-center items-center'>
@@ -139,7 +143,7 @@ const ResetPassword = () => {
                       {transition.state}
                     </div>
                   ) : (
-                    'Submit'
+                    'Change Password'
                   )}
                 </button>
               </div>
