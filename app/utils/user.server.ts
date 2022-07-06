@@ -61,11 +61,43 @@ export const getUserInfoByUsername = async (username: string) => {
       profilePicture: true,
       bio: true,
       location: true,
+      institute: true,
+      githubLink: true,
+      websiteLink: true,
     },
   })
 
-  const blogs = await prisma.blogPosts.findMany({ where: { authorId: (user as User).id } })
-  const questions = await prisma.question.findMany({ where: { authorId: (user as User).id } })
+  const blogs = await prisma.blogPosts.findMany({
+    where: { authorId: (user as User).id },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 5,
+    include: {
+      creator: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
+    },
+  })
+  const questions = await prisma.question.findMany({
+    where: { authorId: (user as User).id },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      creator: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
+    },
+  })
 
   return {
     user,
