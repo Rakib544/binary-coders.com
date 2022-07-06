@@ -1044,20 +1044,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   grid-column: span 8 / span 8;
 }
 
-.col-span-5 {
-  grid-column: span 5 / span 5;
-}
-
-.col-span-1 {
-  grid-column: span 1 / span 1;
-}
-
-.col-span-3 {
-  grid-column: span 3 / span 3;
-}
-
 .col-span-4 {
   grid-column: span 4 / span 4;
+}
+
+.col-span-5 {
+  grid-column: span 5 / span 5;
 }
 
 .col-start-1 {
@@ -1093,14 +1085,19 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 0.5rem;
 }
 
-.mx-12 {
-  margin-left: 3rem;
-  margin-right: 3rem;
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .mx-6 {
   margin-left: 1.5rem;
   margin-right: 1.5rem;
+}
+
+.my-10 {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .my-8 {
@@ -1121,16 +1118,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .my-12 {
   margin-top: 3rem;
   margin-bottom: 3rem;
-}
-
-.mx-4 {
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-.my-10 {
-  margin-top: 2.5rem;
-  margin-bottom: 2.5rem;
 }
 
 .my-6 {
@@ -1176,6 +1163,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .mt-20 {
   margin-top: 5rem;
+}
+
+.mt-10 {
+  margin-top: 2.5rem;
 }
 
 .mb-6 {
@@ -1256,10 +1247,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .mb-1 {
   margin-bottom: 0.25rem;
-}
-
-.mt-10 {
-  margin-top: 2.5rem;
 }
 
 .block {
@@ -1354,6 +1341,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 100vh;
 }
 
+.h-4 {
+  height: 1rem;
+}
+
 .max-h-56 {
   max-height: 14rem;
 }
@@ -1428,6 +1419,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-40 {
   width: 10rem;
+}
+
+.w-4 {
+  width: 1rem;
 }
 
 .max-w-xl {
@@ -1553,6 +1548,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   grid-template-columns: repeat(10, minmax(0, 1fr));
 }
 
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
@@ -1563,10 +1562,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .grid-cols-5 {
   grid-template-columns: repeat(5, minmax(0, 1fr));
-}
-
-.grid-cols-4 {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .flex-col {
@@ -1609,16 +1604,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   gap: 1rem;
 }
 
+.gap-8 {
+  gap: 2rem;
+}
+
 .gap-12 {
   gap: 3rem;
 }
 
 .gap-0 {
   gap: 0px;
-}
-
-.gap-8 {
-  gap: 2rem;
 }
 
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
@@ -1822,6 +1817,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
+.bg-slate-900\/90 {
+  background-color: rgb(15 23 42 / 0.9);
+}
+
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
@@ -1839,44 +1838,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(186 230 253 / 0.5);
 }
 
-.bg-slate-100\/10 {
-  background-color: rgb(241 245 249 / 0.1);
-}
-
-.bg-white\/30 {
-  background-color: rgb(255 255 255 / 0.3);
-}
-
-.bg-slate-100\/30 {
-  background-color: rgb(241 245 249 / 0.3);
-}
-
-.bg-slate-500\/30 {
-  background-color: rgb(100 116 139 / 0.3);
-}
-
-.bg-slate-800\/30 {
-  background-color: rgb(30 41 59 / 0.3);
-}
-
-.bg-slate-900\/30 {
-  background-color: rgb(15 23 42 / 0.3);
-}
-
-.bg-slate-900\/80 {
-  background-color: rgb(15 23 42 / 0.8);
-}
-
-.bg-slate-900\/90 {
-  background-color: rgb(15 23 42 / 0.9);
-}
-
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
-}
-
-.bg-\[url\(\'\/img\/hero-pattern\.svg\'\)\] {
-  background-image: url('/img/hero-pattern.svg');
 }
 
 .bg-\[url\(\'\/images\/profile-bg\.jpg\'\)\] {
@@ -1903,10 +1866,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .bg-cover {
   background-size: cover;
-}
-
-.bg-center {
-  background-position: center;
 }
 
 .fill-current {
@@ -3329,6 +3288,11 @@ Ensure the default browser behavior of the `hidden` attribute.
     margin-right: 5rem;
   }
 
+  .md\:mx-6 {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+
   .md\:my-16 {
     margin-top: 4rem;
     margin-bottom: 4rem;
@@ -3337,21 +3301,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   .md\:mx-10 {
     margin-left: 2.5rem;
     margin-right: 2.5rem;
-  }
-
-  .md\:mx-12 {
-    margin-left: 3rem;
-    margin-right: 3rem;
-  }
-
-  .md\:mx-8 {
-    margin-left: 2rem;
-    margin-right: 2rem;
-  }
-
-  .md\:mx-6 {
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
   }
 
   .md\:mt-0 {
@@ -3430,10 +3379,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .md\:gap-4 {
     gap: 1rem;
-  }
-
-  .md\:gap-8 {
-    gap: 2rem;
   }
 
   .md\:truncate {
@@ -3760,19 +3705,14 @@ Ensure the default browser behavior of the `hidden` attribute.
     grid-column: span 7 / span 7;
   }
 
-  .lg\:mx-8 {
-    margin-left: 2rem;
-    margin-right: 2rem;
-  }
-
-  .lg\:mx-12 {
-    margin-left: 3rem;
-    margin-right: 3rem;
-  }
-
   .lg\:mx-10 {
     margin-left: 2.5rem;
     margin-right: 2.5rem;
+  }
+
+  .lg\:mx-8 {
+    margin-left: 2rem;
+    margin-right: 2rem;
   }
 
   .lg\:block {

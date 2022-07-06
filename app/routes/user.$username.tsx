@@ -1,6 +1,10 @@
 import { json, LoaderFunction } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
 import BlogCard from '~/components/blogCard'
+import EmailLogo from '~/components/icons/email'
+import GitHubLogo from '~/components/icons/github'
+import LocationIcon from '~/components/icons/location'
+import WebsiteLinkIcon from '~/components/icons/website-link'
 import QuestionCard from '~/components/question-card'
 import { Paragraph } from '~/components/typography'
 import { getUserInfoByUsername } from '~/utils/user.server'
@@ -52,10 +56,10 @@ const publicProfile = () => {
       <div
         className={
           // eslint-disable-next-line quotes
-          "bg-[url('/images/profile-bg.jpg')] bg-cover rounded-t-xl  shadow-sm"
+          "bg-[url('/images/profile-bg.jpg')] bg-cover"
         }
       >
-        <div className='flex items-center space-x-4 backdrop-opacity-10 backdrop-invert bg-slate-900/90 py-6'>
+        <div className='flex items-center space-x-4 backdrop-opacity-10 backdrop-invert bg-slate-900/90 py-6 rounded-t-xl'>
           <img
             src={user?.profilePicture}
             alt={user?.name}
@@ -78,9 +82,30 @@ const publicProfile = () => {
             <h3 className='font-medium text-lg'>About</h3>
             <p className='my-2'>{user?.bio}</p>
             <ul>
-              <li>Live at {user?.location}</li>
-              <li>Email {user?.email}</li>
-              <li>Studied at {user?.institute}</li>
+              {user?.location && (
+                <li className='flex text-sm items-center space-x-1 my-1'>
+                  <LocationIcon /> Live at <span className='font-medium'>{user?.location}</span>
+                </li>
+              )}
+              <li className='flex items-center text-sm space-x-1 my-1'>
+                <EmailLogo /> <span className='font-medium'>{user?.email}</span>
+              </li>
+              {user?.institute && (
+                <li className='flex text-sm space-x-1 my-1'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    width='24'
+                    height='24'
+                  >
+                    <path fill='none' d='M0 0h24v24H0z' />
+                    <path d='M21 20h2v2H1v-2h2V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v17zm-2 0V4H5v16h14zM8 11h3v2H8v-2zm0-4h3v2H8V7zm0 8h3v2H8v-2zm5 0h3v2h-3v-2zm0-4h3v2h-3v-2zm0-4h3v2h-3V7z' />
+                  </svg>
+                  <span>
+                    Studied at <span className='font-medium'>{user?.institute}</span>
+                  </span>
+                </li>
+              )}
             </ul>
           </div>
           {/* social */}
@@ -89,14 +114,30 @@ const publicProfile = () => {
 
             <ul>
               {user?.githubLink && (
-                <Link to={user?.githubLink || ''} className='block my-2 text-blue-500 underline'>
-                  {user?.githubLink}
-                </Link>
+                <li className='flex items-center space-x-1'>
+                  <GitHubLogo />
+                  <a
+                    href={user?.githubLink || ''}
+                    className='text-blue-500 underline'
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    {user?.githubLink}
+                  </a>
+                </li>
               )}
               {user?.websiteLink && (
-                <Link to={user?.websiteLink || ''} className='block my-2 text-blue-500 underline'>
-                  {user?.websiteLink}
-                </Link>
+                <li className='flex items-center space-x-1'>
+                  <WebsiteLinkIcon />
+                  <a
+                    href={user?.websiteLink || ''}
+                    className='block my-2 text-blue-500 underline'
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    {user?.websiteLink}
+                  </a>
+                </li>
               )}
             </ul>
           </div>
