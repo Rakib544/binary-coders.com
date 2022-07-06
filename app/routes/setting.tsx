@@ -7,18 +7,18 @@ const Profile = () => {
   const [show, setShow] = React.useState<boolean>(false)
   return (
     <div className='relative'>
-      <div className='text-center py-16 bg-slate-700'>
-        <h2 className='text-white font-4xl font-medium'>Account setting</h2>
-        <p className='text-white'>Need to tweak a setting</p>
+      <div className='text-center py-16 md:py-24 rounded-b-3xl bg-gradient-to-r from-sky-900 to-slate-800'>
+        <h2 className='text-white text-3xl md:text-5xl font-medium'>Account setting</h2>
+        <p className='text-white my-2 md:my-4'>Need to tweak a setting</p>
       </div>
       <div
-        onClick={() => setShow(!show)}
-        className='md:hidden h-10 w-10 bg-white rounded-full shadow-sm flex justify-center items-center border border-blue-500 absolute z-50 -left-4 top-80'
+        onClick={() => setShow(true)}
+        className='md:hidden h-10 w-10 bg-white rounded-full shadow-sm flex justify-center items-center border border-blue-500 absolute z-30 -left-4 top-80'
       >
         <ArrowRightLines />
       </div>
       <div
-        className='grid grid-cols-10 py-4 md:mx-20 shadow-md mb-20 rounded-md relative transition duration-300'
+        className='grid grid-cols-10 py-4 md:mx-20 shadow-md mb-20 rounded-md relative transition duration-300 md:transform md:-translate-y-8 bg-test'
         onClick={() => setShow(false)}
       >
         <aside className='hidden col-span-2 py-10 px-4 border-r border-slate-300 md:flex justify-center'>
