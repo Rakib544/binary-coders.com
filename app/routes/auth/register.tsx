@@ -38,9 +38,9 @@ export const action: ActionFunction = async ({ request }) => {
     })
 
     const user = {
-      name: name.toString(),
-      email: email.toString(),
-      password: password.toString(),
+      name: name.toString().trim(),
+      email: email.toString().trim(),
+      password: password.toString().trim(),
       gender: gender.toString(),
       profilePicture: profile.toString(),
     }

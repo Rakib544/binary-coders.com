@@ -31,8 +31,8 @@ export const action: ActionFunction = async ({ request }) => {
       password,
     })
     const user = {
-      email: email.toString(),
-      password: password.toString(),
+      email: email.toString().trim(),
+      password: password.toString().trim(),
     }
     const res = await login(user)
 
