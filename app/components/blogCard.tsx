@@ -25,7 +25,7 @@ const BlogCard = ({ slug, title, createdAt, readTime, views, creator }: Post) =>
     <Link
       prefetch='intent'
       to={`/blog/${slug}`}
-      className='bg-white py-4 px-4 rounded-xl grid grid-cols-10 my-4'
+      className='bg-white py-4 px-4 rounded-xl grid grid-cols-10 my-4 gap-1'
     >
       <div className='col-span-10 md:col-span-1 flex justify-between'>
         <img

@@ -59,6 +59,8 @@ export const getSingleQuestion = async (slug: string) => {
     },
   })
 
+  console.log({ slug })
+
   const answers = await prisma.answers.findMany({
     where: {
       slug,

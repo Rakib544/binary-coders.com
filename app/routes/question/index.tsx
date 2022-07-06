@@ -73,9 +73,9 @@ const Index = () => {
         Ask Question
       </Link>
 
-      <div className='grid grid-cols-10 gap-4'>
-        <aside className='col-span-10 hidden md:col-span-3 md:flex justify-center'>
-          <div className='w-full px-16 my-10'>
+      <div className='grid grid-cols-10 gap-0 lg:gap-4'>
+        <aside className='col-span-10 hidden md:col-span-2 lg:col-span-3 md:flex justify-center'>
+          <div className='w-full md:px-2 lg:px-16 my-10'>
             {loaderData?.userId && (
               <Link
                 prefetch='intent'
@@ -107,7 +107,7 @@ const Index = () => {
             )}
           </div>
         </aside>
-        <div className='col-span-10 md:col-span-7 px-4 md:px-12'>
+        <div className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12'>
           {/* <div className='flex justify-end'>
             <label className='relative block'>
               <span className='sr-only'>Search</span>
