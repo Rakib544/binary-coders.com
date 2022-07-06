@@ -84,7 +84,7 @@ const Me = () => {
       <div className='p-4'>
         <div className='flex justify-center'>
           <label htmlFor='profilePicture' className='cursor-pointer relative'>
-            <div className='absolute bottom-6 z-50 p-2 rounded-full right-0  backdrop-blur-sm bg-sky-200/50 '>
+            <div className='absolute bottom-6 z-40 p-2 rounded-full right-0  backdrop-blur-sm bg-sky-200/50 '>
               <CameraIcon />
             </div>
             <input
@@ -99,7 +99,7 @@ const Me = () => {
                 <img
                   src={img}
                   alt={name}
-                  className='h-32 w-32 rounded-full object-cover block object-center align-middle cursor-pointer z-40'
+                  className='h-32 w-32 rounded-full object-cover block object-center align-middle cursor-pointer z-30'
                 />
               </div>
             </div>
