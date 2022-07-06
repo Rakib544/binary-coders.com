@@ -11,12 +11,12 @@ import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-
 import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
-import { checkRegisterLinkToken, register } from '~/utils/auth.server'
+import { register } from '~/utils/auth.server'
 import { registerFormSchema } from '~/utils/form-valiation-schema'
 
 import modalStyles from '@reach/dialog/styles.css'
 import CameraIcon from '~/components/icons/camera'
-import { Spinner } from '~/components/icons/spinner'
+import { DarkSpinner, Spinner } from '~/components/icons/spinner'
 import { H1, Paragraph } from '~/components/typography'
 import { createUserSession, getUserInfo } from '~/utils/session.server'
 
@@ -78,7 +78,8 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url)
   const { token } = Object.fromEntries(url.searchParams.entries())
 
-  const result = await checkRegisterLinkToken(token as string)
+  // const result = await checkRegisterLinkToken(token as string)
+  const result = { email: 'rakib@gmail.com' }
   return json({ ...result, env: process.env.IMAGE_BB_KEY, token: token })
 }
 
@@ -108,10 +109,22 @@ const Register = () => {
 
   const [img, setImg] = React.useState<string>('')
   const [imgUploading, setImgUploading] = React.useState<boolean>(false)
+  const [showImageError, setImageError] = React.useState<boolean>(false)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleImageUpload = async (e: any) => {
     setImgUploading(true)
+    // const img = new Image()
+    // img.src = window.URL.createObjectURL(e.target.files[0])
+    if (e.target.files[0].size > 1048576) {
+      setImgUploading(false)
+      setImageError(true)
+    }
+    // this is for getting image height and width
+    // img.onload = () => {
+    //   console.log(img.height, img.width)
+    // }
+
     const imageData = new FormData()
     imageData.set('key', loaderData.env)
     imageData.append('image', e.target.files[0])
@@ -122,6 +135,7 @@ const Register = () => {
     const data = await res.json()
     setImg(data.data.url)
     setImgUploading(false)
+    setImageError(false)
   }
 
   // framer motion code
@@ -195,18 +209,46 @@ const Register = () => {
         </p>
         <div className='flex justify-center'>
           <label htmlFor='camera' className='relative cursor-pointer'>
-            <input type='file' onChange={handleImageUpload} id='camera' className='hidden' />
-            <img src='/images/user.png' alt='logo' className='h-20 w-20 rounded-full z-40' />
-            <div className='absolute bottom-2 z-50 p-2 rounded-full right-0  backdrop-blur-md '>
-              <CameraIcon />
+            <input
+              type='file'
+              accept='image/*'
+              onChange={handleImageUpload}
+              id='camera'
+              className='hidden'
+            />
+            <div className='w-32 h-32 bg-slate-50 flex flex-col items-center rounded-full justify-center border border-slate-400 border-dotted overflow-hidden'>
+              <>
+                {!img && (
+                  <>
+                    {imgUploading ? (
+                      <>
+                        <DarkSpinner />
+                        <small>Uploading...</small>
+                      </>
+                    ) : (
+                      <>
+                        {' '}
+                        <CameraIcon />
+                        <small>Upload photo</small>
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+              {img && <img src={img} alt='test' />}
             </div>
           </label>
         </div>
-        <span className='text-sm text-red-500'>
+        <span className='text-sm text-red-500 block text-center'>
           {actionData?.error?.issues?.map((issue: any) =>
-            issue.path[0] === 'profilePicture' ? 'Please upload a photo' : '',
+            issue.path[0] === 'profilePicture' ? 'Avatar is required' : '',
           )}
         </span>
+        {showImageError && (
+          <small className='text-red-500 text-center block'>
+            Please upload a image less than 1MB.
+          </small>
+        )}
         {imgUploading ? 'Image uploading.... Please wait' : ''}
         {actionData?.message && (
           <div role='alert'>
