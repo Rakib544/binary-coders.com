@@ -6,7 +6,7 @@ import {
   LoaderFunction,
   redirect,
 } from '@remix-run/node'
-import { Form, useActionData, useTransition } from '@remix-run/react'
+import { Form, Link, useActionData, useTransition } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
@@ -94,7 +94,7 @@ const Reset = () => {
       </div>
       <motion.div
         variants={childVariants}
-        className='col-span-2 sm:col-span-2 md:col-span-1 px-6 mt-40 md:mt-0 md:px-14'
+        className='col-span-2 sm:col-span-2 md:col-span-1 px-6 mt-40 md:mt-0 md:px-14 bg-white py-10 mx-8 rounded-xl'
       >
         <h1 className='text-3xl font-bold text-center md:text-left'>
           Are you forgot your password ?
@@ -121,7 +121,7 @@ const Reset = () => {
           <div className='flex justify-center'>
             <button
               type='submit'
-              className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+              className='px-16 py-3 rounded-lg w-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700 border-2 border-blue-600 hover:border-blue-700'
             >
               {transition.submission ? (
                 <div className='flex justify-center items-center'>
@@ -129,10 +129,17 @@ const Reset = () => {
                   {transition.state}
                 </div>
               ) : (
-                'Submit'
+                'Send Request'
               )}
             </button>
           </div>
+          <Link
+            to='/auth/login'
+            prefetch='intent'
+            className='my-4 block text-center py-3 text-sm text-slate-700 rounded-xl font-semibold hover:bg-slate-50'
+          >
+            Back
+          </Link>
         </Form>
       </motion.div>
       {actionData?.status === 200 && (

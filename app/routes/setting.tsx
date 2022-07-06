@@ -7,7 +7,7 @@ const Profile = () => {
   const [show, setShow] = React.useState<boolean>(false)
   return (
     <div className='relative'>
-      <div className='text-center py-16 md:py-24 rounded-b-3xl bg-gradient-to-r from-sky-900 to-slate-800'>
+      <div className='text-center py-16 md:py-24 md:rounded-b-3xl bg-gradient-to-r from-sky-900 to-slate-800'>
         <h2 className='text-white text-3xl md:text-5xl font-medium'>Account setting</h2>
         <p className='text-white my-2 md:my-4'>Need to tweak a setting</p>
       </div>

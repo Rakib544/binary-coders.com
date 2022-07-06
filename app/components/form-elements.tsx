@@ -14,7 +14,7 @@ export const Input = ({ type, name, className = '', ...props }: JSX.IntrinsicEle
       type={type}
       name={name}
       id={name}
-      className={`px-6 py-4 w-full hover:ring-1 transition duration-75 focus:ring-1 focus:outline-none ring-1 ring-slate-200 focus:ring-blue-500 rounded-full placeholder:bg-white placeholder:text-slate-800 ${
+      className={`px-6 py-3 w-full hover:ring-1 transition duration-75 focus:ring-1 focus:outline-none ring-1 ring-slate-200 focus:ring-blue-500 rounded-lg placeholder:bg-white placeholder:text-slate-800 ${
         className ? className : ''
       }`}
       {...props}

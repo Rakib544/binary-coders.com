@@ -83,7 +83,7 @@ const Login = () => {
 
   return (
     <motion.div
-      className='sm:flex sm:items-center h-auto overflow-auto lg:h-screen lg:overflow-hidden'
+      className='sm:flex sm:items-center h-auto overflow-auto lg:h-screen lg:overflow-hidden bg-white md:bg-inherit'
       initial='initial'
       animate='visible'
       variants={{
@@ -103,7 +103,7 @@ const Login = () => {
         />
       </div>
       <motion.div
-        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16'
+        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16 bg-white rounded-xl lg:mx-8 py-10'
         variants={childVariants}
       >
         <div className='block lg:hidden'>
@@ -167,7 +167,7 @@ const Login = () => {
           <div className='mb-2 flex justify-center'>
             <button
               type='submit'
-              className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-8 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+              className='px-16 py-3 w-full rounded-lg bg-blue-600 text-white inline-block mt-8 text-center text-sm font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700 border-2 border-blue-600 hover:border-blue-700'
             >
               {transition.submission ? (
                 <div className='flex justify-center items-center'>
@@ -175,7 +175,7 @@ const Login = () => {
                   {transition.state}
                 </div>
               ) : (
-                'LOGIN'
+                'Login'
               )}
             </button>
           </div>

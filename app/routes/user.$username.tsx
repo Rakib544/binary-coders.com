@@ -33,7 +33,7 @@ const publicProfile = () => {
       <div>
         <H5>Recent Asked Question</H5>
         {questions?.map((question) => (
-          <Link prefetch='intent' key={question.id} to={`/blog/${question.slug}`}>
+          <Link prefetch='intent' key={question.id} to={`/question/${question.slug}`}>
             <Paragraph className='font-medium'>{question.title}</Paragraph>
           </Link>
         ))}
