@@ -1,23 +1,29 @@
 import type { LoaderFunction } from '@remix-run/node'
-import { Link, useLoaderData, useLocation } from '@remix-run/react'
+import { Link, useFetcher, useLoaderData, useLocation } from '@remix-run/react'
+import { AnimatePresence } from 'framer-motion'
+import * as React from 'react'
 import BlogCard from '~/components/blogCard'
 import SelectBox from '~/components/select'
 import { getAllBlogPosts } from '~/utils/blog.server'
 import { getUserInfo } from '~/utils/session.server'
 
+// utility function for getting page number
+const getPage = (searchParams: URLSearchParams) => Number(searchParams.get('page') || '1')
+
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url)
 
+  const page = getPage(new URL(request.url).searchParams)
   const { userId } = await getUserInfo(request)
 
   if (url.search === '?query=me') {
-    const posts = await getAllBlogPosts(userId as string)
+    const posts = await getAllBlogPosts(userId as string, page)
     return {
       ...posts,
       userId,
     }
   } else {
-    const posts = await getAllBlogPosts(null)
+    const posts = await getAllBlogPosts(null, page)
     return {
       ...posts,
       userId,
@@ -58,9 +64,68 @@ const options = [
 const index = () => {
   const location = useLocation()
   const loaderData = useLoaderData()
+  const fetcher = useFetcher()
+  const [posts, setPosts] = React.useState<Post[]>(loaderData?.posts)
+  const [scrollPosition, setScrollPosition] = React.useState<number>(0)
+  const [clientHeight, setClientHeight] = React.useState<number>(0)
+
+  React.useEffect(() => {
+    const scrollListener = () => {
+      setClientHeight(window.innerHeight)
+      setScrollPosition(window.scrollY)
+    }
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', scrollListener)
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('scroll', scrollListener)
+      }
+    }
+  }, [])
+
+  // console.log({ scrollPosition, clientHeight })
+  const [height, setHeight] = React.useState(null)
+  const divHeight = React.useCallback(
+    (node) => {
+      if (node !== 'null') {
+        setHeight(node.getBoundingClientRect().height)
+      }
+    },
+    [loaderData?.posts?.length],
+  )
+
+  const [page, setPage] = React.useState(2)
+  const [shouldFetch, setShouldFetch] = React.useState(true)
+  React.useEffect(() => {
+    if (!shouldFetch || !height) return
+    if (clientHeight + scrollPosition + 100 < height) return
+    fetcher.load(`/blog?index&page=${page}`)
+
+    setShouldFetch(false)
+  }, [clientHeight, scrollPosition, fetcher])
+
+  // console.log(fetcher)
+
+  React.useEffect(() => {
+    // Discontinue API calls if the last page has been reached
+    if (fetcher.data && fetcher.data.length === 0) {
+      setShouldFetch(false)
+      return
+    }
+
+    // Photos contain data, merge them and allow the possiblity of another fetch
+    if (fetcher.data && fetcher.data?.posts?.length > 0) {
+      setPosts(fetcher.data.posts)
+      setPage((page: number) => page + 1)
+      setShouldFetch(true)
+    }
+  }, [fetcher.data?.posts])
 
   return (
-    <>
+    <div ref={divHeight}>
       <Link
         prefetch='intent'
         to='/blog/create'
@@ -128,13 +193,16 @@ const index = () => {
             <SelectBox options={options} />
           </div>
           <div className='my-10'>
-            {loaderData?.posts.map((post: Post) => (
-              <BlogCard key={post.slug} {...post} />
-            ))}
+            <AnimatePresence>
+              {posts?.map((post: Post) => (
+                <BlogCard key={post.slug} {...post} />
+              ))}
+            </AnimatePresence>
+            {fetcher.state === 'loading' && <p>Loading...</p>}
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
