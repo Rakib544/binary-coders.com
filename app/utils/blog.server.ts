@@ -4,6 +4,13 @@ import { prisma } from './prisma.server'
 
 export const createBlogPost = async (title: string, html: string, authorId: string) => {
   let slug = slugify(title)
+  if (slug.length === 0) {
+    return {
+      errorFor: 'title',
+      status: 501,
+      message: 'Title must be written in english',
+    }
+  }
   const { text } = readingTime(html)
 
   try {

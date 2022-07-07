@@ -1,10 +1,10 @@
 import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
-import { Form, useLoaderData, useTransition } from '@remix-run/react'
+import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
 import { ClientOnly } from 'remix-utils'
-import { Input } from '~/components/form-elements'
+import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
 import Quill from '~/components/quill.client'
 import { createBlogPost } from '~/utils/blog.server'
@@ -15,6 +15,20 @@ export const action: ActionFunction = async ({ request }) => {
     const userId = await requireUserId(request)
     const formData = await request.formData()
     const { title, html } = Object.fromEntries(formData)
+    if (title.toString().trim().length === 0) {
+      return {
+        errorFor: 'title',
+        status: 501,
+        message: 'Title can not be empty',
+      }
+    }
+    if (html.toString().trim().length === 0) {
+      return {
+        errorFor: 'description',
+        status: 501,
+        message: 'Content can not be empty',
+      }
+    }
     const res = await createBlogPost(title as string, JSON.parse(html as string), userId)
     if (res.status === 201) {
       return redirect(res?.url as string)
@@ -47,15 +61,20 @@ export const links: LinksFunction = () => [
 const CreateBlogPost = () => {
   const [html, setHtml] = React.useState()
   const transition = useTransition()
-  // const actionData = useActionData()
+  const actionData = useActionData()
   const { env } = useLoaderData()
 
   return (
-    <div className='px-4 md:px-20 my-10'>
+    <div className='mx-4 md:mx-20 my-10'>
       <ClientOnly fallback={<div style={{ width: 500, height: 300 }}></div>}>
         {() => (
           <Form method='post'>
-            <Input type='text' name='title' placeholder='Enter Title' className='mb-10' />
+            <Label htmlFor='title'>Enter title (Title must be written in english)</Label>
+            <Input type='text' name='title' placeholder='Enter Title' className='mb-1' />
+            {actionData?.status === 501 && actionData?.errorFor === 'title' && (
+              <small className='text-red-500 mb-10 block'>{actionData?.message}</small>
+            )}
+            <p className='mb-10'></p>
             <input
               type='text'
               name='html'
@@ -63,10 +82,14 @@ const CreateBlogPost = () => {
               onChange={() => console.log('hello')}
               className='hidden'
             />
+            <span className='font-medium text-sm text-slate-600'>Content</span>
             <Quill setHtml={setHtml} defaultValue={'<p></p>'} env={env} />
+            {actionData?.status === 501 && actionData?.errorFor === 'description' && (
+              <small className='block text-red-500'>{actionData?.message}</small>
+            )}
             <button
               type='submit'
-              className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'
+              className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'
             >
               {transition.submission ? (
                 <div className='flex justify-center items-center'>
