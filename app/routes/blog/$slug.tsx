@@ -20,6 +20,12 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: highlightCss },
     { rel: 'stylesheet', href: quillCss },
     { rel: 'stylesheet', href: modalStyles },
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap',
+    },
   ]
 }
 
@@ -130,7 +136,7 @@ const SingleBlog = () => {
       </div>
       <div
         dangerouslySetInnerHTML={{ __html: blog.html }}
-        className='prose prose-slate lg:prose-lg max-w-none mb-24 prose-a:text-blue-600'
+        className='prose prose-slate lg:prose-lg max-w-none mb-24 prose-a:text-blue-600 siliguri-font'
       ></div>
       {actionData?.viewers && (
         <ViewersModal

@@ -33,6 +33,12 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: highlightCss },
     { rel: 'stylesheet', href: quillCss },
     { rel: 'stylesheet', href: modalStyles },
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap',
+    },
   ]
 }
 
@@ -175,7 +181,7 @@ const SingleQuestion = () => {
       </div>
       <div
         dangerouslySetInnerHTML={{ __html: question.description }}
-        className='prose prose-slate lg:prose-lg max-w-none mt-12 mb-32 prose-a:text-blue-600'
+        className='prose prose-slate lg:prose-lg max-w-none mt-12 mb-32 prose-a:text-blue-600 siliguri-font'
       />
       <h3 className='text-lg font-medium border-t border-slate-300 pt-3'>
         {answers?.length} Answers
