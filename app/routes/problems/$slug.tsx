@@ -18,6 +18,12 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: quillCss },
     { rel: 'stylesheet', href: highlightCss },
     { rel: 'stylesheet', href: modalStyles },
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'true' },
+    {
+      href: 'https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap',
+      rel: 'stylesheet',
+    },
   ]
 }
 
@@ -110,7 +116,7 @@ const SingleQuestion = () => {
           </div>
           <div
             dangerouslySetInnerHTML={{ __html: problem?.description }}
-            className='prose prose-slate lg:prose-md max-w-none mt-12 mb-32 prose-a:text-blue-600'
+            className='prose prose-slate lg:prose-md max-w-none mt-12 mb-32 prose-a:text-blue-600 siliguri-font'
           />
         </div>
         <div className='col-span-5 md:col-span-3 p-4'>
@@ -119,6 +125,7 @@ const SingleQuestion = () => {
             height='100%'
             src='https://onecompiler.com/embed/python'
             width='100%'
+            className='h-screen'
             // hideNew={true as boolean}
           ></iframe>
         </div>
