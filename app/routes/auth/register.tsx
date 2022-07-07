@@ -11,7 +11,7 @@ import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-
 import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
-import { register } from '~/utils/auth.server'
+import { checkRegisterLinkToken, register } from '~/utils/auth.server'
 import { registerFormSchema } from '~/utils/form-valiation-schema'
 
 import modalStyles from '@reach/dialog/styles.css'
@@ -78,8 +78,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url)
   const { token } = Object.fromEntries(url.searchParams.entries())
 
-  // const result = await checkRegisterLinkToken(token as string)
-  const result = { email: 'rakib@gmail.com' }
+  const result = await checkRegisterLinkToken(token as string)
   return json({ ...result, env: process.env.IMAGE_BB_KEY, token: token })
 }
 
