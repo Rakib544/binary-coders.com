@@ -1,5 +1,5 @@
 import { json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
-import { Form, useLoaderData, useTransition } from '@remix-run/react'
+import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
 import CreatableSelect from 'react-select/creatable'
@@ -18,7 +18,29 @@ export const action: LoaderFunction = async ({ request }) => {
   const userId = await requireUserId(request)
   const formData = await request.formData()
   const { title, html, tags: inputTag } = Object.fromEntries(formData)
-  const tags = JSON.parse(inputTag as string).map(
+
+  if (title.toString().trim().length === 0) {
+    return {
+      errorFor: 'title',
+      status: 501,
+      message: 'Title can not be empty',
+    }
+  }
+  if (html.toString().trim().length === 0) {
+    return {
+      errorFor: 'description',
+      status: 501,
+      message: 'Content can not be empty',
+    }
+  }
+  if (inputTag === 'null') {
+    return {
+      errorFor: 'tags',
+      status: 501,
+      message: 'Please select a tags',
+    }
+  }
+  const tags = JSON.parse(inputTag as string)?.map(
     (tag: { value: string; label: string }) => tag.value,
   )
   const res = await createQuestion(title.toString(), JSON.parse(html as string), userId, tags)
@@ -49,6 +71,7 @@ const create = () => {
   const { env } = useLoaderData()
   const [html, setHtml] = React.useState<string>()
   const transition = useTransition()
+  const actionData = useActionData()
 
   const [selectedOption, setSelectedOption] = React.useState(null)
 
@@ -57,7 +80,12 @@ const create = () => {
       <ClientOnly fallback={<div style={{ width: 500, height: 300 }}></div>}>
         {() => (
           <Form method='post'>
-            <Input type='text' name='title' placeholder='Enter Title' className='mb-10' />
+            <Label htmlFor='title'>Enter title (Title must be written in english)</Label>
+            <Input type='text' name='title' placeholder='Enter Title' />
+            {actionData?.status === 501 && actionData?.errorFor === 'title' && (
+              <small className='text-red-500 mb-10 block'>{actionData?.message}</small>
+            )}
+            <p className='mb-10'></p>
             <input
               type='text'
               name='html'
@@ -65,7 +93,11 @@ const create = () => {
               onChange={() => console.log('hello')}
               className='hidden'
             />
+            <Label htmlFor='description'>Content</Label>
             <Quill setHtml={setHtml} defaultValue={'<p></p>'} env={env} />
+            {actionData?.status === 501 && actionData?.errorFor === 'description' && (
+              <small className='block text-red-500'>{actionData?.message}</small>
+            )}
             <div className='my-4 md:w-1/2'>
               <Label htmlFor='select'>Add tags</Label>
               <input
@@ -76,6 +108,9 @@ const create = () => {
                 onChange={() => console.log('hello')}
               />
               <CreatableSelect isMulti onChange={setSelectedOption} options={options} />
+              {actionData?.status === 501 && actionData?.errorFor === 'tags' && (
+                <small className='text-red-500 mb-10 block'>{actionData?.message}</small>
+              )}
             </div>
             <button
               type='submit'

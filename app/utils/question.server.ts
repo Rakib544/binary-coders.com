@@ -10,6 +10,14 @@ export const createQuestion = async (
 ) => {
   let slug = slugify(title)
 
+  if (slug.length === 0) {
+    return {
+      errorFor: 'title',
+      status: 501,
+      message: 'Title must be written in english',
+    }
+  }
+
   try {
     const checkSlugCount = await prisma.question.count({
       where: {
