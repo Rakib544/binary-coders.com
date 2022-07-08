@@ -1,17 +1,21 @@
 import { LoaderFunction } from '@remix-run/node'
-import { Link, useLoaderData, useLocation } from '@remix-run/react'
+import { Link, useFetcher, useLoaderData, useLocation } from '@remix-run/react'
+import * as React from 'react'
 import EyeIcon from '~/components/icons/eye'
 import SelectBox from '~/components/select'
 import { H6 } from '~/components/typography'
-// import { useReducedMotion } from 'framer-motion'
 import { getAllProblems } from '~/utils/problems.server'
 import { getUserInfo } from '~/utils/session.server'
 
+const getPage = (searchParams: URLSearchParams) => Number(searchParams.get('page') || '1')
+
 export const loader: LoaderFunction = async ({ request }) => {
   const { role } = await getUserInfo(request)
+  const page = getPage(new URL(request.url).searchParams)
   const url = new URL(request.url)
-  const tag = url.search.split('=')[1]
-  const res = await getAllProblems(tag as string)
+  // console.log(url.searchParams.get('query'))
+  const tag = url.searchParams.get('query')
+  const res = await getAllProblems(tag as string, page)
   return {
     ...res,
     role,
@@ -28,6 +32,10 @@ type Problem = {
   title: string
   updatedAt: string
   views: number
+}
+
+type ProblemCard = {
+  problem: Problem
 }
 
 const options = [
@@ -65,14 +73,59 @@ const options = [
 
 const Index = () => {
   const loaderData = useLoaderData()
-  // const shouldReduceMotion = useReducedMotion()
-
-  // const childVariants = {
-  //   initial: { opacity: 0, y: shouldReduceMotion ? 0 : 25 },
-  //   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  // }
-
   const location = useLocation()
+  const fetcher = useFetcher()
+
+  const [pageNumber, setPageNumber] = React.useState(0)
+  const [problems, setProblems] = React.useState(loaderData?.problems)
+  const [hasMore, setHasMore] = React.useState(true)
+
+  const observer = React.useRef<IntersectionObserver>()
+  const lastPostElementRef = React.useCallback(
+    (node) => {
+      if (observer?.current) observer?.current?.disconnect()
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0]?.isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1)
+        }
+      })
+      if (node) observer?.current?.observe(node)
+    },
+    [hasMore, location.search, fetcher.data],
+  )
+
+  React.useEffect(() => {
+    if (location.search) {
+      fetcher.load(`/problems${location.search}&index&page=${pageNumber + 1}`)
+    } else {
+      fetcher.load(`/problems?index&page=${pageNumber + 1}`)
+    }
+  }, [pageNumber])
+
+  React.useEffect(() => {
+    if (fetcher.data?.problems?.length === 0) {
+      setHasMore(false)
+      return
+    }
+
+    if (fetcher.data?.problems) {
+      if (problems[0]?.title === fetcher.data?.problems[0]?.title) {
+        return
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setProblems((prevPosts: any) => {
+        return [...new Set([...prevPosts, ...fetcher.data.problems])]
+      })
+      // }
+    }
+  }, [fetcher.data])
+
+  React.useEffect(() => {
+    setPageNumber(0)
+    setHasMore(true)
+    // eslint-disable-next-line no-unsafe-optional-chaining
+    setProblems([...loaderData?.problems])
+  }, [location.search])
 
   return (
     <div className='grid grid-cols-10 gap-0 lg:gap-4'>
@@ -148,49 +201,60 @@ const Index = () => {
         <div>
           <SelectBox options={options} />
         </div>
-        {loaderData?.problems?.map((problem: Problem) => (
-          <li key={problem.slug}>
-            <Link
-              prefetch='intent'
-              to={`/problems/${problem.slug}`}
-              // variants={childVariants}
-              className='block my-2 border border-gray-100 p-4 bg-white rounded-xl transition duration-300 hover:border-blue-500'
-            >
-              <div>
-                <div className='grid grid-cols-10 items-center flex-end'>
-                  <H6 className='md:truncate col-span-10 mt-4 md:mt-0 md:col-span-9 hover:underline'>
-                    {problem.title}
-                  </H6>
-                  <div className='hidden col-span-10 md:col-span-1 md:flex space-x-2'>
-                    <div className='flex items-center space-x-1'>
-                      <EyeIcon />
-                      <small>{problem.views}</small>
-                    </div>
-                  </div>
-                </div>
-                <ul className='flex space-x-2 my-2'>
-                  {problem.tags?.map((tag) => (
-                    <li key={tag}>
-                      <small className='px-2 py-1 rounded-md text-sky-600 bg-sky-400/10'>
-                        {tag}
-                      </small>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  prefetch='intent'
-                  to={`/problems/${problem.slug}`}
-                  className='text-sm text-sky-500 font-medium my-1 inline-block'
-                >
-                  Solve Problem &rarr;
-                </Link>
+        {problems?.map((problem: Problem, index: number) => {
+          if (problems?.length === index + 1) {
+            return (
+              <div ref={lastPostElementRef} key={problem.slug}>
+                <ProblemsCard problem={problem} />
               </div>
-            </Link>
-          </li>
-        ))}
+            )
+          } else {
+            return <ProblemsCard key={problem.slug} problem={problem} />
+          }
+        })}
+        {fetcher.state === 'loading' && <li>Loading...</li>}
       </ul>
     </div>
   )
 }
 
 export default Index
+
+const ProblemsCard = ({ problem }: ProblemCard) => (
+  <li key={problem.slug}>
+    <Link
+      prefetch='intent'
+      to={`/problems/${problem.slug}`}
+      // variants={childVariants}
+      className='block my-2 border border-gray-100 p-4 bg-white rounded-xl transition duration-300 hover:border-blue-500'
+    >
+      <div>
+        <div className='grid grid-cols-10 items-center flex-end'>
+          <H6 className='md:truncate col-span-10 mt-4 md:mt-0 md:col-span-9 hover:underline'>
+            {problem.title}
+          </H6>
+          <div className='hidden col-span-10 md:col-span-1 md:flex space-x-2'>
+            <div className='flex items-center space-x-1'>
+              <EyeIcon />
+              <small>{problem.views}</small>
+            </div>
+          </div>
+        </div>
+        <ul className='flex space-x-2 my-2'>
+          {problem.tags?.map((tag) => (
+            <li key={tag}>
+              <small className='px-2 py-1 rounded-md text-sky-600 bg-sky-400/10'>{tag}</small>
+            </li>
+          ))}
+        </ul>
+        <Link
+          prefetch='intent'
+          to={`/problems/${problem.slug}`}
+          className='text-sm text-sky-500 font-medium my-1 inline-block'
+        >
+          Solve Problem &rarr;
+        </Link>
+      </div>
+    </Link>
+  </li>
+)

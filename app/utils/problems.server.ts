@@ -51,10 +51,16 @@ export const createProblem = async (
   }
 }
 
-export const getAllProblems = async (tag: string) => {
+export const getAllProblems = async (tag: string, page: number) => {
+  // console.log({ tag, page })
   try {
     if (tag) {
       const problems = await prisma.problem.findMany({
+        take: 5,
+        skip: (page - 1) * 5,
+        orderBy: {
+          createdAt: 'desc',
+        },
         where: {
           tags: {
             has: tag,
@@ -66,7 +72,14 @@ export const getAllProblems = async (tag: string) => {
         problems,
       }
     } else {
-      const problems = await prisma.problem.findMany()
+      const problems = await prisma.problem.findMany({
+        take: 5,
+        skip: (page - 1) * 5,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      })
+      // console.log({ problems })
       return {
         status: 200,
         problems,
