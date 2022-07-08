@@ -57,7 +57,8 @@ export const getAllBlogPosts = async (userId: string | null, page: number) => {
     where: {
       authorId: id,
     },
-    take: 5 * page,
+    take: 5,
+    skip: (page - 1) * 5,
     orderBy: {
       createdAt: 'desc',
     },
@@ -71,6 +72,7 @@ export const getAllBlogPosts = async (userId: string | null, page: number) => {
       },
     },
   })
+
   if (posts) {
     return {
       status: 200,

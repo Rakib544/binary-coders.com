@@ -14,9 +14,10 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url)
 
   const page = getPage(new URL(request.url).searchParams)
+
   const { userId } = await getUserInfo(request)
 
-  if (url.search === '?query=me') {
+  if (url.search.startsWith('?query=me')) {
     const posts = await getAllBlogPosts(userId as string, page)
     return {
       ...posts,
@@ -65,67 +66,61 @@ const index = () => {
   const location = useLocation()
   const loaderData = useLoaderData()
   const fetcher = useFetcher()
-  const [posts, setPosts] = React.useState<Post[]>(loaderData?.posts)
-  const [scrollPosition, setScrollPosition] = React.useState<number>(0)
-  const [clientHeight, setClientHeight] = React.useState<number>(0)
 
-  React.useEffect(() => {
-    const scrollListener = () => {
-      setClientHeight(window.innerHeight)
-      setScrollPosition(window.scrollY)
-    }
+  const [pageNumber, setPageNumber] = React.useState(0)
+  const [posts, setPosts] = React.useState(loaderData?.posts)
+  const [hasMore, setHasMore] = React.useState(true)
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', scrollListener)
-    }
-
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('scroll', scrollListener)
-      }
-    }
-  }, [])
-
-  // console.log({ scrollPosition, clientHeight })
-  const [height, setHeight] = React.useState(null)
-  const divHeight = React.useCallback(
+  const observer = React.useRef<IntersectionObserver>()
+  const lastPostElementRef = React.useCallback(
     (node) => {
-      if (node !== 'null') {
-        setHeight(node.getBoundingClientRect().height)
-      }
+      if (observer?.current) observer?.current?.disconnect()
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0]?.isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1)
+        }
+      })
+      if (node) observer?.current?.observe(node)
     },
-    [loaderData?.posts?.length],
+    [hasMore, location.search, fetcher.data],
   )
 
-  const [page, setPage] = React.useState(2)
-  const [shouldFetch, setShouldFetch] = React.useState(true)
   React.useEffect(() => {
-    if (!shouldFetch || !height) return
-    if (clientHeight + scrollPosition + 100 < height) return
-    fetcher.load(`/blog?index&page=${page}`)
+    if (location.search === '?query=me') {
+      fetcher.load(`/blog?query=me&index&page=${pageNumber + 1}`)
+    } else {
+      fetcher.load(`/blog?index&page=${pageNumber + 1}`)
+    }
+  }, [pageNumber])
 
-    setShouldFetch(false)
-  }, [clientHeight, scrollPosition, fetcher])
-
-  // console.log(fetcher)
+  // const [isFirstTime, setIsFirstTime] = React.useState(true)
 
   React.useEffect(() => {
-    // Discontinue API calls if the last page has been reached
-    if (fetcher.data && fetcher.data.length === 0) {
-      setShouldFetch(false)
+    if (fetcher.data?.posts?.length === 0) {
+      setHasMore(false)
       return
     }
-
-    // Photos contain data, merge them and allow the possiblity of another fetch
-    if (fetcher.data && fetcher.data?.posts?.length > 0) {
-      setPosts(fetcher.data.posts)
-      setPage((page: number) => page + 1)
-      setShouldFetch(true)
+    if (fetcher.data?.posts) {
+      if (posts[0]?.title === fetcher.data?.posts[0]?.title) {
+        return
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setPosts((prevPosts: any) => {
+        return [...prevPosts, ...fetcher.data.posts]
+      })
     }
-  }, [fetcher.data?.posts])
+  }, [fetcher.data])
+
+  React.useEffect(() => {
+    setPageNumber(0)
+    // setIsFirstTime(true)
+    setHasMore(true)
+    // eslint-disable-next-line no-unsafe-optional-chaining
+    setPosts([...loaderData?.posts])
+  }, [location.search])
 
   return (
-    <div ref={divHeight}>
+    <div>
       <Link
         prefetch='intent'
         to='/blog/create'
@@ -169,34 +164,22 @@ const index = () => {
           </div>
         </aside>
         <div className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12'>
-          {/* <div className='flex justify-end'>
-            <label className='relative block'>
-              <span className='sr-only'>Search</span>
-              <span className='absolute inset-y-0 left-0 flex items-center pl-2'>
-                <svg className='h-5 w-5 fill-slate-300' viewBox='0 0 20 20'>
-                  <path
-                    fillRule='evenodd'
-                    d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
-                    clipRule='evenodd'
-                  ></path>
-                </svg>
-              </span>
-              <input
-                className='placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm'
-                placeholder='Search for anything...'
-                type='text'
-                name='search'
-              />
-            </label>
-          </div> */}
           <div>
             <SelectBox options={options} />
           </div>
           <div className='my-10'>
             <AnimatePresence>
-              {posts?.map((post: Post) => (
-                <BlogCard key={post.slug} {...post} />
-              ))}
+              {posts?.map((post: Post, index: number) => {
+                if (posts?.length === index + 1) {
+                  return (
+                    <div ref={lastPostElementRef} key={post.slug}>
+                      <BlogCard {...post} />
+                    </div>
+                  )
+                } else {
+                  return <BlogCard key={post.slug} {...post} />
+                }
+              })}
             </AnimatePresence>
             {fetcher.state === 'loading' && <p>Loading...</p>}
           </div>
