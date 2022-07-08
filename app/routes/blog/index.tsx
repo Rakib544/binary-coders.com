@@ -93,8 +93,6 @@ const index = () => {
     }
   }, [pageNumber])
 
-  // const [isFirstTime, setIsFirstTime] = React.useState(true)
-
   React.useEffect(() => {
     if (fetcher.data?.posts?.length === 0) {
       setHasMore(false)
@@ -104,16 +102,25 @@ const index = () => {
       if (posts[0]?.title === fetcher.data?.posts[0]?.title) {
         return
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      setPosts((prevPosts: any) => {
-        return [...prevPosts, ...fetcher.data.posts]
-      })
+
+      if (location.search === '?query=me') {
+        if (fetcher.data?.posts?.every((post: Post) => post.authorId === loaderData?.userId)) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          setPosts((prevPosts: any) => {
+            return [...new Set([...prevPosts, ...fetcher.data.posts])]
+          })
+        }
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setPosts((prevPosts: any) => {
+          return [...new Set([...prevPosts, ...fetcher.data.posts])]
+        })
+      }
     }
   }, [fetcher.data])
 
   React.useEffect(() => {
     setPageNumber(0)
-    // setIsFirstTime(true)
     setHasMore(true)
     // eslint-disable-next-line no-unsafe-optional-chaining
     setPosts([...loaderData?.posts])
