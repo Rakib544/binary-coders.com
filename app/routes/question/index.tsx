@@ -1,21 +1,26 @@
 import { LoaderFunction } from '@remix-run/node'
-import { Link, useLoaderData, useLocation } from '@remix-run/react'
+import { Link, useFetcher, useLoaderData, useLocation } from '@remix-run/react'
+import * as React from 'react'
 import QuestionCard from '~/components/question-card'
 import SelectBox from '~/components/select'
 import { getAllQuestions } from '~/utils/question.server'
 import { getUserInfo } from '~/utils/session.server'
 
+// utility function for getting page number
+const getPage = (searchParams: URLSearchParams) => Number(searchParams.get('page') || '1')
+
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url)
+  const page = getPage(new URL(request.url).searchParams)
   const { userId } = await getUserInfo(request)
   if (url.search === '?query=me') {
-    const res = await getAllQuestions(userId as string)
+    const res = await getAllQuestions(userId as string, page)
     return {
       ...res,
       userId,
     }
   } else {
-    const res = await getAllQuestions(null)
+    const res = await getAllQuestions(null, page)
     return {
       ...res,
       userId,
@@ -55,14 +60,69 @@ const options = [
 
 const Index = () => {
   const loaderData = useLoaderData()
-  // const shouldReduceMotion = useReducedMotion()
-
-  // const childVariants = {
-  //   initial: { opacity: 0, y: shouldReduceMotion ? 0 : 25 },
-  //   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  // }
-
   const location = useLocation()
+  const fetcher = useFetcher()
+
+  const [pageNumber, setPageNumber] = React.useState(0)
+  const [questions, setQuestions] = React.useState(loaderData?.questions)
+  const [hasMore, setHasMore] = React.useState(true)
+
+  const observer = React.useRef<IntersectionObserver>()
+  const lastPostElementRef = React.useCallback(
+    (node) => {
+      if (observer?.current) observer?.current?.disconnect()
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0]?.isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1)
+        }
+      })
+      if (node) observer?.current?.observe(node)
+    },
+    [hasMore, location.search, fetcher.data],
+  )
+
+  React.useEffect(() => {
+    if (location.search === '?query=me') {
+      fetcher.load(`/question?query=me&index&page=${pageNumber + 1}`)
+    } else {
+      fetcher.load(`/question?index&page=${pageNumber + 1}`)
+    }
+  }, [pageNumber])
+
+  React.useEffect(() => {
+    if (fetcher.data?.questions?.length === 0) {
+      setHasMore(false)
+      return
+    }
+    if (fetcher.data?.questions) {
+      if (questions[0]?.title === fetcher.data?.questions[0]?.title) {
+        return
+      }
+
+      if (location.search === '?query=me') {
+        if (
+          fetcher.data?.questions?.every((post: Question) => post.authorId === loaderData?.userId)
+        ) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          setQuestions((prevPosts: any) => {
+            return [...new Set([...prevPosts, ...fetcher.data.questions])]
+          })
+        }
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setQuestions((prevPosts: any) => {
+          return [...new Set([...prevPosts, ...fetcher.data.questions])]
+        })
+      }
+    }
+  }, [fetcher.data])
+
+  React.useEffect(() => {
+    setPageNumber(0)
+    setHasMore(true)
+    // eslint-disable-next-line no-unsafe-optional-chaining
+    setQuestions([...loaderData?.questions])
+  }, [location.search])
   return (
     <>
       <Link
@@ -108,33 +168,22 @@ const Index = () => {
           </div>
         </aside>
         <div className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12'>
-          {/* <div className='flex justify-end'>
-            <label className='relative block'>
-              <span className='sr-only'>Search</span>
-              <span className='absolute inset-y-0 left-0 flex items-center pl-2'>
-                <svg className='h-5 w-5 fill-slate-300' viewBox='0 0 20 20'>
-                  <path
-                    fillRule='evenodd'
-                    d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
-                    clipRule='evenodd'
-                  ></path>
-                </svg>
-              </span>
-              <input
-                className='placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm'
-                placeholder='Search for anything...'
-                type='text'
-                name='search'
-              />
-            </label>
-          </div> */}
           <div>
             <SelectBox options={options} />
           </div>
           <div className='my-10'>
-            {loaderData?.questions?.map((post: Question) => (
-              <QuestionCard key={post.slug} {...post} />
-            ))}
+            {questions?.map((post: Question, index: number) => {
+              if (questions.length === index + 1) {
+                return (
+                  <div ref={lastPostElementRef} key={post.slug}>
+                    <QuestionCard key={post.slug} {...post} />
+                  </div>
+                )
+              } else {
+                return <QuestionCard key={post.slug} {...post} />
+              }
+            })}
+            {fetcher.state === 'loading' && <p>Loading...</p>}
           </div>
         </div>
       </div>

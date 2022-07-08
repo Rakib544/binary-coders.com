@@ -172,7 +172,7 @@ export const addQuestionReader = async (slug: string, id: string) => {
   }
 }
 
-export const getAllQuestions = async (userId: string | null) => {
+export const getAllQuestions = async (userId: string | null, page: number) => {
   let id
   if (userId) {
     id = userId
@@ -184,6 +184,8 @@ export const getAllQuestions = async (userId: string | null) => {
       where: {
         authorId: id,
       },
+      take: 5,
+      skip: (page - 1) * 5,
       orderBy: {
         createdAt: 'desc',
       },
