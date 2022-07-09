@@ -1,4 +1,4 @@
-import { HeadersFunction, json, LoaderFunction } from '@remix-run/node'
+import { json, LoaderFunction } from '@remix-run/node'
 import { Link, useFetcher, useLoaderData, useLocation } from '@remix-run/react'
 import { AnimatePresence } from 'framer-motion'
 import * as React from 'react'
@@ -41,13 +41,6 @@ export const loader: LoaderFunction = async ({ request }) => {
         Vary: 'Cookie',
       },
     })
-  }
-}
-
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
-  return {
-    'Cache-Control': loaderHeaders.get('Cache-Control') ?? '',
-    Vary: loaderHeaders.get('Vary') ?? '',
   }
 }
 
