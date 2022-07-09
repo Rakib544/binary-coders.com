@@ -44,7 +44,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       ...res,
     },
     {
-      'Cache-Control': `public, max-age=${60 * 5}, s-maxage=${60 * 5}`,
+      'Cache-Control': `private, max-age=${60 * 5}, s-maxage=${60 * 5}`,
       Vary: 'cookie',
     },
   )
