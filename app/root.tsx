@@ -39,15 +39,9 @@ export const meta: MetaFunction = () => ({
 
 export const loader: LoaderFunction = async ({ request }) => {
   const res = await getUserInfo(request)
-  return json(
-    {
-      ...res,
-    },
-    {
-      'Cache-Control': `private, max-age=${60 * 5}, s-maxage=${60 * 5}`,
-      Vary: 'cookie',
-    },
-  )
+  return json({
+    ...res,
+  })
 }
 
 const LOADER_WORDS = [
