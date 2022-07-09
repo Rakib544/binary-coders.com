@@ -7,6 +7,7 @@ import OurTarget from '../components/ourTarget/ourTarget'
 export const headers: HeadersFunction = () => {
   return {
     'Cache-Control': `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24}`,
+    Vary: 'cookie',
   }
 }
 
