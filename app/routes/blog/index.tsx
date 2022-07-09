@@ -1,4 +1,4 @@
-import type { LoaderFunction } from '@remix-run/node'
+import { HeadersFunction, json, LoaderFunction } from '@remix-run/node'
 import { Link, useFetcher, useLoaderData, useLocation } from '@remix-run/react'
 import { AnimatePresence } from 'framer-motion'
 import * as React from 'react'
@@ -19,16 +19,35 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   if (url.search.startsWith('?query=me')) {
     const posts = await getAllBlogPosts(userId as string, page)
-    return {
+    const data = {
       ...posts,
       userId,
     }
+    return json(data, {
+      headers: {
+        'Cache-Control': `public, max-age=${60 * 5}, s-maxage=${60 * 60}`,
+        Vary: 'Cookie',
+      },
+    })
   } else {
     const posts = await getAllBlogPosts(null, page)
-    return {
+    const data = {
       ...posts,
       userId,
     }
+    return json(data, {
+      headers: {
+        'Cache-Control': `public, max-age=${60 * 5}, s-maxage=${60 * 60}`,
+        Vary: 'Cookie',
+      },
+    })
+  }
+}
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return {
+    'Cache-Control': loaderHeaders.get('Cache-Control') ?? '',
+    Vary: loaderHeaders.get('Vary') ?? '',
   }
 }
 

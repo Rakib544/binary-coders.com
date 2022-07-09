@@ -1,3 +1,11 @@
+import { HeadersFunction } from '@remix-run/node'
+
+export const headers: HeadersFunction = () => {
+  return {
+    'Cache-Control': `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24 * 30}`,
+  }
+}
+
 const compiler = () => {
   return (
     <div>

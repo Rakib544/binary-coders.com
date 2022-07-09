@@ -1,4 +1,4 @@
-import { ActionFunction, LinksFunction } from '@remix-run/node'
+import { ActionFunction, HeadersFunction, LinksFunction } from '@remix-run/node'
 import { Form, Link, useActionData, useTransition } from '@remix-run/react'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
@@ -17,6 +17,12 @@ export const action: ActionFunction = async ({ request }) => {
   const { email } = Object.fromEntries(formData)
   const res = await sendRegisterAccountLink(email as string)
   return { ...res }
+}
+
+export const headers: HeadersFunction = () => {
+  return {
+    'Cache-Control': `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24 * 30}`,
+  }
 }
 
 const registerLink = () => {
