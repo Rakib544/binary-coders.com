@@ -1,4 +1,5 @@
 import { Link } from '@remix-run/react'
+import { motion } from 'framer-motion'
 import moment from 'moment'
 import CommentIcons from './icons/comment-icon'
 import EyeIcon from './icons/eye'
@@ -18,36 +19,39 @@ export type Post = {
   }
 }
 
+const easing = [0.6, -0.05, 0.01, 0.99]
+
+const fadeInUp = {
+  initial: {
+    y: 60,
+    opacity: 0,
+    transition: { duration: 0.6, ease: easing },
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: easing,
+    },
+  },
+}
+
 const QuestionCard = ({ slug, title, createdAt, views, comments, creator }: Post) => {
   return (
-    <Link
-      prefetch='intent'
-      to={`/question/${slug}`}
-      className='bg-white py-4 px-4 rounded-xl grid grid-cols-10 my-4'
-    >
-      <div className='col-span-10 md:col-span-1 flex justify-between'>
-        <img
-          src={creator.profilePicture}
-          alt={creator.name}
-          className='rounded-xl h-14 w-14 object-cover'
-        />
-        <div className='flex space-x-2 md:hidden'>
-          <div className='flex items-center space-x-1'>
-            <EyeIcon />
-            <small>{views}</small>
-          </div>
-          <div className='flex items-center space-x-1'>
-            <CommentIcons />
-            <small className='text-xs font-medium text-slate-500'>{comments}</small>
-          </div>
-        </div>
-      </div>
-      <div className='col-span-9'>
-        <div className='grid grid-cols-10 items-center gap-4'>
-          <H6 className='md:truncate col-span-10 mt-4 md:mt-0 md:col-span-8 hover:underline'>
-            {title}
-          </H6>
-          <div className='hidden col-span-10 md:col-span-2 md:flex space-x-2'>
+    <motion.div variants={fadeInUp}>
+      <Link
+        prefetch='intent'
+        to={`/question/${slug}`}
+        className='bg-white py-4 px-4 rounded-xl grid grid-cols-10 my-4'
+      >
+        <div className='col-span-10 md:col-span-1 flex justify-between'>
+          <img
+            src={creator.profilePicture}
+            alt={creator.name}
+            className='rounded-xl h-14 w-14 object-cover'
+          />
+          <div className='flex space-x-2 md:hidden'>
             <div className='flex items-center space-x-1'>
               <EyeIcon />
               <small>{views}</small>
@@ -58,18 +62,35 @@ const QuestionCard = ({ slug, title, createdAt, views, comments, creator }: Post
             </div>
           </div>
         </div>
-        <small className='mt-4 block text-xs'>
-          <Link
-            prefetch='intent'
-            to={`/user/${creator.username}`}
-            className='text-blue-500 font-medium'
-          >
-            {creator.name}
-          </Link>
-          {'  '}posted <span className='font-medium'>{moment(createdAt).fromNow()}</span>
-        </small>
-      </div>
-    </Link>
+        <div className='col-span-9'>
+          <div className='grid grid-cols-10 items-center gap-4'>
+            <H6 className='md:truncate col-span-10 mt-4 md:mt-0 md:col-span-8 hover:underline'>
+              {title}
+            </H6>
+            <div className='hidden col-span-10 md:col-span-2 md:flex space-x-2'>
+              <div className='flex items-center space-x-1'>
+                <EyeIcon />
+                <small>{views}</small>
+              </div>
+              <div className='flex items-center space-x-1'>
+                <CommentIcons />
+                <small className='text-xs font-medium text-slate-500'>{comments}</small>
+              </div>
+            </div>
+          </div>
+          <small className='mt-4 block text-xs'>
+            <Link
+              prefetch='intent'
+              to={`/user/${creator.username}`}
+              className='text-blue-500 font-medium'
+            >
+              {creator.name}
+            </Link>
+            {'  '}posted <span className='font-medium'>{moment(createdAt).fromNow()}</span>
+          </small>
+        </div>
+      </Link>
+    </motion.div>
   )
 }
 

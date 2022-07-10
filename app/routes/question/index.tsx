@@ -1,10 +1,37 @@
 import { LoaderFunction } from '@remix-run/node'
 import { Link, useFetcher, useLoaderData, useLocation } from '@remix-run/react'
+import { AnimatePresence, motion } from 'framer-motion'
 import * as React from 'react'
 import QuestionCard from '~/components/question-card'
 import SelectBox from '~/components/select'
 import { getAllQuestions } from '~/utils/question.server'
 import { getUserInfo } from '~/utils/session.server'
+
+const easing = [0.6, -0.05, 0.01, 0.99]
+
+const fadeInUp = {
+  initial: {
+    y: 40,
+    opacity: 0,
+    transition: { duration: 0.6, ease: easing },
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: easing,
+    },
+  },
+}
+
+const stagger = {
+  animate: {
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+}
 
 // utility function for getting page number
 const getPage = (searchParams: URLSearchParams) => Number(searchParams.get('page') || '1')
@@ -124,7 +151,7 @@ const Index = () => {
     setQuestions([...loaderData?.questions])
   }, [location.search])
   return (
-    <>
+    <motion.div initial='initial' animate='animate' exit={{ opacity: 0 }}>
       <Link
         prefetch='intent'
         to='/question/create'
@@ -135,59 +162,71 @@ const Index = () => {
 
       <div className='grid grid-cols-10 gap-0 lg:gap-4'>
         <aside className='col-span-10 hidden md:col-span-2 lg:col-span-3 md:flex justify-center'>
-          <div className='w-full md:px-2 lg:px-16 my-10'>
+          <motion.div className='w-full md:px-2 lg:px-16 my-10' variants={stagger}>
             {loaderData?.userId && (
-              <Link
-                prefetch='intent'
-                to='/question/create'
-                className='block bg-blue-500 py-3 px-4 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
-              >
-                Ask question
-              </Link>
+              <motion.div variants={fadeInUp}>
+                {' '}
+                <Link
+                  prefetch='intent'
+                  to='/question/create'
+                  className='block bg-blue-500 py-3 px-4 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
+                >
+                  Ask question
+                </Link>
+              </motion.div>
             )}
-            <Link
-              to='/question'
-              prefetch='intent'
-              className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-                location.search === '' ? 'ring-1 ring-blue-500 text-blue-500' : ''
-              }`}
-            >
-              All Questions
-            </Link>
-            {loaderData.userId && (
+            <motion.div variants={fadeInUp}>
               <Link
-                to='/question?query=me'
+                to='/question'
                 prefetch='intent'
                 className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-                  location.search === '?query=me' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+                  location.search === '' ? 'ring-1 ring-blue-500 text-blue-500' : ''
                 }`}
               >
-                My Questions
+                All Questions
               </Link>
+            </motion.div>
+            {loaderData.userId && (
+              <motion.div variants={fadeInUp}>
+                <Link
+                  to='/question?query=me'
+                  prefetch='intent'
+                  className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+                    location.search === '?query=me' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+                  }`}
+                >
+                  My Questions
+                </Link>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         </aside>
-        <div className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12'>
-          <div>
+        <motion.div
+          variants={stagger}
+          className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12'
+        >
+          <motion.div variants={fadeInUp}>
             <SelectBox options={options} />
-          </div>
+          </motion.div>
           <div className='my-10'>
-            {questions?.map((post: Question, index: number) => {
-              if (questions.length === index + 1) {
-                return (
-                  <div ref={lastPostElementRef} key={post.slug}>
-                    <QuestionCard key={post.slug} {...post} />
-                  </div>
-                )
-              } else {
-                return <QuestionCard key={post.slug} {...post} />
-              }
-            })}
+            <AnimatePresence>
+              {questions?.map((post: Question, index: number) => {
+                if (questions.length === index + 1) {
+                  return (
+                    <div ref={lastPostElementRef} key={post.slug}>
+                      <QuestionCard key={post.slug} {...post} />
+                    </div>
+                  )
+                } else {
+                  return <QuestionCard key={post.slug} {...post} />
+                }
+              })}
+            </AnimatePresence>
             {fetcher.state === 'loading' && <p>Loading...</p>}
           </div>
-        </div>
+        </motion.div>
       </div>
-    </>
+    </motion.div>
   )
 }
 

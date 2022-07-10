@@ -21,12 +21,27 @@ export type Post = {
   }
 }
 
+const easing = [0.6, -0.05, 0.01, 0.99]
+
+const fadeInUp = {
+  initial: {
+    y: 60,
+    opacity: 0,
+    transition: { duration: 0.6, ease: easing },
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: easing,
+    },
+  },
+}
+
 const BlogCard = ({ slug, title, createdAt, readTime, views, creator }: Post) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0, transition: { duration: 0.5 } }}
-    >
+    <motion.div variants={fadeInUp}>
       <Link
         prefetch='intent'
         to={`/blog/${slug}`}

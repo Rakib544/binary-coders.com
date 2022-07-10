@@ -1,11 +1,47 @@
 import { LoaderFunction } from '@remix-run/node'
 import { Link, useFetcher, useLoaderData, useLocation } from '@remix-run/react'
+import { motion } from 'framer-motion'
 import * as React from 'react'
 import EyeIcon from '~/components/icons/eye'
 import SelectBox from '~/components/select'
 import { H6 } from '~/components/typography'
 import { getAllProblems } from '~/utils/problems.server'
 import { getUserInfo } from '~/utils/session.server'
+
+const easing = [0.6, -0.05, 0.01, 0.99]
+
+const fadeInUp = {
+  initial: {
+    y: 40,
+    opacity: 0,
+    transition: { duration: 0.6, ease: easing },
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: easing,
+    },
+  },
+}
+
+const stagger = {
+  animate: {
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+}
+
+const sortOptions = [
+  { label: 'All', to: '/problems', active: '' },
+  { label: 'Variable', to: '/problems?query=variable', active: '?query=variable' },
+  { label: 'Condition', to: '/problems?query=condition', active: '?query=condition' },
+  { label: 'Array', to: '/problems?query=array', active: '?query=array' },
+  { label: 'Loop', to: '/problems?query=loop', active: '?query=loop' },
+  { label: 'Function', to: '/problems?query=function', active: '?query=function' },
+]
 
 const getPage = (searchParams: URLSearchParams) => Number(searchParams.get('page') || '1')
 
@@ -128,79 +164,49 @@ const Index = () => {
   }, [location.search])
 
   return (
-    <div className='grid grid-cols-10 gap-0 lg:gap-4'>
+    <motion.div
+      initial='initial'
+      animate='animate'
+      exit={{ opacity: 0 }}
+      className='grid grid-cols-10 gap-0 lg:gap-4'
+    >
       <aside className='col-span-10 hidden md:col-span-2 lg:col-span-3 md:flex justify-center'>
-        <div className='w-full md:px-2 lg:px-16 my-10'>
+        <motion.div variants={stagger} className='w-full md:px-2 lg:px-16 my-10'>
           {loaderData?.role === 'admin' && (
-            <Link
-              prefetch='intent'
-              to='/problems/create'
-              className='block bg-blue-500 py-3 px-4 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
-            >
-              Set Problems
-            </Link>
+            <motion.div variants={fadeInUp}>
+              {' '}
+              <Link
+                prefetch='intent'
+                to='/problems/create'
+                className='block bg-blue-500 py-3 px-4 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
+              >
+                Set Problems
+              </Link>
+            </motion.div>
           )}
 
-          <Link
-            to='/problems'
-            prefetch='intent'
-            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-              location.search === '' ? 'ring-1 ring-blue-500 text-blue-500' : ''
-            }`}
-          >
-            All
-          </Link>
-          <Link
-            prefetch='intent'
-            to='/problems?query=variable'
-            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-              location.search === '?query=variable' ? 'ring-1 ring-blue-500 text-blue-500' : ''
-            }`}
-          >
-            Variable
-          </Link>
-          <Link
-            prefetch='intent'
-            to='/problems?query=condition'
-            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-              location.search === '?query=condition' ? 'ring-1 ring-blue-500 text-blue-500' : ''
-            }`}
-          >
-            Condition
-          </Link>
-          <Link
-            prefetch='intent'
-            to='/problems?query=array'
-            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-              location.search === '?query=array' ? 'ring-1 ring-blue-500 text-blue-500' : ''
-            }`}
-          >
-            Array
-          </Link>
-          <Link
-            prefetch='intent'
-            to='/problems?query=loop'
-            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-              location.search === '?query=loop' ? 'ring-1 ring-blue-500 text-blue-500' : ''
-            }`}
-          >
-            Loop
-          </Link>
-          <Link
-            prefetch='intent'
-            to='/problems?query=function'
-            className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-              location.search === '?query=function' ? 'ring-1 ring-blue-500 text-blue-500' : ''
-            }`}
-          >
-            Function
-          </Link>
-        </div>
+          {sortOptions.map(({ label, to, active }) => (
+            <motion.div variants={fadeInUp} key={label}>
+              <Link
+                to={to}
+                prefetch='intent'
+                className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
+                  location.search === active ? 'ring-1 ring-blue-500 text-blue-500' : ''
+                }`}
+              >
+                {label}
+              </Link>
+            </motion.div>
+          ))}
+        </motion.div>
       </aside>
-      <ul className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12'>
-        <div>
+      <motion.ul
+        variants={stagger}
+        className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12 my-10'
+      >
+        <motion.div variants={fadeInUp} className='mb-10'>
           <SelectBox options={options} />
-        </div>
+        </motion.div>
         {problems?.map((problem: Problem, index: number) => {
           if (problems?.length === index + 1) {
             return (
@@ -213,15 +219,15 @@ const Index = () => {
           }
         })}
         {fetcher.state === 'loading' && <li>Loading...</li>}
-      </ul>
-    </div>
+      </motion.ul>
+    </motion.div>
   )
 }
 
 export default Index
 
 const ProblemsCard = ({ problem }: ProblemCard) => (
-  <li key={problem.slug}>
+  <motion.li variants={fadeInUp} key={problem.slug}>
     <Link
       prefetch='intent'
       to={`/problems/${problem.slug}`}
@@ -256,5 +262,5 @@ const ProblemsCard = ({ problem }: ProblemCard) => (
         </Link>
       </div>
     </Link>
-  </li>
+  </motion.li>
 )
