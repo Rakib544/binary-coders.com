@@ -15,6 +15,31 @@ import { BackButton } from '~/components/button'
 import MenuDropDown from '~/components/menu-dropdown'
 import { getUserId, getUserInfo } from '~/utils/session.server'
 
+const easing = [0.6, -0.05, 0.01, 0.99]
+
+const stagger = {
+  animate: {
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+}
+
+const fadeInUp = {
+  initial: {
+    y: 10,
+    opacity: 0,
+    transition: { duration: 0.6, ease: easing },
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+}
+
 export const links: LinksFunction = () => {
   return [
     { rel: 'stylesheet', href: highlightCss },
@@ -88,56 +113,71 @@ const SingleBlog = () => {
   return (
     <motion.div
       className='w-full md:w-2/3 mx-auto p-4'
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      initial='initial'
+      animate='animate'
+      exit={{ opacity: 0 }}
     >
-      <BackButton to='/blog' />
-      <div className='my-10'>
-        <div className='flex justify-end items-center space-x-4'>
-          <div className='flex items-center space-x-1 cursor-pointer' title='See viewers'>
-            <Form method='post'>
-              <button
-                type='submit'
-                className='flex items-center space-x-1 cursor-pointer'
-                onClick={() => setShowDialog(true)}
+      <motion.div variants={stagger}>
+        <motion.div variants={fadeInUp}>
+          <BackButton to='/blog' />
+        </motion.div>
+        <motion.div variants={fadeInUp} className='my-10'>
+          <div className='flex justify-end items-center space-x-4'>
+            <div className='flex items-center space-x-1 cursor-pointer' title='See viewers'>
+              <Form method='post'>
+                <button
+                  type='submit'
+                  className='flex items-center space-x-1 cursor-pointer'
+                  onClick={() => setShowDialog(true)}
+                >
+                  <EyeIcon />{' '}
+                  <small className='text-xs text-slate-500 font-medium'>{blog.views}</small>
+                </button>
+              </Form>
+            </div>
+            <div className='flex items-center space-x-1'>
+              <ReadTime />{' '}
+              <small className='text-xs text-slate-500 font-medium'>{blog.readTime}</small>
+            </div>
+            {blog.authorId === loaderData?.userId && (
+              <MenuDropDown url={`/blog/edit/${blog.slug}`} />
+            )}
+          </div>
+          <motion.h1
+            variants={fadeInUp}
+            className='text-2xl md:text-4xl font-extrabold text-slate-700 my-2'
+          >
+            {blog.title}
+          </motion.h1>
+          <motion.div
+            variants={fadeInUp}
+            className='flex items-center text-sky-600 text-md mt-2 space-x-2'
+          >
+            <img
+              className='rounded-xl object-center h-14 w-12 object-cover'
+              src={creatorInfo.profilePicture}
+              alt={creatorInfo.name}
+            />
+            <div>
+              <Link
+                prefetch='intent'
+                to={`/user/${creatorInfo.username}`}
+                className='text-sky-500 font-medium'
               >
-                <EyeIcon />{' '}
-                <small className='text-xs text-slate-500 font-medium'>{blog.views}</small>
-              </button>
-            </Form>
-          </div>
-          <div className='flex items-center space-x-1'>
-            <ReadTime />{' '}
-            <small className='text-xs text-slate-500 font-medium'>{blog.readTime}</small>
-          </div>
-          {blog.authorId === loaderData?.userId && <MenuDropDown url={`/blog/edit/${blog.slug}`} />}
-        </div>
-        <h1 className='text-2xl md:text-4xl font-extrabold text-slate-700 my-2'>{blog.title}</h1>
-        <div className='flex items-center text-sky-600 text-md mt-2 space-x-2'>
-          <img
-            className='rounded-xl object-center h-14 w-12 object-cover'
-            src={creatorInfo.profilePicture}
-            alt={creatorInfo.name}
-          />
-          <div>
-            <Link
-              prefetch='intent'
-              to={`/user/${creatorInfo.username}`}
-              className='text-sky-500 font-medium'
-            >
-              {creatorInfo.name}
-            </Link>
-            <small className='block text-xs font-medium text-slate-400'>
-              posted {moment(blog.createdAt).fromNow()}
-            </small>
-          </div>
-        </div>
-      </div>
-      <div
-        dangerouslySetInnerHTML={{ __html: blog.html }}
-        className='prose prose-slate lg:prose-lg max-w-none mb-24 prose-a:text-blue-600 siliguri-font'
-      ></div>
+                {creatorInfo.name}
+              </Link>
+              <small className='block text-xs font-medium text-slate-400'>
+                posted {moment(blog.createdAt).fromNow()}
+              </small>
+            </div>
+          </motion.div>
+        </motion.div>
+        <motion.div
+          variants={fadeInUp}
+          dangerouslySetInnerHTML={{ __html: blog.html }}
+          className='prose prose-slate lg:prose-lg max-w-none mb-24 prose-a:text-blue-600 siliguri-font'
+        ></motion.div>
+      </motion.div>
       {actionData?.viewers && (
         <ViewersModal
           showDialog={showDialog}
