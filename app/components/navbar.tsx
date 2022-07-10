@@ -58,7 +58,7 @@ const Navbar = ({
             </Link>
             <ul className='hidden md:flex items-center'>
               {headerNavLinks.map((link) => (
-                <NavLink key={link.href} to={link.href}>
+                <NavLink key={link.href} to={link.href} prefetch='intent'>
                   {link.title}
                 </NavLink>
               ))}
