@@ -23,24 +23,14 @@ export const loader: LoaderFunction = async ({ request }) => {
       ...posts,
       userId,
     }
-    return json(data, {
-      headers: {
-        'Cache-Control': `public, max-age=${60 * 5}, s-maxage=${60 * 60}`,
-        Vary: 'Cookie',
-      },
-    })
+    return json(data)
   } else {
     const posts = await getAllBlogPosts(null, page)
     const data = {
       ...posts,
       userId,
     }
-    return json(data, {
-      headers: {
-        'Cache-Control': `public, max-age=${60 * 5}, s-maxage=${60 * 60}`,
-        Vary: 'Cookie',
-      },
-    })
+    return json(data)
   }
 }
 

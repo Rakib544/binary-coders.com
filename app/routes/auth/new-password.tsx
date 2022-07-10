@@ -1,4 +1,4 @@
-import { ActionFunction, HeadersFunction, LoaderFunction, redirect } from '@remix-run/node'
+import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Input, Label } from '~/components/form-elements'
@@ -25,12 +25,6 @@ export const loader: LoaderFunction = async ({ request }) => {
       status: 404,
       message: 'No token found',
     }
-  }
-}
-
-export const headers: HeadersFunction = () => {
-  return {
-    'Cache-control': `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24 * 30}`,
   }
 }
 

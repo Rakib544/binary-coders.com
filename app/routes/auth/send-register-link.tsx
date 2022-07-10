@@ -21,7 +21,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export const headers: HeadersFunction = () => {
   return {
-    'Cache-Control': `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24 * 30}`,
+    'Cache-control': 'public, s-maxage=60 slate-while-revalidate=2678400',
   }
 }
 

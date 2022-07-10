@@ -1,12 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  ActionFunction,
-  HeadersFunction,
-  json,
-  LinksFunction,
-  LoaderFunction,
-  redirect,
-} from '@remix-run/node'
+import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
@@ -80,12 +73,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const result = await checkRegisterLinkToken(token as string)
   return json({ ...result, env: process.env.IMAGE_BB_KEY, token: token })
-}
-
-export const headers: HeadersFunction = () => {
-  return {
-    'Cache-control': `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24 * 30}`,
-  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
