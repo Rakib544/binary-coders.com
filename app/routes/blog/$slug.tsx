@@ -8,7 +8,7 @@ import * as React from 'react'
 import EyeIcon from '~/components/icons/eye'
 import ReadTime from '~/components/icons/readTime'
 import ViewersModal from '~/components/viewers-modal'
-import { addBlogReader, getBlogViewers, getSingleBlog } from '~/utils/blog.server'
+import { addBlogReader, deleteBlog, getBlogViewers, getSingleBlog } from '~/utils/blog.server'
 
 import modalStyles from '@reach/dialog/styles.css'
 import { BackButton } from '~/components/button'
@@ -57,6 +57,14 @@ export const links: LinksFunction = () => {
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData()
   const { action } = Object.fromEntries(formData)
+
+  if (action === 'delete') {
+    const res = await deleteBlog(params.slug as string)
+    if (res.status === 200) {
+      return redirect('/blog')
+    }
+  }
+
   if (action === 'incrementView') {
     const { userId } = await getUserInfo(request)
     await addBlogReader(params.slug as string, userId as string)
@@ -110,6 +118,10 @@ const SingleBlog = () => {
     return () => clearTimeout(timeOut)
   }, [])
 
+  const handleDelete = () => {
+    fetcher.submit({ action: 'delete' }, { method: 'delete' })
+  }
+
   return (
     <motion.div
       className='w-full md:w-2/3 mx-auto p-4'
@@ -140,7 +152,7 @@ const SingleBlog = () => {
               <small className='text-xs text-slate-500 font-medium'>{blog.readTime}</small>
             </div>
             {blog.authorId === loaderData?.userId && (
-              <MenuDropDown url={`/blog/edit/${blog.slug}`} />
+              <MenuDropDown handleDelete={handleDelete} url={`/blog/edit/${blog.slug}`} />
             )}
           </div>
           <motion.h1

@@ -207,3 +207,22 @@ export const getProblemViewers = async (slug: string) => {
     viewers,
   }
 }
+
+export const deleteProblems = async (slug: string) => {
+  try {
+    await prisma.problem.delete({
+      where: {
+        slug,
+      },
+    })
+    return {
+      status: 200,
+      message: 'Problem deleted successful',
+    }
+  } catch (e) {
+    return {
+      status: 500,
+      message: 'Internal server error. Please try again',
+    }
+  }
+}
