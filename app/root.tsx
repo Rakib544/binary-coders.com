@@ -134,7 +134,6 @@ function PageLoadingMessage() {
 
 export default function App() {
   const loaderData = useLoaderData()
-
   return (
     <html lang='en' className='scroll-smooth'>
       <head>

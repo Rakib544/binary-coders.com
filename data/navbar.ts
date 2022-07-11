@@ -8,75 +8,36 @@ export const headerNavLinks = [
 export const stackCard = [
   {
     id: 1,
-    cardImg: './images/html.png',
-    stackName: 'Html',
-    body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
+    cardImg: './images/problemSolvingKnowladge.svg',
+    stackName: 'Generate your solving idea',
+    body: 'With the help of binary coders and your skill combination, you will be able to grow your Problem Solving ideas. Which is take you to the future highest place, that you wanna achieve.',
     btnStyle: {
       border: '2px solid #e44d26',
       padding: '2px 25px',
       borderRadius: '50px',
     },
-    link: 'https://www.w3schools.com/html/default.asp',
   },
   {
     id: 2,
-    cardImg: './images/css.png',
-    stackName: 'Css',
-    body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
+    cardImg: './images/coding.svg ',
+    stackName: 'problem solving contests',
+    body: 'Every 2 or 3 months later we will arrange a problem-solving contest. Every member of binary coders will have to attend this contest. This is type of arrangement will inspire you to attend the international contest.',
     btnStyle: {
       border: '2px solid #6f91a7',
       padding: '2px 25px',
       borderRadius: '50px',
     },
-    link: 'https://www.w3schools.com/css/default.asp',
   },
   {
     id: 3,
-    cardImg: './images/tailwind.png',
-    stackName: 'Tailwind Css',
-    body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
+    cardImg: './images/programmingActivitist.svg',
+    stackName: 'Achievement !',
+    body: 'After finishing the contest, the first 3 winners will deserve a gift or achievement topi. We think giving rewards is work like motivation as like our semester final exam.',
     btnStyle: {
       border: '2px solid #11252d',
       padding: '2px 25px',
       borderRadius: '50px',
     },
-    link: 'https://tailwindcss.com/',
-  },
-  {
-    id: 4,
-    cardImg: './images/js.png',
-    stackName: 'JavaScript',
-    body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
-    btnStyle: {
-      border: '2px solid #f7df1e',
-      padding: '2px 25px',
-      borderRadius: '50px',
-    },
-    link: 'https://www.w3schools.com/js/default.asp',
-  },
-  {
-    id: 5,
-    cardImg: './images/react.svg',
-    stackName: 'React js',
-    body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
-    btnStyle: {
-      border: '2px solid #61dafb',
-      padding: '2px 25px',
-      borderRadius: '50px',
-    },
-    link: 'https://beta.reactjs.org/',
-  },
-  {
-    id: 6,
-    cardImg: './images/node.png',
-    stackName: 'Node js',
-    body: 'The HyperText Markup Language or HTML is the standard markup language for documents .',
-    btnStyle: {
-      border: '2px solid #3e863d',
-      padding: '2px 25px',
-      borderRadius: '50px',
-    },
-    link: 'https://nodejs.org/en/docs/',
   },
 ]
 
@@ -104,5 +65,26 @@ export const quotes = [
     cardImg: './images/user2.jpg',
     title: 'We think the guideline is the first step in your future',
     body: 'We usually get various tutorials online in English. However, on the Binary Coders platform we can now easily learn international quality courses. As a result, the way to become efficient is being expanded effortlessly.',
+  },
+]
+
+export const ABCData = [
+  {
+    id: 1,
+    img: './images/task.png',
+    title: ' Learning programming and exploring it easiest way',
+    desc: ' We focus on simplicity. Programming tutorials and examples written in simple,understandable language for beginners.',
+  },
+  {
+    id: 2,
+    img: './images/star.png',
+    title: 'Provide you a full guid line to start programing',
+    desc: 'A dedicated group of experts continually working to create programming resources that are accurate and easier to understand.',
+  },
+  {
+    id: 3,
+    img: './images/coding.png',
+    title: 'Learn by doing and practicing with over a hundred students',
+    desc: 'The only way to learn to program is by writing code. That&apos;s why we provides dozens of examples that you can edit and run yourself.',
   },
 ]

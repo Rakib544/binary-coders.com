@@ -4,21 +4,18 @@ const Plan = () => {
     <>
       <div className='my-16'>
         <h1 className='text-center text-gray-700 text-5xl font-bold my-16'>
-          Our <span className='text-blue-500'>Guid Line</span> Process
+          Our <span className='text-blue-600'>Guid Line</span> Process
         </h1>
         <div className='mx-auto max-w-7xl'>
-          <div className='flex flex-col  md:flex-row justify-center items-center space-x-4 md:px-0 px-3'>
+          <div className='flex flex-col md:flex-row justify-center items-center space-x-0 md:space-x-4 md:px-0 px-3'>
             {cardData.map((data) => (
-              <div
-                key={data.cardImg}
-                className='shadow-md md:w-3/6 md:mt-0 mt-3 md:h-60 rounded-lg p-10'
-              >
-                <img src={data.cardImg} className='w-24 h-24 rounded-full mx-auto' alt='' />
+              <div key={data.cardImg} className='shadow-md md:w-3/6 md:mt-0 mt-3 md:h-60 p-10'>
+                <img src={data.cardImg} className='w-20 h-20 mx-auto' alt='' />
                 <h3 className='text-gray-500 font-semibold mt-3 mb-5 text-center'>{data.body}</h3>
               </div>
             ))}
           </div>{' '}
-          <div className='flex flex-col mt-5  md:flex-row justify-center items-center md:px-0 px-2 space-x-4'>
+          <div className='flex flex-col mt-5  md:flex-row justify-center items-center md:px-0 px-2 space-x-0 md:space-x-4'>
             {quotes.map((quote) => (
               <div
                 key={quote.cardImg}

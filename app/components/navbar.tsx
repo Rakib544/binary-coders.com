@@ -45,7 +45,7 @@ const Navbar = ({
   const isNavbarHide = NAVBAR_HIDES_FROM.includes(location.pathname)
 
   return (
-    <>
+    <header>
       {!isNavbarHide ? (
         <div className='flex justify-between items-center py-4 px-2 md:px-10'>
           <div className='flex items-center justify-between w-full'>
@@ -79,7 +79,7 @@ const Navbar = ({
           <MobileNav fullName={fullName} profilePicture={profilePicture} username={username} />
         </div>
       ) : null}
-    </>
+    </header>
   )
 }
 
