@@ -28,6 +28,31 @@ import {
 } from '~/utils/question.server'
 import { getUserId } from '~/utils/session.server'
 
+const easing = [0.6, -0.05, 0.01, 0.99]
+
+const stagger = {
+  animate: {
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+}
+
+const fadeInUp = {
+  initial: {
+    y: 10,
+    opacity: 0,
+    transition: { duration: 0.6, ease: easing },
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+}
+
 export const links: LinksFunction = () => {
   return [
     { rel: 'stylesheet', href: highlightCss },
@@ -126,66 +151,82 @@ const SingleQuestion = () => {
   return (
     <motion.div
       className='w-full md:w-2/3 mx-auto p-4'
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      initial='initial'
+      animate='animate'
+      exit={{ opacity: 0 }}
     >
-      <BackButton to='/question' />
-      <div className='my-6 border-b border-gray-200 py-4'>
-        <div className='flex justify-end items-center' title='See viewers'>
-          <Form method='post'>
-            <button
-              type='submit'
-              name='action'
-              value='getBlogViewers'
-              className='flex items-center space-x-1 cursor-pointer'
-              onClick={() => setShowDialog(true)}
-            >
-              <EyeIcon />{' '}
-              <small className='text-xs text-slate-500 font-medium'>{question.views}</small>
-            </button>
-          </Form>
-          {question?.authorId === userId && (
-            <MenuDropDown url={`/question/edit/${question.slug}`} />
-          )}
-        </div>
-        <h1 className='text-2xl md:text-4xl font-extrabold text-slate-700 my-2'>
-          {question.title}
-        </h1>
-        <div className='flex space-x-2 mt-2 items-center'>
-          <img
-            src={question.creator.profilePicture}
-            alt={question.creator.name}
-            className='h-10 w-10 rounded-xl object-cover'
-          />
-          <div>
-            <Link
-              prefetch='intent'
-              to={`/user/${question.creator.username}`}
-              className='font-medium text-sky-500'
-            >
-              {question.creator.name}
-            </Link>
-            <small className='block text-xs font-medium text-slate-500'>
+      <motion.div variants={stagger}>
+        <motion.div variants={fadeInUp}>
+          <BackButton to='/question' />
+        </motion.div>
+        <div className='my-6 border-b border-gray-200 py-4'>
+          <motion.div
+            variants={fadeInUp}
+            className='flex justify-end items-center'
+            title='See viewers'
+          >
+            <Form method='post'>
+              <button
+                type='submit'
+                name='action'
+                value='getBlogViewers'
+                className='flex items-center space-x-1 cursor-pointer'
+                onClick={() => setShowDialog(true)}
+              >
+                <EyeIcon />{' '}
+                <small className='text-xs text-slate-500 font-medium'>{question.views}</small>
+              </button>
+            </Form>
+            {question?.authorId === userId && (
+              <MenuDropDown url={`/question/edit/${question.slug}`} />
+            )}
+          </motion.div>
+          <motion.h1
+            variants={fadeInUp}
+            className='text-2xl md:text-4xl font-extrabold text-slate-700 my-2'
+          >
+            {question.title}
+          </motion.h1>
+          <motion.div variants={fadeInUp} className='flex space-x-2 mt-2 items-center'>
+            <img
+              src={question.creator.profilePicture}
+              alt={question.creator.name}
+              className='h-10 w-10 rounded-xl object-cover'
+            />
+            <div>
               <Link
                 prefetch='intent'
                 to={`/user/${question.creator.username}`}
-                className='text-sky-500'
+                className='font-medium text-sky-500'
               >
                 {question.creator.name}
-              </Link>{' '}
-              asked {moment(question.createdAt).fromNow()}
-            </small>
-          </div>
+              </Link>
+              <small className='block text-xs font-medium text-slate-500'>
+                <Link
+                  prefetch='intent'
+                  to={`/user/${question.creator.username}`}
+                  className='text-sky-500'
+                >
+                  {question.creator.name}
+                </Link>{' '}
+                asked {moment(question.createdAt).fromNow()}
+              </small>
+            </div>
+          </motion.div>
         </div>
-      </div>
-      <div
-        dangerouslySetInnerHTML={{ __html: question.description }}
-        className='prose prose-slate lg:prose-lg max-w-none mt-12 mb-32 prose-a:text-blue-600 siliguri-font'
-      />
-      <h3 className='text-lg font-medium border-t border-slate-300 pt-3'>
-        {answers?.length} Answers
-      </h3>
+        <motion.div
+          variants={fadeInUp}
+          dangerouslySetInnerHTML={{ __html: question.description }}
+          className='prose prose-slate lg:prose-lg max-w-none mt-12 mb-32 prose-a:text-blue-600 siliguri-font'
+        />
+
+        <motion.h3
+          variants={fadeInUp}
+          className='text-lg font-medium border-t border-slate-300 pt-3'
+        >
+          {answers?.length} Answers
+        </motion.h3>
+      </motion.div>
       {/* replies section goes here */}
       <div className='my-10'>
         <div className='my-4'>
