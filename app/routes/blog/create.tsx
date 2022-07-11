@@ -1,4 +1,11 @@
-import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node'
 import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import quillCss from 'quill/dist/quill.snow.css'
@@ -51,6 +58,14 @@ export const loader: LoaderFunction = async ({ request }) => {
     return redirect('/blog')
   }
   return json({ env: process.env.IMAGE_BB_KEY })
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'New Blog - Binary Coders',
+    description:
+      'Write new blog based on programming fundamentals to user new programmers to understand the basic concepts',
+  }
 }
 
 export const links: LinksFunction = () => [

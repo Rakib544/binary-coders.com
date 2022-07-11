@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from '@remix-run/node'
+import { json, LoaderFunction, MetaFunction } from '@remix-run/node'
 import { Form, useActionData, useTransition } from '@remix-run/react'
 import * as React from 'react'
 import { Label } from '~/components/form-elements'
@@ -20,6 +20,13 @@ export const action: LoaderFunction = async ({ request }) => {
     confirmPassword as string,
   )
   return json(res)
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Update Password - Binary Coders',
+    description: 'Update your password',
+  }
 }
 
 const password = () => {
@@ -78,7 +85,7 @@ const password = () => {
             type='submit'
             name='action'
             value='updatePass'
-            className='px-8 sm:px-12 inline-block my-4 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
+            className='px-8 sm:px-12 inline-block my-4 py-2 sm:py-3  bg-blue-500 text-white rounded-lg font-medium text-sm shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
           >
             {transition.submission ? (
               <div className='flex justify-center items-center'>

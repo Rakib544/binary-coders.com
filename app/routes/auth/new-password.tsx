@@ -1,4 +1,4 @@
-import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node'
+import { ActionFunction, LoaderFunction, MetaFunction, redirect } from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Input, Label } from '~/components/form-elements'
@@ -43,6 +43,13 @@ export const action: ActionFunction = async ({ request }) => {
     return {
       error,
     }
+  }
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Binary Coders | New Password',
+    description: 'Add a new password to get out support to learn programming fundamentals',
   }
 }
 

@@ -4,6 +4,7 @@ import {
   json,
   LinksFunction,
   LoaderFunction,
+  MetaFunction,
   redirect,
 } from '@remix-run/node'
 import { Form, Link, useActionData, useTransition } from '@remix-run/react'
@@ -51,6 +52,13 @@ export const action: ActionFunction = async ({ request }) => {
       ...Object.fromEntries(formData),
       error,
     }
+  }
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Binary Coders | Reset Password',
+    description: 'Reset your password to generate a new password',
   }
 }
 

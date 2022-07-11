@@ -62,8 +62,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export const meta: MetaFunction = () => {
   return {
-    title: 'Blog - Binary Coders',
-    description: 'Binary coders all blogs written by users',
+    title: 'Blogs - Binary Coders',
+    description:
+      'A set of blogs based on programming fundamentals for beginning learners to understand programming basic concepts',
   }
 }
 

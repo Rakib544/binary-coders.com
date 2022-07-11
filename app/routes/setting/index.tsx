@@ -1,4 +1,4 @@
-import { json, LoaderFunction, redirect } from '@remix-run/node'
+import { json, LoaderFunction, MetaFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
@@ -39,6 +39,13 @@ export const action: LoaderFunction = async ({ request }) => {
   )
 
   return json(res)
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Setting - Binary Coders',
+    description: 'Customize to make your public profile more attractive',
+  }
 }
 
 const Me = () => {
@@ -85,7 +92,7 @@ const Me = () => {
               type='submit'
               name='action'
               value='info'
-              className='px-8 sm:px-12 inline-block my-4 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
+              className='px-8 sm:px-12 inline-block my-4 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
             >
               {transition.submission?.method === 'POST' && transition.submission ? (
                 <div className='flex justify-center items-center'>

@@ -57,8 +57,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export const meta: MetaFunction = () => {
   return {
-    title: 'Question - Binary Coders',
-    description: 'Question asked by several users',
+    title: 'Questions - Binary Coders',
+    description: 'Asked question by several users who are currently learning programming.',
   }
 }
 

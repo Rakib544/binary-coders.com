@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from '@remix-run/node'
+import { json, LoaderFunction, MetaFunction } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import BlogCard from '~/components/blogCard'
 import EmailLogo from '~/components/icons/email'
@@ -45,7 +45,15 @@ type Question = {
 
 export const loader: LoaderFunction = async ({ params }) => {
   const res = await getUserInfoByUsername(params.username as string)
-  return json(res)
+  const data = { ...res }
+  return json(data)
+}
+
+export const meta: MetaFunction = ({ data }: { data: { user: { name: string; bio: string } } }) => {
+  return {
+    title: `${data?.user?.name} - Binary Coders`,
+    description: `${data?.user?.bio}`,
+  }
 }
 
 const publicProfile = () => {

@@ -1,4 +1,4 @@
-import { ActionFunction, HeadersFunction, LinksFunction } from '@remix-run/node'
+import { ActionFunction, HeadersFunction, LinksFunction, MetaFunction } from '@remix-run/node'
 import { Form, Link, useActionData, useTransition } from '@remix-run/react'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
@@ -22,6 +22,13 @@ export const action: ActionFunction = async ({ request }) => {
 export const headers: HeadersFunction = () => {
   return {
     'Cache-control': 'public, s-maxage=60 slate-while-revalidate=2678400',
+  }
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Binary Coders | SingUp',
+    description: 'Sign Up to get out support to learn programming fundamentals',
   }
 }
 

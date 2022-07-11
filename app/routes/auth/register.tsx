@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
@@ -73,6 +80,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const result = await checkRegisterLinkToken(token as string)
   return json({ ...result, env: process.env.IMAGE_BB_KEY, token: token })
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Binary Coders | Register',
+    description: 'Register to get out support to learn programming fundamentals',
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

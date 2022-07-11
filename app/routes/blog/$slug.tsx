@@ -1,4 +1,11 @@
-import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node'
 import { Form, Link, useActionData, useFetcher, useLoaderData } from '@remix-run/react'
 import { motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
@@ -81,15 +88,23 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       return redirect('/auth/login')
     }
     const res = await getSingleBlog(params.slug as string)
-    return {
+    const data = {
       ...res,
       userId: userId,
     }
+    return json(data)
   } catch (error) {
     return {
       status: 500,
       message: 'Something went wrong. Please try again',
     }
+  }
+}
+
+export const meta: MetaFunction = ({ data }: { data: { blog: { title: string } } }) => {
+  return {
+    title: `${data.blog.title}`,
+    description: `${data.blog.title}`,
   }
 }
 

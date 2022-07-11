@@ -1,4 +1,11 @@
-import { ActionFunction, HeadersFunction, json, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  HeadersFunction,
+  json,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node'
 import { Form, Link, useActionData, useTransition } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Input, Label } from '~/components/form-elements'
@@ -18,6 +25,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 export const headers: HeadersFunction = () => {
   return {
     'Cache-control': 'public, s-maxage=60 slate-while-revalidate=2678400',
+  }
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Binary Coders | Login',
+    description: 'Login to get out support to learn programming fundamentals',
   }
 }
 

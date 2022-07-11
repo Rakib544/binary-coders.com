@@ -1,5 +1,12 @@
 import modalStyles from '@reach/dialog/styles.css'
-import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node'
 import {
   Form,
   Link,
@@ -75,11 +82,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   }
 
   const res = await getSingleQuestion(params.slug as string)
-  return {
+  const data = {
     ...res,
     env: process.env.IMAGE_BB_KEY,
     userId: userId,
   }
+  return json(data)
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -116,6 +124,13 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   return {
     ...res,
+  }
+}
+
+export const meta: MetaFunction = ({ data }: { data: { question: { title: string } } }) => {
+  return {
+    title: `${data.question.title}`,
+    description: `${data.question.title}`,
   }
 }
 

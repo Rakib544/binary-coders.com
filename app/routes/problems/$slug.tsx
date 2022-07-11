@@ -1,5 +1,12 @@
 import modalStyles from '@reach/dialog/styles.css'
-import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node'
 import { Form, useActionData, useFetcher, useLoaderData } from '@remix-run/react'
 import { motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
@@ -32,6 +39,21 @@ export const links: LinksFunction = () => {
   ]
 }
 
+export const meta: MetaFunction = ({
+  data,
+}: {
+  data: {
+    problem: {
+      title: string
+    }
+  }
+}) => {
+  return {
+    title: data?.problem?.title,
+    description: data?.problem?.title,
+  }
+}
+
 export const loader: LoaderFunction = async ({ request, params }) => {
   const userId = await getUserId(request)
 
@@ -41,10 +63,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const { role } = await getUserInfo(request)
   const res = await getSingleProblem(params.slug as string)
-  return {
+  const data = {
     ...res,
     role,
   }
+  return json(data)
 }
 
 export const action: ActionFunction = async ({ request, params }) => {

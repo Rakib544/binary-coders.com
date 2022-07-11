@@ -1,4 +1,11 @@
-import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node'
 import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
@@ -19,7 +26,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return redirect('/problems')
   }
   const res = await getSingleProblem(params.slug as string)
-  return json({ ...res, env: process.env.IMAGE_BB_KEY })
+  const data = { ...res, env: process.env.IMAGE_BB_KEY }
+  return json(data)
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -44,11 +52,26 @@ export const action: ActionFunction = async ({ request, params }) => {
   return null
 }
 
+export const meta: MetaFunction = ({
+  data,
+}: {
+  data: {
+    problem: {
+      title: string
+    }
+    env: string
+  }
+}) => {
+  return {
+    title: `Edit - ${data?.problem?.title}`,
+    description: `Edit ${data?.problem?.title} problems to make it outstanding`,
+  }
+}
+
 const editBlog = () => {
   const loaderData = useLoaderData()
   const transition = useTransition()
   const actionData = useActionData()
-  console.log(loaderData.problem)
 
   const [html, setHtml] = React.useState(loaderData?.problem?.description)
 
@@ -86,7 +109,7 @@ const editBlog = () => {
             </div>
             <button
               type='submit'
-              className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 mb-8'
+              className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 mb-8'
             >
               {transition.submission ? (
                 <div className='flex justify-center items-center'>

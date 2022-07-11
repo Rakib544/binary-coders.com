@@ -1,4 +1,4 @@
-import { json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import { json, LinksFunction, LoaderFunction, MetaFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
@@ -61,6 +61,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json({ env: process.env.IMAGE_BB_KEY })
 }
 
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Ask question - Binary Coders',
+    description: 'Asked any question which you might find very confusing to understand',
+  }
+}
+
 const options = [
   { value: 'javascript', label: 'Javascript' },
   { value: 'react', label: 'React' },
@@ -114,7 +121,7 @@ const create = () => {
             </div>
             <button
               type='submit'
-              className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
+              className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
             >
               {transition.submission ? (
                 <div className='flex justify-center items-center'>
