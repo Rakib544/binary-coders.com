@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from '@remix-run/node'
+import { json, LoaderFunction, MetaFunction } from '@remix-run/node'
 import { Link, useFetcher, useLoaderData, useLocation } from '@remix-run/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import * as React from 'react'
@@ -57,6 +57,13 @@ export const loader: LoaderFunction = async ({ request }) => {
       userId,
     }
     return json(data)
+  }
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Blog - Binary Coders',
+    description: 'Binary coders all blogs written by users',
   }
 }
 

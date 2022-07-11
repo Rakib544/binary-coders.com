@@ -52,7 +52,9 @@ const Navbar = ({
             <Link prefetch='intent' to='/'>
               <img
                 src='https://i.ibb.co/KX9YN7Z/logo-01.png'
-                alt='logo'
+                alt='Binary Coders Logo'
+                height='40'
+                width='120'
                 className='h-12 w-auto object-cover'
               />
             </Link>

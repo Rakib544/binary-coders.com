@@ -25,7 +25,9 @@ const Footer = () => {
         <div className=''>
           <img
             src='https://i.ibb.co/KX9YN7Z/logo-01.png'
-            className='h-16 hover:scale-105 transition duration-300 ease-in cursor-grab mb-6'
+            height='40'
+            width='120'
+            className='h-12 hover:scale-105 object-cover w-auto transition duration-300 ease-in cursor-grab mb-6'
             alt='brand logo'
           />
           <div>
@@ -35,25 +37,27 @@ const Footer = () => {
             </Paragraph>
           </div>
           <div className='flex items-center justify-start space-x-3 mt-8'>
-            <a target='_blank' href='https://www.facebook.com/groups/binarycoders' rel='noreferrer'>
+            <a
+              title='facebook'
+              target='_blank'
+              href='https://www.facebook.com/groups/binarycoders'
+              rel='noreferrer'
+            >
               <FacebookIcon />
             </a>{' '}
-            <a href='https://www.facebook.com/groups/binarycoders'>
+            <a title='instagram' href='https://www.facebook.com/groups/binarycoders'>
               <InstagramIcon />
             </a>
-            <a href='https://www.facebook.com/groups/binarycoders'>
+            <a title='linkedin' href='https://www.facebook.com/groups/binarycoders'>
               <LinkedinLogo />
             </a>
-            <a href='https://www.facebook.com/groups/binarycoders'>
+            <a title='youtube' href='https://www.facebook.com/groups/binarycoders'>
               <YoutubeIcon />
             </a>
           </div>
         </div>
         <div className=''>
-          <h2 className='font-semibold md:mb-8 mb-3 mt-5'>
-            {' '}
-            Important Links <img src='./images/links.png' className='inline-flex w-6' alt='' />
-          </h2>
+          <h2 className='font-semibold md:mb-8 mb-3 mt-5'> Important Links</h2>
           <ul className='space-y-3'>
             <li>
               <Link prefetch='intent' className='hover:border-b-2' to='/blog'>

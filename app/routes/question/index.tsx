@@ -1,4 +1,4 @@
-import { LoaderFunction } from '@remix-run/node'
+import { LoaderFunction, MetaFunction } from '@remix-run/node'
 import { Link, useFetcher, useLoaderData, useLocation } from '@remix-run/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import * as React from 'react'
@@ -52,6 +52,13 @@ export const loader: LoaderFunction = async ({ request }) => {
       ...res,
       userId,
     }
+  }
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Question - Binary Coders',
+    description: 'Question asked by several users',
   }
 }
 

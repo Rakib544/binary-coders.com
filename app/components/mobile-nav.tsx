@@ -67,16 +67,20 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
           onClick={onToggleNav}
         ></button>
         <nav className='fixed py-6 px-6  h-full w-full z-20'>
-          <div className='flex items-center space-x-4 border-b border-slate-300 pb-4'>
-            <img
-              src={profilePicture}
-              alt={username}
-              className='h-20 w-20 rounded-full object-cover'
-            />
-            <div>
-              <p className='text-2xl font-medium mt-2 text-blue-500'>{fullName}</p>
-            </div>
-          </div>
+          {username && (
+            <Link to={`/user/${username}`} onClick={onToggleNav}>
+              <div className='flex items-center space-x-4 border-b border-slate-300 pb-4'>
+                <img
+                  src={profilePicture}
+                  alt={username}
+                  className='h-20 w-20 rounded-full object-cover'
+                />
+                <div>
+                  <p className='text-2xl font-medium mt-2 text-blue-500'>{fullName}</p>
+                </div>
+              </div>
+            </Link>
+          )}
           {mobileNavLinks.map((link) => (
             <div key={link.title} className=' px-4 py-4'>
               <Link
@@ -89,6 +93,7 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
               </Link>
             </div>
           ))}
+
           {!username ? (
             <Link
               prefetch='intent'
@@ -98,14 +103,26 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
               Login
             </Link>
           ) : (
-            <Form method='post' action='/auth/logout'>
-              <button
-                type='submit'
-                className='mt-4 inline-block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'
-              >
-                Logout
-              </button>
-            </Form>
+            <>
+              <div key={'setting'} className=' px-4 py-4'>
+                <Link
+                  prefetch='intent'
+                  to='/setting'
+                  className={'text-lg font-medium tracking-widest text-gray-900'}
+                  onClick={onToggleNav}
+                >
+                  Setting
+                </Link>
+              </div>
+              <Form method='post' action='/auth/logout'>
+                <button
+                  type='submit'
+                  className='mt-4 inline-block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'
+                >
+                  Logout
+                </button>
+              </Form>
+            </>
           )}
         </nav>
       </div>
