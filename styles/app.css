@@ -405,19 +405,13 @@
   overflow: hidden;
   position: relative;
   box-shadow: 0 4px 18px 0 rgba(48, 78, 134, 0.15);
+  height: 30rem;
 }
-.stack--overflow--circle {
-  position: absolute;
-  top: -57px;
-  right: -37px;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  z-index: -1;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
+.stack--card:nth-child(1) img {
+  width: 73%;
+}
+.stack--card img {
+  width: 80%;
 }
 
 .bg-test {
