@@ -8,9 +8,10 @@ function classNames(...classes: string[]) {
 
 type Props = {
   url: string
+  handleDelete: () => void
 }
 
-export default function MenuDropDown({ url }: Props) {
+export default function MenuDropDown({ url, handleDelete }: Props) {
   return (
     <Menu as='div' className='relative inline-block text-left mx-2'>
       <div>
@@ -49,15 +50,15 @@ export default function MenuDropDown({ url }: Props) {
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href='#'
+                <p
+                  onClick={handleDelete}
                   className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm',
+                    'block px-4 py-2 text-sm cursor-pointer',
                   )}
                 >
-                  Support
-                </a>
+                  Delete
+                </p>
               )}
             </Menu.Item>
           </div>

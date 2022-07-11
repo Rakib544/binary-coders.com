@@ -23,6 +23,7 @@ import ViewersModal from '~/components/viewers-modal'
 import {
   addQuestionReader,
   createAnswer,
+  deleteQuestion,
   getQuestionViewers,
   getSingleQuestion,
 } from '~/utils/question.server'
@@ -70,6 +71,14 @@ export const action: ActionFunction = async ({ request, params }) => {
     const res = await getQuestionViewers(params.slug as string)
     return json(res)
   }
+
+  if (action === 'delete') {
+    const res = await deleteQuestion(params.slug as string)
+    if (res.status === 200) {
+      return redirect('/question')
+    }
+  }
+
   if (action === 'incrementView') {
     await addQuestionReader(params.slug as string, userId as string)
     return null
@@ -123,6 +132,10 @@ const SingleQuestion = () => {
     return () => clearTimeout(timer)
   }, [])
 
+  const handleDelete = () => {
+    fetcher.submit({ action: 'delete' }, { method: 'delete' })
+  }
+
   return (
     <motion.div
       className='w-full md:w-2/3 mx-auto p-4'
@@ -132,9 +145,10 @@ const SingleQuestion = () => {
     >
       <BackButton to='/question' />
       <div className='my-6 border-b border-gray-200 py-4'>
-        <div className='flex justify-end items-center' title='See viewers'>
+        <div className='flex justify-end items-center'>
           <Form method='post'>
             <button
+              title='see viewers'
               type='submit'
               name='action'
               value='getBlogViewers'
@@ -146,7 +160,7 @@ const SingleQuestion = () => {
             </button>
           </Form>
           {question?.authorId === userId && (
-            <MenuDropDown url={`/question/edit/${question.slug}`} />
+            <MenuDropDown handleDelete={handleDelete} url={`/question/edit/${question.slug}`} />
           )}
         </div>
         <h1 className='text-2xl md:text-4xl font-extrabold text-slate-700 my-2'>

@@ -10,7 +10,12 @@ import { BackButton } from '~/components/button'
 import EyeIcon from '~/components/icons/eye'
 import MenuDropDown from '~/components/menu-dropdown'
 import ViewersModal from '~/components/viewers-modal'
-import { addProblemReader, getProblemViewers, getSingleProblem } from '~/utils/problems.server'
+import {
+  addProblemReader,
+  deleteProblems,
+  getProblemViewers,
+  getSingleProblem,
+} from '~/utils/problems.server'
 import { getUserId, getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
@@ -52,6 +57,13 @@ export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData()
   const { action } = Object.fromEntries(formData)
 
+  if (action === 'delete') {
+    const res = await deleteProblems(params.slug as string)
+    if (res.status === 200) {
+      return redirect('/problems')
+    }
+  }
+
   if (action === 'getBlogViewers') {
     const res = await getProblemViewers(params.slug as string)
     return json(res)
@@ -79,6 +91,10 @@ const SingleQuestion = () => {
     return () => clearTimeout(timer)
   }, [])
 
+  const handleDelete = () => {
+    fetcher.submit({ action: 'delete' }, { method: 'delete' })
+  }
+
   return (
     <>
       {' '}
@@ -91,12 +107,10 @@ const SingleQuestion = () => {
       >
         <div className='p-4 col-span-5 md:col-span-2 h-screen overflow-auto'>
           <div className='border-b border-gray-200 pb-4'>
-            <div
-              className='flex items-center space-x-1 justify-end cursor-pointer'
-              title='see viewers'
-            >
+            <div className='flex items-center space-x-1 justify-end cursor-pointer'>
               <Form method='post'>
                 <button
+                  title='see viewers'
                   type='submit'
                   name='action'
                   value='getBlogViewers'
@@ -107,7 +121,9 @@ const SingleQuestion = () => {
                   <small className='text-xs text-slate-500 font-medium'>{problem.views}</small>
                 </button>
               </Form>
-              {role === 'admin' && <MenuDropDown url={`/problems/edit/${problem?.slug}`} />}
+              {role === 'admin' && (
+                <MenuDropDown handleDelete={handleDelete} url={`/problems/edit/${problem?.slug}`} />
+              )}
             </div>
             <h1 className='text-4xl font-bold'>{problem?.title}</h1>
             <small className='font-medium text-slate-500'>

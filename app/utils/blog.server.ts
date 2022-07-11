@@ -213,3 +213,22 @@ export const addBlogReader = async (slug: string, id: string) => {
     message: 'User already viewed this blog',
   }
 }
+
+export const deleteBlog = async (slug: string) => {
+  try {
+    await prisma.blogPosts.delete({
+      where: {
+        slug,
+      },
+    })
+    return {
+      status: 200,
+      message: 'Blog deleted successful',
+    }
+  } catch (e) {
+    return {
+      status: 500,
+      message: 'Internal server error. Please try again',
+    }
+  }
+}
