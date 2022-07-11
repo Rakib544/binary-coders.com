@@ -1,7 +1,7 @@
 import { Listbox, Transition } from '@headlessui/react'
-import { Link } from '@remix-run/react'
+import { Link, useLocation } from '@remix-run/react'
 // import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
-import { Fragment, useState } from 'react'
+import * as React from 'react'
 
 interface SelectProps {
   id: number
@@ -18,7 +18,14 @@ function classNames(...classes: string[]) {
 }
 
 export default function SelectBox({ options }: Props[]) {
-  const [selected, setSelected] = useState(options[0])
+  const [selected, setSelected] = React.useState(options[0])
+  const location = useLocation()
+  React.useEffect(() => {
+    const selectedOptions = options.find((option: SelectProps) =>
+      option.url.endsWith(location.search),
+    )
+    setSelected(selectedOptions)
+  }, [location.search])
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
@@ -31,37 +38,33 @@ export default function SelectBox({ options }: Props[]) {
 
             <Transition
               show={open}
-              as={Fragment}
+              as={React.Fragment}
               leave='transition ease-in duration-100'
               leaveFrom='opacity-100'
               leaveTo='opacity-0'
             >
               <Listbox.Options className='absolute z-10 mt-1 bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm'>
-                {options.map((option) => (
+                {options.map((option: SelectProps) => (
                   <Listbox.Option
                     key={option.id}
                     className={({ active }) =>
                       classNames(
                         active ? 'text-white bg-sky-500' : 'text-gray-900',
-                        'cursor-default select-none relative py-2 pl-3 pr-9',
+                        'cursor-default select-none relative',
                       )
                     }
                     value={option}
                   >
-                    {({ selected, active }) => (
-                      <>
-                        <div className='flex items-center'>
-                          <Link
-                            to={option.url}
-                            className={classNames(
-                              selected ? 'font-semibold' : 'font-normal',
-                              'ml-3 truncate block',
-                            )}
-                          >
-                            {option.name}
-                          </Link>
-                        </div>
-                      </>
+                    {({ selected }) => (
+                      <Link
+                        to={option.url}
+                        className={classNames(
+                          selected ? 'font-semibold bg-sky-500 text-white' : 'font-normal',
+                          'truncate block w-full px-4 py-2 hover:bg-slate-100 hover:text-slate-800',
+                        )}
+                      >
+                        {option.name}
+                      </Link>
                     )}
                   </Listbox.Option>
                 ))}

@@ -205,7 +205,7 @@ const Index = () => {
         className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12 my-10'
       >
         <motion.div variants={fadeInUp} className='mb-10'>
-          <SelectBox options={options} />
+          <SelectBox key={location.search} options={options} />
         </motion.div>
         {problems?.map((problem: Problem, index: number) => {
           if (problems?.length === index + 1) {
