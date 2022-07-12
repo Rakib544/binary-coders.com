@@ -1207,6 +1207,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 8rem;
 }
 
+.mr-8 {
+  margin-right: 2rem;
+}
+
 .mb-8 {
   margin-bottom: 2rem;
 }
@@ -1319,10 +1323,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 1rem;
 }
 
-.h-72 {
-  height: 18rem;
-}
-
 .h-auto {
   height: auto;
 }
@@ -1417,6 +1417,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .max-w-7xl {
   max-width: 80rem;
+}
+
+.max-w-5xl {
+  max-width: 64rem;
 }
 
 .max-w-none {
@@ -1908,6 +1912,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding: 0.75rem;
 }
 
+.p-5 {
+  padding: 1.25rem;
+}
+
 .p-20 {
   padding: 5rem;
 }
@@ -2147,6 +2155,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .font-extrabold {
   font-weight: 800;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 .italic {
@@ -2447,6 +2459,39 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body::-webkit-scrollbar {
+  width: 0.7em;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #e7e7e7;
+  border-radius: 100vh;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(73deg, #5665ae, #4ba1d9);
+  box-shadow: rgba(56, 140, 235, 0.84) 0px 8px 16px 0px;
+  border-radius: 100vh;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9;
+  transition: all 300ms ease-in-out;
+}
+
+.scroll-down header {
+  transform: translate3d(0, -100%, 0);
+}
+
+.scroll-up header {
+  background-color: #f7f8fc;
+  filter: drop-shadow(0px -10px 20px rgb(170, 170, 170));
 }
 
 @media (max-width: 600px) {
