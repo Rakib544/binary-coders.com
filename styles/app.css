@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+body::-webkit-scrollbar {
+  width: 0.7em;
+}
+body::-webkit-scrollbar-track {
+  background-color: #e7e7e7;
+  border-radius: 100vh;
+}
+body::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(73deg, #5665ae, #4ba1d9);
+  box-shadow: rgba(56, 140, 235, 0.84) 0px 8px 16px 0px;
+  border-radius: 100vh;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9;
+  transition: all 300ms ease-in-out;
+}
+.scroll-down header {
+  transform: translate3d(0, -100%, 0);
+}
+.scroll-up header {
+  background-color: #f7f8fc;
+  filter: drop-shadow(0px -10px 20px rgb(170, 170, 170));
+}
+
 @media (max-width: 600px) {
   [data-reach-dialog-content] {
     width: 90vw;
@@ -435,4 +464,72 @@
 
 .siliguri-font {
   font-family: 'Hind Siliguri', sans-serif;
+}
+.meet-our-team-text {
+  color: #41485c;
+  position: relative;
+}
+.butterfly img {
+  width: 150px;
+  margin-right: -50px;
+}
+.butterfly {
+  position: absolute;
+  top: -70px;
+  left: -50px;
+}
+.dev-image {
+  position: relative;
+}
+.span1 {
+  position: absolute;
+  left: -15px;
+  top: -20px;
+  height: 200px;
+  width: 2px;
+  background-color: #3c72c2;
+}
+.span1::after {
+  content: '';
+  display: block;
+  position: inherit;
+  top: -10px;
+  left: -10px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: #3c72c2;
+}
+
+.span2 {
+  position: absolute;
+  right: 28px;
+  top: 198px;
+  height: 200px;
+  width: 2px;
+  background-color: #3c5bc2;
+}
+.span2::after {
+  content: '';
+  display: block;
+  position: inherit;
+  top: 195px;
+  left: -16px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: #3c5bc2;
+}
+.social-link {
+  position: relative;
+}
+.social-link p {
+  position: absolute;
+  right: -100px;
+  top: 0px;
+}
+.social-link-span {
+  position: absolute;
+  right: -110px;
+  top: 100px;
 }
