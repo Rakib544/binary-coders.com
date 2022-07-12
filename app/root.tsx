@@ -1,12 +1,15 @@
 import { json, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node'
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
   useLoaderData,
+  useLocation,
   useTransition,
 } from '@remix-run/react'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -166,35 +169,45 @@ export default function App() {
   )
 }
 
-export function ErrorBoundary() {
-  return (
-    <html>
-      <head>
-        <title>Oh no! Something went wrong.</title>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <main className='flex items-center justify-center h-screen'>
-          <div className='text-center'>
-            <img
-              src='/images/connection-lost.webp'
-              alt='connection-lost'
-              className='h-48 w-auto object-cover block mx-auto'
-            />
-            <h1 className='text-center font-medium text-3xl'>Slow or no internet connection</h1>
-            <p>Please check your internet connection and then </p>
-            <p>refresh the page</p>
-            <button
-              className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
-              onClick={() => window.location.reload()}
-            >
-              Refresh
-            </button>
-          </div>
-        </main>
-        <Scripts />
-      </body>
-    </html>
-  )
+export function CatchBoundary() {
+  const caught = useCatch()
+  const location = useLocation()
+  if (caught.status === 404) {
+    return (
+      <html>
+        <head>
+          <title>Oh no! Something went wrong.</title>
+          <Meta />
+          <Links />
+        </head>
+        <body>
+          <main className='flex items-center justify-center h-screen'>
+            <div className='text-center w-full p-4 md:w-1/2'>
+              <img
+                src='/images/not-found.svg'
+                alt='Not found page'
+                className='h-48 w-auto object-cover block mx-auto'
+              />
+              <h1 className='text-center font-bold text-2xl mt-6'>
+                404 - Oh no, you found a page that&apos;s missing stuff.
+              </h1>
+              <h3 className='text-lg font-medium mb-6'>
+                &apos;{location.pathname}&apos; is not a page on Binary Coders So sorry.{' '}
+              </h3>
+
+              <div>
+                <Link
+                  to='/'
+                  className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+                >
+                  Back to Home
+                </Link>
+              </div>
+            </div>
+          </main>
+          <Scripts />
+        </body>
+      </html>
+    )
+  }
 }
