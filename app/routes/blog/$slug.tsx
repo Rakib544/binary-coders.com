@@ -12,7 +12,7 @@ import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import moment from 'moment'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
-import EyeIcon from '~/components/icons/eye'
+import EyeIcon from '~/components/icons/eye-icon'
 import ReadTime from '~/components/icons/readTime'
 import ViewersModal from '~/components/viewers-modal'
 import { addBlogReader, deleteBlog, getBlogViewers, getSingleBlog } from '~/utils/blog.server'
@@ -165,7 +165,7 @@ const SingleBlog = () => {
           </div>
           <motion.h1
             variants={fadeInUp}
-            className='text-2xl md:text-4xl font-extrabold text-slate-700 my-2'
+            className='text-2xl md:text-3xl font-extrabold text-slate-700 my-4'
           >
             {blog.title}
           </motion.h1>
@@ -174,7 +174,7 @@ const SingleBlog = () => {
             className='flex items-center text-sky-600 text-md mt-2 space-x-2'
           >
             <img
-              className='rounded-xl object-center h-14 w-12 object-cover'
+              className='rounded-full object-center h-10 w-10 object-cover'
               src={creatorInfo.profilePicture}
               alt={creatorInfo.name}
             />
@@ -186,7 +186,7 @@ const SingleBlog = () => {
               >
                 {creatorInfo.name}
               </Link>
-              <small className='block text-xs font-medium text-slate-400'>
+              <small className='block text-xs font-medium text-slate-500'>
                 posted {moment(blog.createdAt).fromNow()}
               </small>
             </div>

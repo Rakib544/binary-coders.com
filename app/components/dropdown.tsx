@@ -7,7 +7,10 @@ interface DropDownProps {
 import { Menu, Transition } from '@headlessui/react'
 import { Form, Link } from '@remix-run/react'
 import { Fragment } from 'react'
-import LogoutLogo from './icons/logout'
+import AskQuestionIcon from './icons/ask-question-icon'
+import LogoutIcon from './icons/logout-icon'
+import PencilIcon from './icons/pencil-icon'
+import SettingIcon from './icons/setting-icon'
 
 export default function Dropdown({ fullName, username, profilePicture }: DropDownProps) {
   return (
@@ -63,9 +66,10 @@ export default function Dropdown({ fullName, username, profilePicture }: DropDow
               {() => (
                 <Link
                   to='/blog/create'
-                  className='py-3 px-4 w-full flex hover:bg-gray-100 text-slate-700'
+                  className='py-3 px-4 w-full flex hover:bg-gray-100 text-slate-700 items-center space-x-2'
                 >
-                  Write Blogs
+                  <PencilIcon />
+                  <span className='text-sm'>Write Blogs</span>
                 </Link>
               )}
             </Menu.Item>
@@ -74,9 +78,10 @@ export default function Dropdown({ fullName, username, profilePicture }: DropDow
                 <Link
                   prefetch='intent'
                   to='/question/create'
-                  className='py-3 px-4 w-full flex hover:bg-gray-100 text-slate-700'
+                  className='py-3 px-4 w-full flex hover:bg-gray-100 text-slate-700 items-center space-x-2'
                 >
-                  Ask Question
+                  <AskQuestionIcon />
+                  <span className='text-sm'>Ask Question</span>
                 </Link>
               )}
             </Menu.Item>
@@ -85,9 +90,10 @@ export default function Dropdown({ fullName, username, profilePicture }: DropDow
                 <Link
                   prefetch='intent'
                   to='/setting'
-                  className='py-3 px-4 w-full flex hover:bg-gray-100 text-slate-700'
+                  className='py-3 px-4 w-full flex hover:bg-gray-100 text-slate-700 items-center space-x-2'
                 >
-                  Settings
+                  <SettingIcon />
+                  <span className='text-sm'>Settings</span>
                 </Link>
               )}
             </Menu.Item>
@@ -95,11 +101,11 @@ export default function Dropdown({ fullName, username, profilePicture }: DropDow
               <Menu.Item>
                 {() => (
                   <button
-                    className='py-3 px-4 w-full flex hover:bg-gray-100 text-slate-700 my-2'
+                    className='py-3 px-4 w-full flex hover:bg-gray-100 text-slate-700 items-center space-x-2'
                     type='submit'
                   >
-                    <LogoutLogo />
-                    Logout
+                    <LogoutIcon />
+                    <span className='text-sm'>Logout</span>
                   </button>
                 )}
               </Menu.Item>

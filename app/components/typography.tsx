@@ -17,7 +17,7 @@ const fontSize = {
 }
 
 const titleColors = {
-  primary: 'text-slate-800',
+  primary: 'text-slate-700',
   secondary: 'text-slate-700',
 }
 
@@ -66,7 +66,7 @@ type ParagraphProps = {
 function Paragraph({
   className,
   as = 'p',
-  textColorClassName = 'text-slate-700',
+  textColorClassName = 'text-slate-500',
   ...rest
 }: ParagraphProps) {
   return React.createElement(as, {
@@ -75,4 +75,23 @@ function Paragraph({
   })
 }
 
-export { H1, H2, H3, H4, H5, H6, Paragraph }
+function Heading({
+  children,
+  as = 'h2',
+  className,
+}: {
+  children: React.ReactNode | React.ReactNode[]
+  as?: React.ElementType
+  className?: string
+}) {
+  const Tag = as
+  return (
+    <Tag
+      className={`text-center text-4xl font-bold bg-clip-text py-2 text-transparent bg-gradient-to-b from-cyan-400 to-blue-600 ${className}`}
+    >
+      {children}
+    </Tag>
+  )
+}
+
+export { H1, H2, H3, H4, H5, H6, Paragraph, Heading }

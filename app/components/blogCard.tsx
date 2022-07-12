@@ -1,7 +1,7 @@
 import { Link } from '@remix-run/react'
 import { motion } from 'framer-motion'
 import moment from 'moment'
-import EyeIcon from './icons/eye'
+import EyeIcon from './icons/eye-icon'
 import ReadTime from './icons/readTime'
 import { H6 } from './typography'
 export type Post = {
@@ -45,7 +45,7 @@ const BlogCard = ({ slug, title, createdAt, readTime, views, creator }: Post) =>
       <Link
         prefetch='intent'
         to={`/blog/${slug}`}
-        className='bg-white py-4 px-4 rounded-xl grid grid-cols-10 my-4 gap-1'
+        className='bg-white py-4 px-4 rounded-xl grid grid-cols-10 my-4 gap-1 shadow-2xl shadow-blue-500/5 border border-slate-100'
       >
         <div className='col-span-10 md:col-span-1 flex justify-between'>
           <img
@@ -84,7 +84,7 @@ const BlogCard = ({ slug, title, createdAt, readTime, views, creator }: Post) =>
             <Link
               to={`/user/${creator.username}`}
               prefetch='intent'
-              className='text-blue-500 font-medium'
+              className='text-sky-500 font-medium hover:underline'
             >
               {creator.name}
             </Link>

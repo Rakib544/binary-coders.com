@@ -28,7 +28,7 @@ const Heading = () => {
               <H1>Grab the Opportunity You Missed</H1>
             </motion.div>
             <motion.div variants={childVariants}>
-              <Paragraph className='my-2'>
+              <Paragraph className='my-2 text-slate-500'>
                 Join with use if you want to get a complete guideline to become a good skilled
                 junior programmer from scratch. 😇😊
               </Paragraph>

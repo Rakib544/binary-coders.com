@@ -80,70 +80,68 @@ const publicProfile = () => {
 
       {/* main part start here */}
       <div className='grid grid-cols-4 gap-8 my-10'>
-        <div className='col-span-4 lg:col-span-1'>
-          <div className='bg-white p-4 rounded-lg font-medium'>
+        <div className='col-span-4 lg:col-span-1 '>
+          <div className='bg-white p-4 rounded-lg shadow-2xl shadow-blue-500/10'>
             <Paragraph>{blogs?.length} blog written</Paragraph>
             <Paragraph>{questions?.length} question asked</Paragraph>
           </div>
           {/* about */}
-          <div className='my-4 p-4 bg-white rounded-lg'>
-            <h3 className='font-medium text-lg'>About</h3>
-            <p className='my-2'>{user?.bio}</p>
+          <div className='my-4 p-4 bg-white rounded-lg shadow-2xl shadow-blue-500/10'>
+            <h3 className='font-medium text-lg text-slate-700'>About</h3>
+            <p className='my-2 text-slate-500'>{user?.bio}</p>
             <ul>
               {user?.location && (
-                <li className='flex text-sm items-center space-x-1 my-1'>
-                  <LocationIcon /> Live at <span className='font-medium'>{user?.location}</span>
+                <li className='flex text-sm items-center first:space-x-2 my-1 text-slate-500'>
+                  <LocationIcon /> <span>Live at</span>{' '}
+                  <span className='font-medium text-slate-500'>{user?.location}</span>
                 </li>
               )}
-              <li className='flex items-center text-sm space-x-1 my-1'>
-                <EmailLogo /> <span className='font-medium'>{user?.email}</span>
+              <li className='flex items-center text-sm space-x-2 my-1'>
+                <EmailLogo /> <span className='font-medium text-slate-500'>{user?.email}</span>
               </li>
               {user?.institute && (
                 <li className='flex text-sm space-x-1 my-1'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 24 24'
-                    width='24'
-                    height='24'
+                    width='16'
+                    height='16'
+                    className='mt-1'
                   >
                     <path fill='none' d='M0 0h24v24H0z' />
-                    <path d='M21 20h2v2H1v-2h2V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v17zm-2 0V4H5v16h14zM8 11h3v2H8v-2zm0-4h3v2H8V7zm0 8h3v2H8v-2zm5 0h3v2h-3v-2zm0-4h3v2h-3v-2zm0-4h3v2h-3V7z' />
+                    <path
+                      d='M21 20h2v2H1v-2h2V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v17zm-2 0V4H5v16h14zM8 11h3v2H8v-2zm0-4h3v2H8V7zm0 8h3v2H8v-2zm5 0h3v2h-3v-2zm0-4h3v2h-3v-2zm0-4h3v2h-3V7z'
+                      fill='rgba(100,116,139,1)'
+                    />
                   </svg>
-                  <span>
-                    Studied at <span className='font-medium'>{user?.institute}</span>
+                  <span className='text-slate-500'>
+                    Studied at <span className='font-medium text-slate-500'>{user?.institute}</span>
                   </span>
                 </li>
               )}
             </ul>
           </div>
           {/* social */}
-          <div className='my-4 p-4 bg-white rounded-lg'>
+          <div className='my-4 p-4 bg-white rounded-lg shadow-2xl shadow-blue-500/10'>
             <h3 className='font-medium text-lg'>Social</h3>
 
-            <ul>
+            <ul className='flex space-x-2 my-4'>
               {user?.githubLink && (
-                <li className='flex items-center space-x-1'>
-                  <GitHubLogo />
+                <li className=''>
                   <a
                     href={user?.githubLink || ''}
                     className='text-blue-500 underline'
                     target='_blank'
                     rel='noreferrer'
                   >
-                    {user?.githubLink}
+                    <GitHubLogo />
                   </a>
                 </li>
               )}
               {user?.websiteLink && (
-                <li className='flex items-center space-x-1'>
-                  <WebsiteLinkIcon />
-                  <a
-                    href={user?.websiteLink || ''}
-                    className='block my-2 text-blue-500 underline'
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    {user?.websiteLink}
+                <li>
+                  <a href={user?.websiteLink || ''} target='_blank' rel='noreferrer'>
+                    <WebsiteLinkIcon />
                   </a>
                 </li>
               )}

@@ -6,12 +6,12 @@ const Quote = () => {
           <img src='./images/Programmer.png' alt='programingQuoteImg' />
         </div>
         <div className='col-span-2 md:col-span-1 order-2 md:order-1 md:p-12 p-3'>
-          <h1 className='text-4xl font-bold mb-4'>
+          <h1 className='text-4xl font-bold mb-4 text-slate-700'>
             &quot;Programming isn&apos;t about what you know; it&apos;s about what you can figure
             out.&quot;
           </h1>
-          <strong> - Chris Pine</strong>
-          <p className='mt-8'>
+          <strong className='text-slate-500'> - Chris Pine</strong>
+          <p className='mt-8 text-slate-500'>
             Especially important for beginners. At first, we&apos;re so anxious about knowing
             everything, especially language syntax. Problem-solving is the skill we end up using
             most.

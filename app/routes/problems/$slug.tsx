@@ -14,7 +14,7 @@ import moment from 'moment'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
 import { BackButton } from '~/components/button'
-import EyeIcon from '~/components/icons/eye'
+import EyeIcon from '~/components/icons/eye-icon'
 import MenuDropDown from '~/components/menu-dropdown'
 import ViewersModal from '~/components/viewers-modal'
 import {

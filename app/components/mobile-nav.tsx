@@ -34,29 +34,25 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
         aria-label='Toggle Menu'
         onClick={onToggleNav}
       >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          viewBox='0 0 20 20'
-          fill='currentColor'
-          className='text-gray-90'
-        >
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'>
           {navShow ? (
-            <path
-              fillRule='evenodd'
-              d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
-              clipRule='evenodd'
-            />
+            <>
+              <path fill='none' d='M0 0h24v24H0z' />
+              <path
+                d='M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z'
+                fill='rgba(100,116,139,1)'
+              />
+            </>
           ) : (
-            <path
-              fillRule='evenodd'
-              d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z'
-              clipRule='evenodd'
-            />
+            <>
+              <path fill='none' d='M0 0h24v24H0z' />
+              <path d='M3 4h18v2H3V4zm6 7h12v2H9v-2zm-6 7h18v2H3v-2z' fill='rgba(100,116,139,1)' />
+            </>
           )}
         </svg>
       </button>
       <div
-        className={`supports-backdrop-blur:bg-white/95 fixed top-0 right-0 z-10 h-full w-full transform bg-white backdrop-blur duration-300 ease-in-out ${
+        className={`supports-backdrop-blur:bg-white/95 fixed top-0 right-0 z-20 h-full w-full transform bg-white backdrop-blur duration-300 ease-in-out ${
           navShow ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -76,7 +72,7 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
                   className='h-20 w-20 rounded-full object-cover'
                 />
                 <div>
-                  <p className='text-2xl font-medium mt-2 text-blue-500'>{fullName}</p>
+                  <p className='text-2xl font-medium mt-2 text-sly-500'>{fullName}</p>
                 </div>
               </div>
             </Link>
@@ -86,7 +82,7 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
               <Link
                 prefetch='intent'
                 to={link.href}
-                className={'text-lg font-medium tracking-widest text-gray-900'}
+                className={'text-lg font-medium tracking-widest text-slate-500'}
                 onClick={onToggleNav}
               >
                 {link.title}
@@ -98,7 +94,7 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
             <Link
               prefetch='intent'
               to='/auth/login'
-              className='mt-4 inline-block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'
+              className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'
             >
               Login
             </Link>
@@ -117,7 +113,7 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
               <Form method='post' action='/auth/logout'>
                 <button
                   type='submit'
-                  className='mt-4 inline-block mx-2 px-10 py-3 bg-blue-600 text-white rounded-full'
+                  className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'
                 >
                   Logout
                 </button>

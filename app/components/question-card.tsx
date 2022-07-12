@@ -2,7 +2,7 @@ import { Link } from '@remix-run/react'
 import { motion } from 'framer-motion'
 import moment from 'moment'
 import CommentIcons from './icons/comment-icon'
-import EyeIcon from './icons/eye'
+import EyeIcon from './icons/eye-icon'
 import { H6 } from './typography'
 
 export type Post = {
