@@ -15,7 +15,7 @@ import {
   useLoaderData,
   useTransition,
 } from '@remix-run/react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import moment from 'moment'
 import quillCss from 'quill/dist/quill.snow.css'
@@ -152,7 +152,7 @@ const SingleQuestion = () => {
   const { question, env, answers, userId } = useLoaderData()
   const [html, setHtml] = React.useState<string>()
   const [shouldQuillEmpty, setShouldQuillEmpty] = React.useState<boolean>(false)
-  const [showDialog, setShowDialog] = React.useState(true)
+  const [open, setOpen] = React.useState(true)
   const transition = useTransition()
   const actionData = useActionData()
 
@@ -196,7 +196,7 @@ const SingleQuestion = () => {
                 name='action'
                 value='getBlogViewers'
                 className='flex items-center space-x-1 cursor-pointer'
-                onClick={() => setShowDialog(true)}
+                onClick={() => setOpen(true)}
               >
                 <EyeIcon />{' '}
                 <small className='text-xs text-slate-500 font-medium'>{question.views}</small>
@@ -329,14 +329,15 @@ const SingleQuestion = () => {
           )}
         </ClientOnly>
       </div>
-      {actionData?.viewers && (
-        <ViewersModal
-          showDialog={showDialog}
-          setShowDialog={setShowDialog}
-          viewers={actionData?.viewers}
-          pageName='question'
-        />
-      )}
+      <AnimatePresence>
+        {actionData?.viewers && open && (
+          <ViewersModal
+            viewers={actionData?.viewers}
+            onClose={() => setOpen(false)}
+            pageName='problems'
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }

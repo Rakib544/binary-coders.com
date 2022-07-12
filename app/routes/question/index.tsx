@@ -213,7 +213,20 @@ const Index = () => {
           className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12'
         >
           <motion.div variants={fadeInUp}>
-            <SelectBox key={location.search} options={options} />
+            <SelectBox
+              key={location.search}
+              options={
+                loaderData.userId
+                  ? options
+                  : [
+                      {
+                        id: 1,
+                        name: 'All questions',
+                        url: '/question',
+                      },
+                    ]
+              }
+            />
           </motion.div>
           <div className='my-10'>
             <AnimatePresence>

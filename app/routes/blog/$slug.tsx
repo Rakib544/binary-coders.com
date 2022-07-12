@@ -7,7 +7,7 @@ import {
   redirect,
 } from '@remix-run/node'
 import { Form, Link, useActionData, useFetcher, useLoaderData } from '@remix-run/react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import moment from 'moment'
 import quillCss from 'quill/dist/quill.snow.css'
@@ -112,7 +112,7 @@ const SingleBlog = () => {
   const actionData = useActionData()
   const loaderData = useLoaderData()
 
-  const [showDialog, setShowDialog] = React.useState<boolean>(false)
+  const [open, setOpen] = React.useState(false)
 
   const { blog, creatorInfo } = loaderData
 
@@ -148,7 +148,7 @@ const SingleBlog = () => {
                 <button
                   type='submit'
                   className='flex items-center space-x-1 cursor-pointer'
-                  onClick={() => setShowDialog(true)}
+                  onClick={() => setOpen(true)}
                 >
                   <EyeIcon />{' '}
                   <small className='text-xs text-slate-500 font-medium'>{blog.views}</small>
@@ -198,14 +198,15 @@ const SingleBlog = () => {
           className='prose prose-slate lg:prose-lg max-w-none mb-24 prose-a:text-blue-600 siliguri-font'
         ></motion.div>
       </motion.div>
-      {actionData?.viewers && (
-        <ViewersModal
-          showDialog={showDialog}
-          setShowDialog={setShowDialog}
-          viewers={actionData?.viewers}
-          pageName='blog'
-        />
-      )}
+      <AnimatePresence>
+        {actionData?.viewers && open && (
+          <ViewersModal
+            viewers={actionData?.viewers}
+            onClose={() => setOpen(false)}
+            pageName='blog'
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }

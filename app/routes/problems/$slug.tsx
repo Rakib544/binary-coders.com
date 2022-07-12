@@ -8,7 +8,7 @@ import {
   redirect,
 } from '@remix-run/node'
 import { Form, Link, useActionData, useFetcher, useLoaderData } from '@remix-run/react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import moment from 'moment'
 import quillCss from 'quill/dist/quill.snow.css'
@@ -102,7 +102,7 @@ const SingleQuestion = () => {
   const { problem, role } = useLoaderData()
   const actionData = useActionData()
 
-  const [showDialog, setShowDialog] = React.useState<boolean>(false)
+  const [open, setOpen] = React.useState(false)
 
   const fetcher = useFetcher()
 
@@ -138,7 +138,7 @@ const SingleQuestion = () => {
                   name='action'
                   value='getBlogViewers'
                   className='flex items-center space-x-1 cursor-pointer'
-                  onClick={() => setShowDialog(true)}
+                  onClick={() => setOpen(true)}
                 >
                   <EyeIcon />{' '}
                   <small className='text-xs text-slate-500 font-medium'>{problem.views}</small>
@@ -168,14 +168,15 @@ const SingleQuestion = () => {
             // hideNew={true as boolean}
           ></iframe>
         </div>
-        {actionData?.viewers && (
-          <ViewersModal
-            showDialog={showDialog}
-            setShowDialog={setShowDialog}
-            viewers={actionData?.viewers}
-            pageName='problem'
-          />
-        )}
+        <AnimatePresence>
+          {actionData?.viewers && open && (
+            <ViewersModal
+              viewers={actionData?.viewers}
+              onClose={() => setOpen(false)}
+              pageName='problem'
+            />
+          )}
+        </AnimatePresence>
       </motion.div>
     </>
   )
