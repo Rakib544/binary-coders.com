@@ -98,7 +98,7 @@ const Navbar = ({
               ) : (
                 <Link
                   to='/auth/login'
-                  className='px-10 py-3 bg-blue-600 inline-block text-white rounded-full'
+                  className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'
                 >
                   Login
                 </Link>
