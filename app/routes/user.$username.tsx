@@ -1,5 +1,5 @@
 import { json, LoaderFunction, MetaFunction } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
 import BlogCard from '~/components/blogCard'
 import EmailLogo from '~/components/icons/email'
 import GitHubLogo from '~/components/icons/github'
@@ -178,3 +178,21 @@ const publicProfile = () => {
 }
 
 export default publicProfile
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center flex items-center my-20'>
+      <div className='text-center'>
+        <img src='/images/not-found.svg' alt='not found' className='h-48 mx-auto' />
+        <h1 className='text-3xl font-medium my-10'>No user found with this username.</h1>
+
+        <Link
+          to='/'
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+        >
+          Back to Home
+        </Link>
+      </div>
+    </div>
+  )
+}

@@ -222,24 +222,28 @@ export const updatePassword = async (password: string, token: string) => {
 }
 
 export const getUserInfoFromDB = async (id: string) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      id: id,
-    },
-    select: {
-      email: true,
-      name: true,
-      bio: true,
-      username: true,
-      websiteLink: true,
-      githubLink: true,
-      location: true,
-      institute: true,
-      profilePicture: true,
-    },
-  })
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+      select: {
+        email: true,
+        name: true,
+        bio: true,
+        username: true,
+        websiteLink: true,
+        githubLink: true,
+        location: true,
+        institute: true,
+        profilePicture: true,
+      },
+    })
 
-  return user
+    return user
+  } catch (error) {
+    throw new Error('Something went wrong. Please try again')
+  }
 }
 
 export const updateUserInfo = async (
@@ -281,42 +285,43 @@ export const updateUserInfo = async (
       message: 'Profile Updated successful',
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again.',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
 export const updateUsername = async (email: string, username: string) => {
-  const isUsernameExists = await prisma.user.findUnique({ where: { username } })
+  try {
+    const isUsernameExists = await prisma.user.findUnique({ where: { username } })
 
-  if (isUsernameExists) {
-    return {
-      status: 401,
-      message: 'Username already taken by another user.',
+    if (isUsernameExists) {
+      return {
+        status: 401,
+        message: 'Username already taken by another user.',
+      }
     }
-  }
 
-  const user = await prisma.user.update({
-    where: {
-      email,
-    },
-    data: {
-      username: username,
-    },
-    select: {
-      name: true,
-      id: true,
-      profilePicture: true,
-      username: true,
-      role: true,
-    },
-  })
+    const user = await prisma.user.update({
+      where: {
+        email,
+      },
+      data: {
+        username: username,
+      },
+      select: {
+        name: true,
+        id: true,
+        profilePicture: true,
+        username: true,
+        role: true,
+      },
+    })
 
-  return {
-    status: 200,
-    user,
+    return {
+      status: 200,
+      user,
+    }
+  } catch (error) {
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -326,45 +331,49 @@ export const updateUserPassword = async (
   newPassword: string,
   confirmPassword: string,
 ) => {
-  const isPasswordMatched = newPassword === confirmPassword
+  try {
+    const isPasswordMatched = newPassword === confirmPassword
 
-  if (isPasswordMatched) {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    })
+    if (isPasswordMatched) {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      })
 
-    if (user) {
-      const isPasswordMatchedWithDBPassword = await bcrypt.compare(password, user.password)
-      if (isPasswordMatchedWithDBPassword) {
-        const hashPassword = await bcrypt.hash(newPassword, 10)
-        await prisma.user.update({
-          where: {
-            email: user.email,
-          },
-          data: {
-            password: hashPassword,
-          },
-        })
-        return {
-          status: 200,
-          message: 'Password changed successfully',
-        }
-      } else {
-        return {
-          status: 500,
-          name: 'password',
-          message: 'Password is incorrect',
+      if (user) {
+        const isPasswordMatchedWithDBPassword = await bcrypt.compare(password, user.password)
+        if (isPasswordMatchedWithDBPassword) {
+          const hashPassword = await bcrypt.hash(newPassword, 10)
+          await prisma.user.update({
+            where: {
+              email: user.email,
+            },
+            data: {
+              password: hashPassword,
+            },
+          })
+          return {
+            status: 200,
+            message: 'Password changed successfully',
+          }
+        } else {
+          return {
+            status: 500,
+            name: 'password',
+            message: 'Password is incorrect',
+          }
         }
       }
+    } else {
+      return {
+        status: 500,
+        name: 'confirmPassword',
+        message: 'New password and confirm password does not match.',
+      }
     }
-  } else {
-    return {
-      status: 500,
-      name: 'confirmPassword',
-      message: 'New password and confirm password does not match.',
-    }
+  } catch (error) {
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 

@@ -129,8 +129,8 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export const meta: MetaFunction = ({ data }: { data: { question: { title: string } } }) => {
   return {
-    title: `${data.question.title}`,
-    description: `${data.question.title}`,
+    title: `${data?.question?.title || '404 - Not found'}`,
+    description: `${data?.question?.title || '404 - Not found'}`,
   }
 }
 
@@ -314,7 +314,7 @@ const SingleQuestion = () => {
               />
               <button
                 type='submit'
-                className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-8 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+                className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
               >
                 {transition.submission ? (
                   <div className='flex justify-center items-center'>
@@ -342,3 +342,21 @@ const SingleQuestion = () => {
 }
 
 export default SingleQuestion
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center flex items-center my-20'>
+      <div className='text-center'>
+        <img src='/images/not-found.svg' alt='not found' className='h-48 mx-auto' />
+        <h1 className='text-3xl font-medium my-10'>No Question found with this slug.</h1>
+
+        <Link
+          to='/question'
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+        >
+          Back to all questions
+        </Link>
+      </div>
+    </div>
+  )
+}

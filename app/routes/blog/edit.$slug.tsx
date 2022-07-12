@@ -53,8 +53,10 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export const meta: MetaFunction = ({ data }: { data: { blog: { title: string } } }) => {
   return {
-    title: `Edit - ${data.blog.title}`,
-    description: `Edit - ${data.blog.title} to make it outstanding`,
+    title: `${data?.blog?.title ? `Edit - ${data.blog.title}` : '404 - Not found'}`,
+    description: `${
+      data?.blog?.title ? `Edit - ${data.blog.title} to make it outstanding` : '404 - Not found'
+    }`,
   }
 }
 
@@ -118,3 +120,21 @@ const editBlog = () => {
 }
 
 export default editBlog
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center h-96 flex items-center'>
+      <div className='text-center'>
+        {' '}
+        <h1 className='text-3xl font-medium'>Ooops.</h1>
+        <p>Something unexpected went wrong. Sorry about that.</p>
+        <button
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
+      </div>
+    </div>
+  )
+}

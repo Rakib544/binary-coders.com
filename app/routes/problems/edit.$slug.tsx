@@ -63,17 +63,21 @@ export const meta: MetaFunction = ({
   }
 }) => {
   return {
-    title: `Edit - ${data?.problem?.title}`,
-    description: `Edit ${data?.problem?.title} problems to make it outstanding`,
+    title: `${data?.problem?.title ? `Edit - ${data?.problem?.title}` : '404 - Not found'}`,
+    description: `${
+      data?.problem?.title
+        ? `Edit ${data?.problem?.title} problems to make it outstanding`
+        : '404 - Not found'
+    }`,
   }
 }
 
-const editBlog = () => {
+const editProblem = () => {
   const loaderData = useLoaderData()
   const transition = useTransition()
   const actionData = useActionData()
 
-  const [html, setHtml] = React.useState(loaderData?.problem?.description)
+  const [html, setHtml] = React.useState(loaderData.problem.description)
 
   return (
     <div className='px-12'>
@@ -85,11 +89,11 @@ const editBlog = () => {
               <Input
                 name='title'
                 placeholder='Enter title here'
-                defaultValue={loaderData?.problem?.title}
+                defaultValue={loaderData.problem?.title}
               />
               {actionData?.type === 'error' && (
                 <small role='alert' className='text-red-500 my-2'>
-                  {actionData?.message}
+                  {actionData.message}
                 </small>
               )}
             </div>
@@ -127,4 +131,22 @@ const editBlog = () => {
   )
 }
 
-export default editBlog
+export default editProblem
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center h-96 flex items-center'>
+      <div className='text-center'>
+        {' '}
+        <h1 className='text-3xl font-medium'>Ooops.</h1>
+        <p>Something unexpected went wrong. Sorry about that.</p>
+        <button
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
+      </div>
+    </div>
+  )
+}

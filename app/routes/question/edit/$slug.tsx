@@ -24,7 +24,7 @@ export const links: LinksFunction = () => {
 export const loader: LoaderFunction = async ({ request, params }) => {
   const { userId } = await getUserInfo(request)
   const res = await getSingleQuestion(params.slug as string)
-  if (res.question?.authorId !== userId) {
+  if (res?.question?.authorId !== userId) {
     return redirect('/question')
   }
   const data = { ...res, env: process.env.IMAGE_BB_KEY }
@@ -53,8 +53,12 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export const meta: MetaFunction = ({ data }: { data: { question: { title: string } } }) => {
   return {
-    title: `Edit - ${data.question.title}`,
-    description: `Edit ${data.question.title} to make it outstanding`,
+    title: `${data?.question?.title ? `Edit - ${data.question.title}` : '404 - Not found'}`,
+    description: `${
+      data?.question?.title
+        ? `Edit - ${data.question.title} to make it outstanding`
+        : '404 - Not found'
+    }`,
   }
 }
 
@@ -118,3 +122,21 @@ const editQuestion = () => {
 }
 
 export default editQuestion
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center h-96 flex items-center'>
+      <div className='text-center'>
+        {' '}
+        <h1 className='text-3xl font-medium'>Ooops.</h1>
+        <p>Something unexpected went wrong. Sorry about that.</p>
+        <button
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
+      </div>
+    </div>
+  )
+}

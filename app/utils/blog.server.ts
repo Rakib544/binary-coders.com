@@ -38,10 +38,7 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
       url: `/blog/${blog.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Some went wrong. Please try again.')
   }
 }
 
@@ -53,36 +50,39 @@ export const getAllBlogPosts = async (userId: string | null, page: number) => {
     id = undefined
   }
 
-  const posts = await prisma.blogPosts.findMany({
-    where: {
-      authorId: id,
-    },
-    take: 5,
-    skip: (page - 1) * 5,
-    orderBy: {
-      createdAt: 'desc',
-    },
-    include: {
-      creator: {
-        select: {
-          username: true,
-          profilePicture: true,
-          name: true,
+  try {
+    const posts = await prisma.blogPosts.findMany({
+      where: {
+        authorId: id,
+      },
+      take: 5,
+      skip: (page - 1) * 5,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        creator: {
+          select: {
+            username: true,
+            profilePicture: true,
+            name: true,
+          },
         },
       },
-    },
-  })
-
-  if (posts) {
-    return {
-      status: 200,
-      posts,
+    })
+    if (posts) {
+      return {
+        status: 200,
+        posts,
+      }
+    } else {
+      return {
+        status: 404,
+        message: 'No blog found',
+      }
     }
-  } else {
-    return {
-      status: 404,
-      message: 'No blog found',
-    }
+  } catch (error) {
+    throw new Error('Something went wrong.')
   }
 }
 
@@ -161,10 +161,7 @@ export const updateBlog = async (slug: string, title: string, html: string) => {
       url: `/blog/${post.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again.',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 

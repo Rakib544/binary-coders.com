@@ -44,55 +44,56 @@ export const createQuestion = async (
       url: `/question/${question.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
 export const getSingleQuestion = async (slug: string) => {
-  const question = await prisma.question.findUnique({
-    where: {
-      slug,
-    },
-    include: {
-      creator: {
-        select: {
-          username: true,
-          profilePicture: true,
-          name: true,
+  try {
+    const question = await prisma.question.findUnique({
+      where: {
+        slug,
+      },
+      include: {
+        creator: {
+          select: {
+            username: true,
+            profilePicture: true,
+            name: true,
+          },
         },
       },
-    },
-  })
+    })
 
-  const answers = await prisma.answers.findMany({
-    where: {
-      slug,
-    },
-    include: {
-      creator: {
-        select: {
-          profilePicture: true,
-          name: true,
-          username: true,
+    const answers = await prisma.answers.findMany({
+      where: {
+        slug: question?.slug,
+      },
+      include: {
+        creator: {
+          select: {
+            profilePicture: true,
+            name: true,
+            username: true,
+          },
         },
       },
-    },
-  })
+    })
 
-  if (!question) {
-    return {
-      status: 404,
-      message: 'Question not found with this slug',
+    if (!question) {
+      return {
+        status: 404,
+        message: 'Question not found with this slug',
+      }
     }
-  }
 
-  return {
-    status: 200,
-    question: question,
-    answers,
+    return {
+      status: 200,
+      question: question,
+      answers,
+    }
+  } catch (error) {
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -199,15 +200,13 @@ export const getAllQuestions = async (userId: string | null, page: number) => {
         },
       },
     })
+
     return {
       questions,
       status: 200,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -227,10 +226,7 @@ export const updateQuestion = async (slug: string, title: string, description: s
       url: `/question/${post.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again.',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 

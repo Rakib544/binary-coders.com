@@ -103,8 +103,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export const meta: MetaFunction = ({ data }: { data: { blog: { title: string } } }) => {
   return {
-    title: `${data.blog.title}`,
-    description: `${data.blog.title}`,
+    title: `${data?.blog?.title || '404 - No blog found'} `,
+    description: `${data?.blog?.title || 'No blog found'}`,
   }
 }
 
@@ -113,13 +113,6 @@ const SingleBlog = () => {
   const loaderData = useLoaderData()
 
   const [showDialog, setShowDialog] = React.useState<boolean>(false)
-
-  if (loaderData.status === 404) {
-    return <div>{loaderData.message}</div>
-  }
-  if (loaderData.status === 500) {
-    return <div>{loaderData.message}</div>
-  }
 
   const { blog, creatorInfo } = loaderData
 
@@ -218,3 +211,21 @@ const SingleBlog = () => {
 }
 
 export default SingleBlog
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center flex items-center my-20'>
+      <div className='text-center'>
+        <img src='/images/not-found.svg' alt='not found' className='h-48 mx-auto' />
+        <h1 className='text-3xl font-medium my-10'>No blog found with this slug.</h1>
+
+        <Link
+          to='/blog'
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+        >
+          Back to all blogs
+        </Link>
+      </div>
+    </div>
+  )
+}

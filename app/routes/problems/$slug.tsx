@@ -7,7 +7,7 @@ import {
   MetaFunction,
   redirect,
 } from '@remix-run/node'
-import { Form, useActionData, useFetcher, useLoaderData } from '@remix-run/react'
+import { Form, Link, useActionData, useFetcher, useLoaderData } from '@remix-run/react'
 import { motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import moment from 'moment'
@@ -49,8 +49,8 @@ export const meta: MetaFunction = ({
   }
 }) => {
   return {
-    title: data?.problem?.title,
-    description: data?.problem?.title,
+    title: data?.problem?.title || '404 - Not found',
+    description: data?.problem?.title || '404 - Not found',
   }
 }
 
@@ -182,3 +182,21 @@ const SingleQuestion = () => {
 }
 
 export default SingleQuestion
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center flex items-center my-20'>
+      <div className='text-center'>
+        <img src='/images/not-found.svg' alt='not found' className='h-48 mx-auto' />
+        <h1 className='text-3xl font-medium my-10'>No problems found with this slug.</h1>
+
+        <Link
+          to='/problems'
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+        >
+          Back to all problems
+        </Link>
+      </div>
+    </div>
+  )
+}

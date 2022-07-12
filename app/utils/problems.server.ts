@@ -44,15 +44,11 @@ export const createProblem = async (
       url: `/problems/${problem.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
 export const getAllProblems = async (tag: string, page: number) => {
-  // console.log({ tag, page })
   try {
     if (tag) {
       const problems = await prisma.problem.findMany({
@@ -79,17 +75,13 @@ export const getAllProblems = async (tag: string, page: number) => {
           createdAt: 'desc',
         },
       })
-      // console.log({ problems })
       return {
         status: 200,
         problems,
       }
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -105,10 +97,7 @@ export const getSingleProblem = async (slug: string) => {
       problem,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -128,10 +117,7 @@ export const updateProblem = async (slug: string, title: string, description: st
       url: `/problems/${post.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again.',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 

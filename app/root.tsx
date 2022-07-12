@@ -38,10 +38,14 @@ export const meta: MetaFunction = () => ({
 })
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const res = await getUserInfo(request)
-  return json({
-    ...res,
-  })
+  try {
+    const res = await getUserInfo(request)
+    return json({
+      ...res,
+    })
+  } catch (error) {
+    throw new Error('Testing Error Boundary')
+  }
 }
 
 const LOADER_WORDS = [
@@ -162,4 +166,35 @@ export default function App() {
   )
 }
 
-// comment
+export function ErrorBoundary() {
+  return (
+    <html>
+      <head>
+        <title>Oh no! Something went wrong.</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <main className='flex items-center justify-center h-screen'>
+          <div className='text-center'>
+            <img
+              src='/images/connection-lost.webp'
+              alt='connection-lost'
+              className='h-48 w-auto object-cover block mx-auto'
+            />
+            <h1 className='text-center font-medium text-3xl'>Slow or no internet connection</h1>
+            <p>Please check your internet connection and then </p>
+            <p>refresh the page</p>
+            <button
+              className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+              onClick={() => window.location.reload()}
+            >
+              Refresh
+            </button>
+          </div>
+        </main>
+        <Scripts />
+      </body>
+    </html>
+  )
+}
