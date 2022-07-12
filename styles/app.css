@@ -465,3 +465,71 @@ header {
 .siliguri-font {
   font-family: 'Hind Siliguri', sans-serif;
 }
+.meet-our-team-text {
+  color: #41485c;
+  position: relative;
+}
+.butterfly img {
+  width: 150px;
+  margin-right: -50px;
+}
+.butterfly {
+  position: absolute;
+  top: -70px;
+  left: -50px;
+}
+.dev-image {
+  position: relative;
+}
+.span1 {
+  position: absolute;
+  left: -15px;
+  top: -20px;
+  height: 200px;
+  width: 2px;
+  background-color: #3c72c2;
+}
+.span1::after {
+  content: '';
+  display: block;
+  position: inherit;
+  top: -10px;
+  left: -10px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: #3c72c2;
+}
+
+.span2 {
+  position: absolute;
+  right: 28px;
+  top: 198px;
+  height: 200px;
+  width: 2px;
+  background-color: #3c5bc2;
+}
+.span2::after {
+  content: '';
+  display: block;
+  position: inherit;
+  top: 195px;
+  left: -16px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: #3c5bc2;
+}
+.social-link {
+  position: relative;
+}
+.social-link p {
+  position: absolute;
+  right: -100px;
+  top: 0px;
+}
+.social-link-span {
+  position: absolute;
+  right: -110px;
+  top: 100px;
+}

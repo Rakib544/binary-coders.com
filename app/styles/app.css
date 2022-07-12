@@ -1123,8 +1123,17 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 1.5rem;
 }
 
+.my-5 {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
 .ml-4 {
   margin-left: 1rem;
+}
+
+.mt-32 {
+  margin-top: 8rem;
 }
 
 .mt-4 {
@@ -1201,10 +1210,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .mb-5 {
   margin-bottom: 1.25rem;
-}
-
-.mt-32 {
-  margin-top: 8rem;
 }
 
 .mr-8 {
@@ -1407,6 +1412,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 10rem;
 }
 
+.w-16 {
+  width: 4rem;
+}
+
 .max-w-xl {
   max-width: 36rem;
 }
@@ -1425,6 +1434,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .max-w-none {
   max-width: none;
+}
+
+.max-w-4xl {
+  max-width: 56rem;
 }
 
 .flex-none {
@@ -1554,6 +1567,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   flex-wrap: wrap;
 }
 
+.content-center {
+  align-content: center;
+}
+
 .items-center {
   align-items: center;
 }
@@ -1576,6 +1593,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .justify-around {
   justify-content: space-around;
+}
+
+.justify-items-center {
+  justify-items: center;
 }
 
 .gap-1 {
@@ -1644,6 +1665,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-space-y-reverse: 0;
   margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+
+.self-center {
+  align-self: center;
+}
+
+.justify-self-center {
+  justify-self: center;
 }
 
 .overflow-auto {
@@ -1821,6 +1850,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+.bg-sky-400\/20 {
+  background-color: rgb(56 189 248 / 0.2);
 }
 
 .bg-slate-50 {
@@ -2379,6 +2412,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity));
 }
 
+.ring-blue-600 {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(37 99 235 / var(--tw-ring-opacity));
+}
+
 .ring-red-500 {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity));
@@ -2390,6 +2428,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .ring-offset-2 {
   --tw-ring-offset-width: 2px;
+}
+
+.ring-offset-4 {
+  --tw-ring-offset-width: 4px;
 }
 
 .drop-shadow-2xl {
@@ -3005,6 +3047,84 @@ header {
   font-family: 'Hind Siliguri', sans-serif;
 }
 
+.meet-our-team-text {
+  color: #41485c;
+  position: relative;
+}
+
+.butterfly img {
+  width: 150px;
+  margin-right: -50px;
+}
+
+.butterfly {
+  position: absolute;
+  top: -70px;
+  left: -50px;
+}
+
+.dev-image {
+  position: relative;
+}
+
+.span1 {
+  position: absolute;
+  left: -15px;
+  top: -20px;
+  height: 200px;
+  width: 2px;
+  background-color: #3c72c2;
+}
+
+.span1::after {
+  content: '';
+  display: block;
+  position: inherit;
+  top: -10px;
+  left: -10px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: #3c72c2;
+}
+
+.span2 {
+  position: absolute;
+  right: 28px;
+  top: 198px;
+  height: 200px;
+  width: 2px;
+  background-color: #3c5bc2;
+}
+
+.span2::after {
+  content: '';
+  display: block;
+  position: inherit;
+  top: 195px;
+  left: -16px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: #3c5bc2;
+}
+
+.social-link {
+  position: relative;
+}
+
+.social-link p {
+  position: absolute;
+  right: -100px;
+  top: 0px;
+}
+
+.social-link-span {
+  position: absolute;
+  right: -110px;
+  top: 100px;
+}
+
 .placeholder\:bg-white::-moz-placeholder {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -3106,6 +3226,11 @@ header {
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-purple-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(168 85 247 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
@@ -3124,6 +3249,15 @@ header {
 .hover\:text-blue-500:hover {
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity));
+}
+
+.hover\:text-purple-400\/20:hover {
+  color: rgb(192 132 252 / 0.2);
+}
+
+.hover\:text-blue-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity));
 }
 
 .hover\:underline:hover {
@@ -3339,12 +3473,20 @@ header {
     margin-top: 8rem;
   }
 
+  .md\:ml-12 {
+    margin-left: 3rem;
+  }
+
   .md\:block {
     display: block;
   }
 
   .md\:flex {
     display: flex;
+  }
+
+  .md\:grid {
+    display: grid;
   }
 
   .md\:hidden {
@@ -3371,6 +3513,10 @@ header {
     width: 25%;
   }
 
+  .md\:w-72 {
+    width: 18rem;
+  }
+
   .md\:w-2\/3 {
     width: 66.666667%;
   }
@@ -3391,6 +3537,10 @@ header {
 
   .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .md\:flex-row {

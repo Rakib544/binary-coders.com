@@ -139,6 +139,7 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        <script src='https://kit.fontawesome.com/ffce09daf6.js' crossOrigin='anonymous'></script>
       </head>
       <body className='font-barlow bg-test'>
         <Navbar
@@ -146,7 +147,7 @@ export default function App() {
           username={loaderData?.username as string}
           profilePicture={loaderData?.profilePicture as string}
         />
-        <main className='relative'>
+        <main className='relative mt-32'>
           <PageLoadingMessage />
           <Outlet />
           <ScrollRestoration />
