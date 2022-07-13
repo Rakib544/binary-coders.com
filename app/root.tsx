@@ -224,4 +224,22 @@ export function CatchBoundary() {
       </html>
     )
   }
+
+  throw new Error('Something went wrong')
+}
+
+export function ErrorBoundary() {
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        Slow internet connection
+        <Scripts />
+      </body>
+    </html>
+  )
 }

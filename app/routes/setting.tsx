@@ -13,7 +13,7 @@ const Profile = () => {
       </div>
       <div
         onClick={() => setShow(true)}
-        className='md:hidden h-10 w-10 bg-white rounded-full shadow-sm flex justify-center items-center border border-blue-500 absolute z-30 -left-4 top-80'
+        className='md:hidden h-10 w-10 bg-white rounded-full shadow-sm flex justify-center items-center border border-blue-500 absolute z-30 -left-3 top-80'
       >
         <ArrowRightLines />
       </div>
@@ -26,10 +26,10 @@ const Profile = () => {
             <Link
               prefetch='intent'
               to='/setting'
-              className={`block px-4 py-3 bg-gray-200 font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-sky-500 hover:text-sky-500 transition duration-300 ${
+              className={`block px-4 py-3 font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-sky-500  transition duration-300 shadow-xl shadow-blue-500/10 ${
                 location.pathname === '/setting'
-                  ? 'ring-1 ring-sky-500 text-sky-500 bg-sky-100'
-                  : ''
+                  ? 'bg-sky-500 text-white'
+                  : 'bg-gray-50 text-slate-800'
               }`}
             >
               Account
@@ -37,10 +37,10 @@ const Profile = () => {
             <Link
               prefetch='intent'
               to='profile'
-              className={`block px-4 py-3 bg-gray-200 font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-sky-500 hover:text-sky-500 transition duration-300 ${
+              className={`block px-4 py-3 font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-sky-500 transition duration-300 shadow-xl shadow-blue-500/10 ${
                 location.pathname === '/setting/profile'
-                  ? 'ring-1 ring-sky-500 text-sky-500 bg-sky-100'
-                  : ''
+                  ? 'bg-sky-500 text-white'
+                  : 'bg-gray-50 text-slate-800'
               }`}
             >
               Profile
@@ -48,10 +48,10 @@ const Profile = () => {
             <Link
               prefetch='intent'
               to='password'
-              className={`block px-4 py-3 bg-gray-200 font-medium text-sm my-2 rounded-xl hover:ring-1 hover:ring-sky-500 hover:text-sky-500 transition duration-300 ${
+              className={`block px-4 py-3  font-medium text-sm my-2 rounded-xl hover:ring-1 hover:ring-sky-500  transition duration-300 shadow-xl shadow-blue-500/10 ${
                 location.pathname === '/setting/password'
-                  ? 'ring-1 ring-sky-500 bg-sky-100 text-sky-500'
-                  : ''
+                  ? ' bg-sky-500 text-white'
+                  : 'bg-gray-50 text-slate-800'
               }`}
             >
               Password
@@ -90,8 +90,8 @@ const ProfileSideBar = ({ location, show }: SideBarProps) => (
       <Link
         prefetch='intent'
         to='/setting'
-        className={`block px-4 py-3 bg-gray-200 font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-sky-500 hover:text-sky-500 transition duration-300  ${
-          location.pathname === '/setting' ? 'ring-1 ring-sky-500 text-sky-500 bg-sky-100' : ''
+        className={`block px-4 py-3 font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-sky-500  transition duration-300 shadow-xl shadow-blue-500/10  ${
+          location.pathname === '/setting' ? 'bg-sky-500 text-white' : 'bg-gray-50 text-slate-800'
         }`}
       >
         Account
@@ -99,10 +99,10 @@ const ProfileSideBar = ({ location, show }: SideBarProps) => (
       <Link
         prefetch='intent'
         to='profile'
-        className={`block px-4 py-3 bg-gray-200 font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-sky-500 hover:text-sky-500 transition duration-300 ${
+        className={`block px-4 py-3 font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-sky-500 transition duration-300 shadow-xl shadow-blue-500/10 ${
           location.pathname === '/setting/profile'
-            ? 'ring-1 ring-sky-500 text-sky-500 bg-sky-100'
-            : ''
+            ? 'bg-sky-500 text-white'
+            : 'bg-gray-50 text-slate-800'
         }`}
       >
         Profile
@@ -110,10 +110,10 @@ const ProfileSideBar = ({ location, show }: SideBarProps) => (
       <Link
         prefetch='intent'
         to='password'
-        className={`block px-4 py-3 bg-gray-200 font-medium text-sm my-2 rounded-xl hover:ring-1 hover:ring-sky-500 hover:text-sky-500 transition duration-300 ${
+        className={`block px-4 py-3 font-medium text-sm my-2 rounded-xl hover:ring-1 hover:ring-sky-500 transition duration-300 shadow-xl shadow-blue-500/10 ${
           location.pathname === '/setting/password'
-            ? 'ring-1 ring-sky-500 text-sky-500 bg-sky-100'
-            : ''
+            ? 'bg-sky-500 text-white'
+            : 'bg-gray-50 text-slate-800'
         }`}
       >
         Password

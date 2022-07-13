@@ -971,8 +971,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   top: 2rem;
 }
 
-.-left-4 {
-  left: -1rem;
+.-left-3 {
+  left: -0.75rem;
 }
 
 .top-80 {
@@ -1236,6 +1236,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: 0.75rem;
 }
 
+.mt-24 {
+  margin-top: 6rem;
+}
+
 .mt-32 {
   margin-top: 8rem;
 }
@@ -1278,10 +1282,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .mb-32 {
   margin-bottom: 8rem;
-}
-
-.mt-24 {
-  margin-top: 6rem;
 }
 
 .block {
@@ -1370,6 +1370,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-auto {
   height: auto;
+}
+
+.h-28 {
+  height: 7rem;
+}
+
+.h-36 {
+  height: 9rem;
 }
 
 .max-h-56 {
@@ -1870,14 +1878,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(0 0 0 / 0.4);
 }
 
-.bg-gray-200 {
+.bg-gray-50 {
   --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
-}
-
-.bg-sky-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(224 242 254 / var(--tw-bg-opacity));
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .bg-slate-900\/90 {
@@ -2304,6 +2307,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 
+.text-slate-800 {
+  --tw-text-opacity: 1;
+  color: rgb(30 41 59 / var(--tw-text-opacity));
+}
+
 .text-green-500 {
   --tw-text-opacity: 1;
   color: rgb(34 197 94 / var(--tw-text-opacity));
@@ -2327,11 +2335,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
-}
-
-.text-slate-800 {
-  --tw-text-opacity: 1;
-  color: rgb(30 41 59 / var(--tw-text-opacity));
 }
 
 .text-green-600 {
@@ -2454,11 +2457,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-ring-color: rgb(226 232 240 / var(--tw-ring-opacity));
 }
 
-.ring-sky-500 {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(14 165 233 / var(--tw-ring-opacity));
-}
-
 .ring-gray-300 {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity));
@@ -2472,6 +2470,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .ring-red-500 {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity));
+}
+
+.ring-sky-500 {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(14 165 233 / var(--tw-ring-opacity));
 }
 
 .ring-opacity-5 {
@@ -2559,8 +2562,7 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-  background-image: linear-gradient(73deg, #5665ae, #4ba1d9);
-  box-shadow: rgba(56, 140, 235, 0.84) 0px 8px 16px 0px;
+  background-image: linear-gradient(73deg, #06b6d4, #3b82f6);
   border-radius: 100vh;
 }
 
@@ -3592,10 +3594,6 @@ header {
 
   .md\:flex-row {
     flex-direction: row;
-  }
-
-  .md\:justify-start {
-    justify-content: flex-start;
   }
 
   .md\:gap-4 {

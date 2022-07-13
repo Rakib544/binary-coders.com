@@ -6,7 +6,7 @@ import {
   MetaFunction,
   redirect,
 } from '@remix-run/node'
-import { Form, Link, useActionData, useFetcher, useLoaderData } from '@remix-run/react'
+import { Form, Link, useActionData, useFetcher, useLoaderData, useParams } from '@remix-run/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import moment from 'moment'
@@ -82,23 +82,16 @@ export const action: ActionFunction = async ({ request, params }) => {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  try {
-    const userId = await getUserId(request)
-    if (!userId) {
-      return redirect('/auth/login')
-    }
-    const res = await getSingleBlog(params.slug as string)
-    const data = {
-      ...res,
-      userId: userId,
-    }
-    return json(data)
-  } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+  const userId = await getUserId(request)
+  if (!userId) {
+    return redirect('/auth/login')
   }
+  const res = await getSingleBlog(params.slug as string)
+  const data = {
+    ...res,
+    userId: userId,
+  }
+  return json(data)
 }
 
 export const meta: MetaFunction = ({ data }: { data: { blog: { title: string } } }) => {
@@ -213,19 +206,49 @@ const SingleBlog = () => {
 
 export default SingleBlog
 
-export function ErrorBoundary() {
+export function CatchBoundary() {
+  const params = useParams()
   return (
     <div className='justify-center flex items-center my-20'>
       <div className='text-center'>
         <img src='/images/not-found.svg' alt='not found' className='h-48 mx-auto' />
-        <h1 className='text-3xl font-medium my-10'>No blog found with this slug.</h1>
+        <h1 className='text-3xl font-medium my-10'>
+          No blog found with this <span className='text-sky-500'>&quot;/{params.slug}&quot;</span>{' '}
+          slug
+        </h1>
 
         <Link
           to='/blog'
           className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
         >
-          Back to all blogs
+          Back to Blog
         </Link>
+      </div>
+    </div>
+  )
+}
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center flex'>
+      <div className='text-center mb-20'>
+        {' '}
+        <img
+          src='/images/connection-lost.webp'
+          alt='connection-lost-img'
+          className='h-40 block mx-auto'
+        />
+        <h1 className='text-3xl font-medium text-slate-700'>Ooops!</h1>
+        <h2 className='text-xl font-medium text-slate-500'>
+          It maybe happens due to your slow internet connection or{' '}
+          <p>Something unexpected went wrong. Sorry about that.</p>
+        </h2>
+        <p className='text-slate-500'>Try to reload again</p>
+        <button
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
       </div>
     </div>
   )

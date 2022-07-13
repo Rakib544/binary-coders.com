@@ -86,18 +86,19 @@ export const getAllProblems = async (tag: string, page: number) => {
 }
 
 export const getSingleProblem = async (slug: string) => {
-  try {
-    const problem = await prisma.problem.findUnique({
-      where: {
-        slug,
-      },
+  const problem = await prisma.problem.findUnique({
+    where: {
+      slug,
+    },
+  })
+  if (!problem) {
+    throw new Response('Not Found', {
+      status: 404,
     })
-    return {
-      status: 200,
-      problem,
-    }
-  } catch (error) {
-    throw new Error('Something went wrong. Please try again.')
+  }
+  return {
+    status: 200,
+    problem,
   }
 }
 

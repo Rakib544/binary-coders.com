@@ -49,51 +49,45 @@ export const createQuestion = async (
 }
 
 export const getSingleQuestion = async (slug: string) => {
-  try {
-    const question = await prisma.question.findUnique({
-      where: {
-        slug,
-      },
-      include: {
-        creator: {
-          select: {
-            username: true,
-            profilePicture: true,
-            name: true,
-          },
+  const question = await prisma.question.findUnique({
+    where: {
+      slug,
+    },
+    include: {
+      creator: {
+        select: {
+          username: true,
+          profilePicture: true,
+          name: true,
         },
       },
-    })
+    },
+  })
 
-    const answers = await prisma.answers.findMany({
-      where: {
-        slug: question?.slug,
-      },
-      include: {
-        creator: {
-          select: {
-            profilePicture: true,
-            name: true,
-            username: true,
-          },
+  if (!question) {
+    throw new Response('Not Found', {
+      status: 404,
+    })
+  }
+
+  const answers = await prisma.answers.findMany({
+    where: {
+      slug: question?.slug,
+    },
+    include: {
+      creator: {
+        select: {
+          profilePicture: true,
+          name: true,
+          username: true,
         },
       },
-    })
-
-    if (!question) {
-      return {
-        status: 404,
-        message: 'Question not found with this slug',
-      }
-    }
-
-    return {
-      status: 200,
-      question: question,
-      answers,
-    }
-  } catch (error) {
-    throw new Error('Something went wrong. Please try again.')
+    },
+  })
+  return {
+    status: 200,
+    question: question,
+    answers,
   }
 }
 

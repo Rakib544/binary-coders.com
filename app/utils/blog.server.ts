@@ -1,3 +1,4 @@
+import { Response } from '@remix-run/node'
 import readingTime from 'reading-time'
 import slugify from 'slugify'
 import { prisma } from './prisma.server'
@@ -93,6 +94,12 @@ export const getSingleBlog = async (slug: string) => {
     },
   })
 
+  if (!blog) {
+    throw new Response('User not found', {
+      status: 404,
+    })
+  }
+
   const creatorInfo = await prisma.user.findUnique({
     where: {
       id: blog?.authorId,
@@ -103,18 +110,10 @@ export const getSingleBlog = async (slug: string) => {
       profilePicture: true,
     },
   })
-
-  if (blog) {
-    return {
-      status: 200,
-      blog,
-      creatorInfo,
-    }
-  } else {
-    return {
-      status: 404,
-      message: 'No blog found with this slug',
-    }
+  return {
+    status: 200,
+    blog,
+    creatorInfo,
   }
 }
 
