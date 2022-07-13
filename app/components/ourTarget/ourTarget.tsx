@@ -6,7 +6,7 @@ const ourTarget = () => {
   return (
     <>
       <motion.div
-        className='mx-auto w-11/12 md:mb-16 md:mt-32'
+        className='mx-auto w-11/12 mt-24 md:mb-16 md:mt-32'
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}

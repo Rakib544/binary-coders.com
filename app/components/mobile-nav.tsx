@@ -52,7 +52,7 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
         </svg>
       </button>
       <div
-        className={`supports-backdrop-blur:bg-white/95 fixed top-0 right-0 z-20 h-full w-full transform bg-white backdrop-blur duration-300 ease-in-out ${
+        className={` fixed top-0 right-0 z-20 h-full w-full transform bg-white duration-300 ease-in-out ${
           navShow ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -64,7 +64,7 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
         ></button>
         <nav className='fixed py-6 px-6  h-full w-full z-20'>
           {username && (
-            <Link to={`/user/${username}`} onClick={onToggleNav}>
+            <Link to={`/user/${username}`} prefetch='intent' onClick={onToggleNav}>
               <div className='flex items-center space-x-4 border-b border-slate-300 pb-4'>
                 <img
                   src={profilePicture}
@@ -72,7 +72,8 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
                   className='h-20 w-20 rounded-full object-cover'
                 />
                 <div>
-                  <p className='text-2xl font-medium mt-2 text-sly-500'>{fullName}</p>
+                  <p className='text-xl font-medium mt-2 text-slate-500'>{fullName}</p>
+                  <small className='text-sm font-semibold text-sky-500'>@{username}</small>
                 </div>
               </div>
             </Link>
@@ -104,7 +105,7 @@ const MobileNav = ({ fullName, profilePicture, username }: MobileNavProps) => {
                 <Link
                   prefetch='intent'
                   to='/setting'
-                  className={'text-lg font-medium tracking-widest text-gray-900'}
+                  className={'text-lg font-medium tracking-widest text-slate-500'}
                   onClick={onToggleNav}
                 >
                   Setting

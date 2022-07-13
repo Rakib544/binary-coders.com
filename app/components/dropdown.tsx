@@ -55,7 +55,7 @@ export default function Dropdown({ fullName, username, profilePicture }: DropDow
               <Link
                 prefetch='intent'
                 to={`/user/${username}`}
-                className='px-4 py-2 bg-blue-600 text-white inline-block text-sm rounded-full mt-2 mb-4'
+                className='px-4 py-2 bg-blue-500 shadow-blue-500/30 shadow-xl text-white inline-block text-sm rounded-full mt-2 mb-4'
               >
                 View Profile
               </Link>

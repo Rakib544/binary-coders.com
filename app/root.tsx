@@ -95,7 +95,7 @@ function PageLoadingMessage() {
 
   React.useEffect(() => {
     if (firstRender) return
-    if (transition.state === 'idle') return
+    if (transition.state === 'idle' || transition.type === 'actionSubmission') return
     setPendingPath(transition.location.pathname)
   }, [transition.location])
 
@@ -139,8 +139,21 @@ function PageLoadingMessage() {
 
 //
 
+const marginHideFrom = [
+  '/auth/login',
+  '/auth/send-register-link',
+  '/auth/reset',
+  '/auth/register',
+  '/auth/new-password',
+]
+
+function shouldAddMargin(pathName: string) {
+  return !marginHideFrom.includes(pathName)
+}
+
 export default function App() {
   const loaderData = useLoaderData()
+  const location = useLocation()
   return (
     <html lang='en' className='scroll-smooth'>
       <head>
@@ -154,7 +167,7 @@ export default function App() {
           username={loaderData?.username as string}
           profilePicture={loaderData?.profilePicture as string}
         />
-        <main className='relative mt-32'>
+        <main className={`relative ${shouldAddMargin(location.pathname) ? 'mt-16 md:mt-32' : ''}`}>
           <PageLoadingMessage />
           <Outlet />
           <ScrollRestoration />

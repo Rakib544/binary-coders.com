@@ -169,7 +169,7 @@ const Index = () => {
 
       <div className='grid grid-cols-10 gap-0 lg:gap-4'>
         <aside className='col-span-10 hidden md:col-span-2 lg:col-span-3 md:flex justify-center'>
-          <motion.div className='w-full md:px-2 lg:px-16 my-10' variants={stagger}>
+          <motion.div className='w-full md:px-2 lg:px-16 mt-4' variants={stagger}>
             {loaderData?.userId && (
               <motion.div variants={fadeInUp}>
                 {' '}
@@ -186,8 +186,8 @@ const Index = () => {
               <Link
                 to='/question'
                 prefetch='intent'
-                className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-                  location.search === '' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+                className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-sky-500 hover:text-sky-500 transition duration-300 shadow-xl shadow-blue-500/10 ${
+                  location.search === '' ? 'ring-1 ring-sky-500 text-sky-500' : ''
                 }`}
               >
                 All Questions
@@ -198,8 +198,8 @@ const Index = () => {
                 <Link
                   to='/question?query=me'
                   prefetch='intent'
-                  className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-                    location.search === '?query=me' ? 'ring-1 ring-blue-500 text-blue-500' : ''
+                  className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-sky-500 hover:text-sky-500 transition duration-300 shadow-xl shadow-blue-500/10 ${
+                    location.search === '?query=me' ? 'ring-1 ring-sky-500 text-sky-500' : ''
                   }`}
                 >
                   My Questions
@@ -212,7 +212,7 @@ const Index = () => {
           variants={stagger}
           className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12'
         >
-          <motion.div variants={fadeInUp}>
+          <motion.div variants={fadeInUp} className='block md:hidden'>
             <SelectBox
               key={location.search}
               options={

@@ -93,7 +93,7 @@ const Reset = () => {
     >
       <div className='hidden md:block col-span-2 sm:col-span-2 md:col-span-1 md:p-14'>
         <motion.img
-          src='/images/reset.png'
+          src='/images/reset-password.webp'
           alt='reset-img'
           initial={{ opacity: 0, scale: 1.3 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -102,7 +102,7 @@ const Reset = () => {
       </div>
       <motion.div
         variants={childVariants}
-        className='col-span-2 sm:col-span-2 md:col-span-1 px-6 mt-40 md:mt-0 md:px-14 bg-white py-10 mx-8 rounded-xl'
+        className='col-span-2 sm:col-span-2 md:col-span-1 px-6 mt-40 md:mt-0 md:px-14 bg-white py-10 mx-8 rounded-xl  shadow-2xl shadow-blue-500/10'
       >
         <h1 className='text-3xl font-bold text-center md:text-left'>
           Are you forgot your password ?
@@ -129,7 +129,7 @@ const Reset = () => {
           <div className='flex justify-center'>
             <button
               type='submit'
-              className='px-16 py-3 rounded-lg w-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700 border-2 border-blue-600 hover:border-blue-700'
+              className='px-16 py-3 w-full rounded-lg bg-blue-500 text-white inline-block mt-8 text-center text-sm font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-600 border-2 border-blue-500 hover:border-blue-600 transition duration-300'
             >
               {transition.submission ? (
                 <div className='flex justify-center items-center'>

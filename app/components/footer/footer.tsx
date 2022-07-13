@@ -1,11 +1,9 @@
 import { Link, useLocation } from '@remix-run/react'
 import FacebookIcon from '../icons/facebook'
-import InstagramIcon from '../icons/instagram'
+import LightLocationIcon from '../icons/light-lication-icon'
 import LinkedinLogo from '../icons/linkedin'
-import LocationIcon from '../icons/location'
 import MailIcon from '../icons/mail'
 import PhoneIcon from '../icons/phone'
-import YoutubeIcon from '../icons/youtube'
 import { Paragraph } from '../typography'
 const FOOTER_HIDES_FROM = [
   '/auth/login',
@@ -31,7 +29,10 @@ const Footer = () => {
             alt='brand logo'
           />
           <div>
-            <Paragraph className='text-left' textColorClassName='text-white text-sm tracking-wide'>
+            <Paragraph
+              className='text-left'
+              textColorClassName='text-white text-sm tracking-wide font-normal'
+            >
               A platform who tech and guid those student, who actually want learn programming . We
               believe that learning programming is nothing but fun
             </Paragraph>
@@ -43,16 +44,10 @@ const Footer = () => {
               href='https://www.facebook.com/groups/binarycoders'
               rel='noreferrer'
             >
-              <FacebookIcon />
+              <FacebookIcon className='text-sky-500' />
             </a>{' '}
-            <a title='instagram' href='https://www.facebook.com/groups/binarycoders'>
-              <InstagramIcon />
-            </a>
             <a title='linkedin' href='https://www.facebook.com/groups/binarycoders'>
               <LinkedinLogo />
-            </a>
-            <a title='youtube' href='https://www.facebook.com/groups/binarycoders'>
-              <YoutubeIcon />
             </a>
           </div>
         </div>
@@ -71,7 +66,7 @@ const Footer = () => {
             </li>
             <li>
               <Link prefetch='intent' className='hover:border-b-2' to='/blog'>
-                Create forms
+                Ask Questions
               </Link>
             </li>
           </ul>
@@ -95,7 +90,7 @@ const Footer = () => {
               <span>Helpline : 018******67 , (Available : 10AM - 5PM)</span>
             </li>
             <li className='flex space-x-3'>
-              <LocationIcon />
+              <LightLocationIcon />
               <span>Shahid Tajuddin Ahmed Sorony, Tejgaon Industrial Area, Dhaka - 1208</span>
             </li>
           </ul>

@@ -219,20 +219,14 @@ const SingleQuestion = () => {
               className='h-10 w-10 rounded-xl object-cover'
             />
             <div>
-              <Link
-                prefetch='intent'
-                to={`/user/${question.creator.username}`}
-                className='font-medium text-sky-500'
-              >
-                {question.creator.name}
-              </Link>
+              <p className='font-medium text-slate-700'>{question.creator.name}</p>
               <small className='block text-xs font-medium text-slate-500'>
                 <Link
                   prefetch='intent'
                   to={`/user/${question.creator.username}`}
                   className='text-sky-500'
                 >
-                  {question.creator.name}
+                  @{question.creator.username}
                 </Link>{' '}
                 asked {moment(question.createdAt).fromNow()}
               </small>

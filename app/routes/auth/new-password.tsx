@@ -75,7 +75,7 @@ const ResetPassword = () => {
         visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
       }}
     >
-      <div className='w-full md:w-1/2'>
+      <div className='w-full md:w-1/2  shadow-2xl shadow-blue-500/10 bg-white'>
         {actionData?.status === 200 ? (
           <p>{actionData?.message}</p>
         ) : (
@@ -136,7 +136,7 @@ const ResetPassword = () => {
               <div className='flex justify-center'>
                 <button
                   type='submit'
-                  className='px-16 py-3 rounded-lg w-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700 border-2 border-blue-600 hover:border-blue-700'
+                  className='px-16 py-3 w-full rounded-lg bg-blue-500 text-white inline-block mt-8 text-center text-sm font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-600 border-2 border-blue-500 hover:border-blue-600 transition duration-300'
                 >
                   {transition.submission ? (
                     <div className='flex justify-center items-center'>

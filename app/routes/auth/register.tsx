@@ -193,7 +193,7 @@ const Register = () => {
         />
       </div>
       <motion.div
-        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 md:my-16 bg-white py-10 rounded-xl lg:mx-8'
+        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 md:my-16 bg-white py-10 rounded-xl lg:mx-8  shadow-2xl shadow-blue-500/10'
         variants={childVariants}
       >
         <div className='block lg:hidden'>
@@ -342,7 +342,7 @@ const Register = () => {
           </div>
           <div className='mb-2 flex justify-center'>
             <button
-              className='px-16 py-3 rounded-lg w-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700 border-2 border-blue-600 hover:border-blue-700'
+              className='px-16 py-3 w-full rounded-lg bg-blue-500 text-white inline-block mt-8 text-center text-sm font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-600 border-2 border-blue-500 hover:border-blue-600 transition duration-300'
               type='submit'
             >
               {transition.submission ? (
