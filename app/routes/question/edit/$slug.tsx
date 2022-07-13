@@ -77,7 +77,7 @@ const editQuestion = () => {
   const [html, setHtml] = React.useState(loaderData?.question.description)
 
   return (
-    <div className='px-12'>
+    <div className='px-4 md:px-6 lg:px-12 my-20'>
       <ClientOnly fallback={<div style={{ width: 500, height: 300 }}></div>}>
         {() => (
           <Form method='put'>

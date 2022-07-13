@@ -91,7 +91,7 @@ const create = () => {
   const [selectedOption, setSelectedOption] = React.useState(null)
 
   return (
-    <div className='px-4 md:px-20 my-10'>
+    <div className='px-4 md:px-6 lg:px-12 my-20'>
       <ClientOnly fallback={<div style={{ width: 500, height: 300 }}></div>}>
         {() => (
           <Form method='post'>
