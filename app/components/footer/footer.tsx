@@ -21,9 +21,10 @@ const Footer = () => {
       <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 px-5 md:px-16'>
         <div className=''>
           <img
-            src='https://i.ibb.co/KX9YN7Z/logo-01.png'
+            src='/images/logo.webp'
             height='40'
             width='120'
+            loading='lazy'
             className='h-12 hover:scale-105 object-cover w-auto transition duration-300 ease-in cursor-grab mb-4'
             alt='brand logo'
           />

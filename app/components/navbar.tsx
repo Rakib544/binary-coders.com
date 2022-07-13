@@ -85,7 +85,7 @@ const Navbar = ({
           <div className='flex items-center justify-between w-full'>
             <Link prefetch='intent' to='/'>
               <img
-                src='https://i.ibb.co/KX9YN7Z/logo-01.png'
+                src='/images/logo.webp'
                 alt='Binary Coders Logo'
                 height='40'
                 width='120'

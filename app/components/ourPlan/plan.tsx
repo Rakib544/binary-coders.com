@@ -12,7 +12,12 @@ const Plan = () => {
                 key={data.cardImg}
                 className='shadow-2xl shadow-blue-500/10 md:w-3/6 md:mt-0 mt-3 md:h-60 p-10 bg-white rounded-lg'
               >
-                <img src={data.cardImg} className='w-20 h-20 mx-auto' alt='' />
+                <img
+                  src={data.cardImg}
+                  loading='lazy'
+                  className='w-20 h-20 mx-auto'
+                  alt={data.cardImg}
+                />
                 <p className='text-slate-500 text-md mt-3 mb-5 text-center'>{data.body}</p>
               </div>
             ))}
@@ -25,6 +30,7 @@ const Plan = () => {
               >
                 <img
                   src={quote.cardImg}
+                  loading='lazy'
                   className='w-20 h-20 ring-2 rounded-full md:translate-y-0 -translate-y-3  ring-gray-300 ring-offset-2'
                   alt={quote.title}
                 />

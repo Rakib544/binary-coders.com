@@ -11,7 +11,14 @@ const Stack = () => {
             className='col-span-3 md:col-span-1 bg-white shadow-2xl shadow-blue-500/10 rounded-lg h-full'
           >
             <div className='p-8'>
-              <img src={stack.cardImg} className='mx-auto h-40 w-auto' alt='card-img' />
+              <img
+                src={stack.cardImg}
+                loading='lazy'
+                height='400'
+                width='400'
+                className='mx-auto h-40 w-auto'
+                alt='card-img'
+              />
             </div>
             <div className='px-4'>
               <h2 className='text-center font-bold mt-4 text-sky-500 '>{stack.stackName}</h2>

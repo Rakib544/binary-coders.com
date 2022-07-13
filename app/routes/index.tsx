@@ -1,3 +1,4 @@
+import { MetaFunction } from '@remix-run/node'
 import AdvantageBinaryCoders from '~/components/advantageBinaryCoders/advantageBinaryCoders'
 import Plan from '~/components/ourPlan/plan'
 import Quote from '~/components/quote/quote'
@@ -5,6 +6,27 @@ import Stack from '~/components/stack/stack'
 import Heading from '../components/heading/heading'
 import OurTarget from '../components/ourTarget/ourTarget'
 
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Binary Coders',
+    description: 'A platform for teaching programming fundamentals for beginner programmers',
+  }
+}
+
+export function links() {
+  return [
+    {
+      rel: 'preload',
+      href: '/images/programming.svg',
+      as: 'image',
+    },
+    {
+      rel: 'preload',
+      href: '/images/logo.webp',
+      as: 'image',
+    },
+  ]
+}
 export default function Index() {
   return (
     <>

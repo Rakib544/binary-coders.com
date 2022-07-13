@@ -58,7 +58,8 @@ const Heading = () => {
         <div className='col-span-2 md:col-span-1 order-1 md:order-2 p-12'>
           <motion.img
             src='./images/programming.svg'
-            className=''
+            height='400'
+            width='500'
             alt='right-side-heading-img'
             initial={{ scale: shouldReduceMotion ? 1 : 1.4 }}
             animate={{ scale: 1, opacity: 1 }}
