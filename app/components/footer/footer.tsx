@@ -4,7 +4,6 @@ import LightLocationIcon from '../icons/light-lication-icon'
 import LinkedinLogo from '../icons/linkedin'
 import MailIcon from '../icons/mail'
 import PhoneIcon from '../icons/phone'
-import { Paragraph } from '../typography'
 const FOOTER_HIDES_FROM = [
   '/auth/login',
   '/auth/register',
@@ -25,17 +24,14 @@ const Footer = () => {
             src='https://i.ibb.co/KX9YN7Z/logo-01.png'
             height='40'
             width='120'
-            className='h-12 hover:scale-105 object-cover w-auto transition duration-300 ease-in cursor-grab mb-6'
+            className='h-12 hover:scale-105 object-cover w-auto transition duration-300 ease-in cursor-grab mb-4'
             alt='brand logo'
           />
           <div>
-            <Paragraph
-              className='text-left'
-              textColorClassName='text-white text-sm tracking-wide font-normal'
-            >
+            <p className='text-white tracking-wide font-light'>
               A platform who tech and guid those student, who actually want learn programming . We
               believe that learning programming is nothing but fun
-            </Paragraph>
+            </p>
           </div>
           <div className='flex items-center justify-start space-x-3 mt-8'>
             <a
@@ -52,27 +48,39 @@ const Footer = () => {
           </div>
         </div>
         <div className=''>
-          <h2 className='font-semibold md:mb-8 mb-3 mt-5'> Important Links</h2>
-          <ul className='space-y-3'>
+          <h2 className='font-semibold md:mb-4 mb-3 mt-5'> Important Links</h2>
+          <ul className='space-y-2'>
             <li>
-              <Link prefetch='intent' className='hover:border-b-2' to='/blog'>
+              <Link
+                prefetch='intent'
+                className='font-light hover:text-sky-500 transition duration-300'
+                to='/blog'
+              >
                 Know more about us
               </Link>
             </li>
             <li>
-              <Link prefetch='intent' className='hover:border-b-2' to='/blog'>
+              <Link
+                prefetch='intent'
+                className='font-light hover:text-sky-500 transition duration-300'
+                to='/blog'
+              >
                 Blog
               </Link>
             </li>
             <li>
-              <Link prefetch='intent' className='hover:border-b-2' to='/blog'>
+              <Link
+                prefetch='intent'
+                className='font-light hover:text-sky-500 transition duration-300'
+                to='/blog'
+              >
                 Ask Questions
               </Link>
             </li>
           </ul>
         </div>
         <div className=''>
-          <h2 className='font-semibold md:mb-8 mb-3 mt-5'> Find Us </h2>
+          <h2 className='font-semibold md:mb-4 mb-3 mt-5'> Find Us </h2>
           <ul className='space-y-4 '>
             <li>
               <a
@@ -82,14 +90,14 @@ const Footer = () => {
                 className='flex space-x-3 items-center'
               >
                 <MailIcon />
-                <span className='underline decoration-1'> Mail us for any query</span>
+                <span className='underline decoration-1 font-light'> Mail us for any query</span>
               </a>
             </li>
-            <li className='flex items-center space-x-3'>
+            <li className='flex items-center space-x-3 font-light'>
               <PhoneIcon />
               <span>Helpline : 018******67 , (Available : 10AM - 5PM)</span>
             </li>
-            <li className='flex space-x-3'>
+            <li className='flex space-x-3 font-light'>
               <LightLocationIcon />
               <span>Shahid Tajuddin Ahmed Sorony, Tejgaon Industrial Area, Dhaka - 1208</span>
             </li>

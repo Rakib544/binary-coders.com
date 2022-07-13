@@ -253,29 +253,23 @@ const SingleQuestion = () => {
           {answers?.map((answer: Answer) => (
             <div
               key={new Date() + answer.answerCreatorId + Math.random()}
-              className='p-4 bg-white rounded-xl border border-slate-100 my-4'
+              className='p-4  my-4 border-b border-slate-200 last:border-none'
             >
-              <div className='flex items-center space-x-2'>
+              <div className='flex items-center space-x-2 mb-2'>
                 <img
                   src={answer.creator.profilePicture}
                   alt={answer.creator.name}
-                  className='h-12 w-12 rounded-full'
+                  className='h-12 w-12 rounded-lg object-cover'
                 />
-                <div className='mb-4'>
-                  <Link
-                    prefetch='intent'
-                    to={`/user/${answer.creator.username}`}
-                    className='font-medium text-sky-500 text-sm block'
-                  >
-                    {answer.creator.name}
-                  </Link>
+                <div>
+                  <p className='font-medium text-slate-700 text-sm block'>{answer.creator.name}</p>
                   <small className='font-medium text-slate-500'>
                     <Link
                       prefetch='intent'
                       to={`/user/${answer.creator.username}`}
                       className='text-sky-500'
                     >
-                      {answer.creator.name}
+                      @{answer.creator.username}
                     </Link>{' '}
                     answered {moment(answer.answeredTime).fromNow()}
                   </small>
@@ -283,7 +277,7 @@ const SingleQuestion = () => {
               </div>
               <div
                 dangerouslySetInnerHTML={{ __html: answer.answer }}
-                className='prose prose-slate  lg:prose-md max-w-none prose-a:text-blue-600'
+                className='prose prose-slate lg:prose-md max-w-none prose-a:text-blue-600'
               />
             </div>
           ))}

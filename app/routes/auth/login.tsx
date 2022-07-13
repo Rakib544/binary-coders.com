@@ -65,10 +65,7 @@ export const action: ActionFunction = async ({ request }) => {
       '/',
     )
   } catch (error) {
-    return {
-      ...Object.fromEntries(formData),
-      error,
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -211,11 +208,20 @@ export default Login
 
 export function ErrorBoundary() {
   return (
-    <div className='justify-center h-96 flex items-center'>
-      <div className='text-center'>
+    <div className='justify-center flex'>
+      <div className='text-center mb-20'>
         {' '}
-        <h1 className='text-3xl font-medium'>Ooops.</h1>
-        <p>Something unexpected went wrong. Sorry about that.</p>
+        <img
+          src='/images/connection-lost.webp'
+          alt='connection-lost-img'
+          className='h-40 block mx-auto'
+        />
+        <h1 className='text-3xl font-medium text-slate-700'>Ooops!</h1>
+        <h2 className='text-xl font-medium text-slate-500'>
+          It maybe happens due to your slow internet connection or{' '}
+          <p>Something unexpected went wrong. Sorry about that.</p>
+        </h2>
+        <p className='text-slate-500'>Try to reload again</p>
         <button
           className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
           onClick={() => window.location.reload()}
