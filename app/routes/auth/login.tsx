@@ -69,6 +69,20 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
+export function links() {
+  return [
+    {
+      rel: 'preload',
+      href: '/images/login.webp',
+      as: 'image',
+    },
+    {
+      rel: 'preload',
+      href: '/images/login-mobile.webp',
+      as: 'image',
+    },
+  ]
+}
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkValidation = (key: string, data: any) => {
   let hasError = false
@@ -107,7 +121,6 @@ const Login = () => {
           src='/images/login.webp'
           alt='login'
           className='md:p-10'
-          loading='lazy'
           initial={{ opacity: 1, scale: 1.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7 }}
