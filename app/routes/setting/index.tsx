@@ -29,14 +29,16 @@ export const action: LoaderFunction = async ({ request }) => {
   }
 
   const res = await updateUsername(email as string, username as string)
-  await createUserSession(
-    res.user?.name as string,
-    res.user?.id as string,
-    res?.user?.profilePicture as string,
-    res?.user?.username as string,
-    res?.user?.role as string,
-    '/profile',
-  )
+  if (res.status === 200) {
+    return await createUserSession(
+      res.user?.name as string,
+      res.user?.id as string,
+      res?.user?.profilePicture as string,
+      res?.user?.username as string,
+      res?.user?.role as string,
+      '/setting',
+    )
+  }
 
   return json(res)
 }

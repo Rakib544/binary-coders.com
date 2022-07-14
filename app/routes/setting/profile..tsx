@@ -42,14 +42,16 @@ export const action: LoaderFunction = async ({ request }) => {
     bio as string,
   )
 
-  await createUserSession(
-    res.user?.name as string,
-    res.user?.id as string,
-    res?.user?.profilePicture as string,
-    res?.user?.username as string,
-    res?.user?.role as string,
-    '/setting/profile',
-  )
+  if (res.status === 200) {
+    return await createUserSession(
+      res.user?.name as string,
+      res.user?.id as string,
+      res?.user?.profilePicture as string,
+      res?.user?.username as string,
+      res?.user?.role as string,
+      '/setting/profile',
+    )
+  }
 
   return json(res)
 }
