@@ -65,7 +65,10 @@ export const action: ActionFunction = async ({ request }) => {
       '/',
     )
   } catch (error) {
-    throw new Error('Something went wrong. Please try again.')
+    return {
+      ...Object.fromEntries(formData),
+      error,
+    }
   }
 }
 
