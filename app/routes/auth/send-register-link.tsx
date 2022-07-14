@@ -47,7 +47,7 @@ const registerLink = () => {
   return (
     <div className='grid grid-cols-2 items-center gap-12 h-screen'>
       <div className='hidden lg:block md:col-span-1'>
-        <img src='/images/login.png' alt='register' className='p-20' />
+        <img src='/images/login.webp' alt='register' className='p-20' />
       </div>
       <div className='col-span-2 lg:col-span-1 p-4 md:p-20 bg-white rounded-xl mx-2 py-10 md:mx-20 lg:mx-8  shadow-2xl shadow-blue-500/10'>
         <h1 className='text-3xl font-bold text-center md:text-left'>Let&apos;s Get Started!</h1>

@@ -184,7 +184,7 @@ const Register = () => {
     >
       <div className='hidden lg:block sm:w-1/2 p-10'>
         <motion.img
-          src='/images/login.png'
+          src='/images/login.webp'
           alt='img'
           className='md:p-10'
           initial={{ opacity: 0, scale: 1.5 }}
