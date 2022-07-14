@@ -3,7 +3,7 @@ const Quote = () => {
     <div className='px-4 md:px-12 my-24'>
       <div className='grid grid-cols-2 items-center'>
         <div className='col-span-2 md:col-span-1 order-2 md:order-1'>
-          <img src='./images/Programmer.webp' loading='lazy' alt='programingQuoteImg' />
+          <img src='/images/Programmer.webp' loading='lazy' alt='programingQuoteImg' />
         </div>
         <div className='col-span-2 md:col-span-1 order-2 md:order-1 md:p-12 p-3'>
           <h1 className='text-4xl font-bold mb-4 text-slate-700'>
