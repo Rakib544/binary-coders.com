@@ -66,8 +66,6 @@ const Navbar = ({
       topPosition = currentScroll
     }
 
-    console.log(topPosition)
-
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', handleNavbar)
     }
