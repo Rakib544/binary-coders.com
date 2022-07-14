@@ -24,7 +24,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export const headers: HeadersFunction = () => {
   return {
-    'Cache-control': 'public, s-maxage=60 slate-while-revalidate=2678400',
+    'Cache-control': 'public, max-age=60 s-maxage=180 slate-while-revalidate=2678400',
   }
 }
 
