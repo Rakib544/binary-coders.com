@@ -6,37 +6,45 @@ import type { Login, Register } from './types.server'
 import { createUser } from './user.server'
 
 export async function register(user: Register) {
-  const exists = await prisma.user.count({ where: { email: user.email } })
+  try {
+    const exists = await prisma.user.count({ where: { email: user.email } })
 
-  if (exists) {
-    return { message: 'User already exists with that email', status: 400 }
+    if (exists) {
+      return { message: 'User already exists with that email', status: 400 }
+    }
+    const res = await createUser(user)
+    return res
+  } catch (error) {
+    throw new Error('Something went wrong. Please try again')
   }
-  const res = await createUser(user)
-  return res
 }
 
 export const login = async (user: Login) => {
-  const findUser = await prisma.user.findUnique({
-    where: { email: user.email },
-  })
-  if (!findUser) {
-    return { message: 'Wring credential', status: 400 }
-  }
-  const checkPassword = await bcrypt.compare(user.password, findUser.password)
-  if (!checkPassword) {
-    return { message: 'Wring credential', status: 400 }
-  }
+  try {
+    const findUser = await prisma.user.findUnique({
+      where: { email: user.email },
+    })
+    if (!findUser) {
+      return { message: 'Wring credential', status: 400 }
+    }
+    const checkPassword = await bcrypt.compare(user.password, findUser.password)
+    if (!checkPassword) {
+      return { message: 'Wring credential', status: 400 }
+    }
 
-  return {
-    user: {
-      name: findUser.name,
-      id: findUser.id,
-      profilePicture: findUser.profilePicture,
-      username: findUser.username,
-      role: findUser.role,
-    },
-    message: 'login successful',
-    status: 200,
+    return {
+      user: {
+        name: findUser.name,
+        id: findUser.id,
+        profilePicture: findUser.profilePicture,
+        username: findUser.username,
+        role: findUser.role,
+      },
+      message: 'login successful',
+      status: 200,
+    }
+  } catch (error) {
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -149,10 +157,7 @@ export const resetToken = async (email: string) => {
       email: user.email,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -214,32 +219,33 @@ export const updatePassword = async (password: string, token: string) => {
       message: 'Password reset successful',
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again.',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
 export const getUserInfoFromDB = async (id: string) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      id: id,
-    },
-    select: {
-      email: true,
-      name: true,
-      bio: true,
-      username: true,
-      websiteLink: true,
-      githubLink: true,
-      location: true,
-      institute: true,
-      profilePicture: true,
-    },
-  })
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+      select: {
+        email: true,
+        name: true,
+        bio: true,
+        username: true,
+        websiteLink: true,
+        githubLink: true,
+        location: true,
+        institute: true,
+        profilePicture: true,
+      },
+    })
 
-  return user
+    return user
+  } catch (error) {
+    throw new Error('Something went wrong. Please try again')
+  }
 }
 
 export const updateUserInfo = async (
@@ -281,42 +287,43 @@ export const updateUserInfo = async (
       message: 'Profile Updated successful',
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again.',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
 export const updateUsername = async (email: string, username: string) => {
-  const isUsernameExists = await prisma.user.findUnique({ where: { username } })
+  try {
+    const isUsernameExists = await prisma.user.findUnique({ where: { username } })
 
-  if (isUsernameExists) {
-    return {
-      status: 401,
-      message: 'Username already taken by another user.',
+    if (isUsernameExists) {
+      return {
+        status: 401,
+        message: 'Username already taken by another user.',
+      }
     }
-  }
 
-  const user = await prisma.user.update({
-    where: {
-      email,
-    },
-    data: {
-      username: username,
-    },
-    select: {
-      name: true,
-      id: true,
-      profilePicture: true,
-      username: true,
-      role: true,
-    },
-  })
+    const user = await prisma.user.update({
+      where: {
+        email,
+      },
+      data: {
+        username: username,
+      },
+      select: {
+        name: true,
+        id: true,
+        profilePicture: true,
+        username: true,
+        role: true,
+      },
+    })
 
-  return {
-    status: 200,
-    user,
+    return {
+      status: 200,
+      user,
+    }
+  } catch (error) {
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -326,76 +333,84 @@ export const updateUserPassword = async (
   newPassword: string,
   confirmPassword: string,
 ) => {
-  const isPasswordMatched = newPassword === confirmPassword
+  try {
+    const isPasswordMatched = newPassword === confirmPassword
 
-  if (isPasswordMatched) {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    })
+    if (isPasswordMatched) {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      })
 
-    if (user) {
-      const isPasswordMatchedWithDBPassword = await bcrypt.compare(password, user.password)
-      if (isPasswordMatchedWithDBPassword) {
-        const hashPassword = await bcrypt.hash(newPassword, 10)
-        await prisma.user.update({
-          where: {
-            email: user.email,
-          },
-          data: {
-            password: hashPassword,
-          },
-        })
-        return {
-          status: 200,
-          message: 'Password changed successfully',
-        }
-      } else {
-        return {
-          status: 500,
-          name: 'password',
-          message: 'Password is incorrect',
+      if (user) {
+        const isPasswordMatchedWithDBPassword = await bcrypt.compare(password, user.password)
+        if (isPasswordMatchedWithDBPassword) {
+          const hashPassword = await bcrypt.hash(newPassword, 10)
+          await prisma.user.update({
+            where: {
+              email: user.email,
+            },
+            data: {
+              password: hashPassword,
+            },
+          })
+          return {
+            status: 200,
+            message: 'Password changed successfully',
+          }
+        } else {
+          return {
+            status: 500,
+            name: 'password',
+            message: 'Password is incorrect',
+          }
         }
       }
+    } else {
+      return {
+        status: 500,
+        name: 'confirmPassword',
+        message: 'New password and confirm password does not match.',
+      }
     }
-  } else {
-    return {
-      status: 500,
-      name: 'confirmPassword',
-      message: 'New password and confirm password does not match.',
-    }
+  } catch (error) {
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
 export const sendRegisterAccountLink = async (email: string) => {
-  const isUserExists = await prisma.user.findUnique({ where: { email } })
+  try {
+    const isUserExists = await prisma.user.findUnique({ where: { email } })
 
-  if (isUserExists) {
-    return {
-      status: 500,
-      message: 'User exists with this email',
+    if (isUserExists) {
+      return {
+        status: 500,
+        message: 'User exists with this email',
+      }
     }
-  }
 
-  const token = jwt.sign(
-    {
+    const token = jwt.sign(
+      {
+        email: email,
+        expiresIn: '1d',
+      },
+      process.env.JWT_SECRET as string,
+    )
+
+    await sendAEmail({
+      to: email,
+      subject: 'Account created',
+      token,
+      reset: false,
+    })
+
+    return {
+      status: 200,
+      message: 'Register link sent successful',
       email: email,
-      expiresIn: '1d',
-    },
-    process.env.JWT_SECRET as string,
-  )
-
-  await sendAEmail({
-    to: email,
-    subject: 'Account created',
-    token,
-    reset: false,
-  })
-
-  return {
-    status: 200,
-    message: 'Register link sent successful',
-    email: email,
+    }
+  } catch (error) {
+    throw new Error('Something went wrong. Please try again.')
   }
 }

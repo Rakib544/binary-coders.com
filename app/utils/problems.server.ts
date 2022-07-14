@@ -44,15 +44,11 @@ export const createProblem = async (
       url: `/problems/${problem.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
 export const getAllProblems = async (tag: string, page: number) => {
-  // console.log({ tag, page })
   try {
     if (tag) {
       const problems = await prisma.problem.findMany({
@@ -79,36 +75,30 @@ export const getAllProblems = async (tag: string, page: number) => {
           createdAt: 'desc',
         },
       })
-      // console.log({ problems })
       return {
         status: 200,
         problems,
       }
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
 export const getSingleProblem = async (slug: string) => {
-  try {
-    const problem = await prisma.problem.findUnique({
-      where: {
-        slug,
-      },
+  const problem = await prisma.problem.findUnique({
+    where: {
+      slug,
+    },
+  })
+  if (!problem) {
+    throw new Response('Not Found', {
+      status: 404,
     })
-    return {
-      status: 200,
-      problem,
-    }
-  } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+  }
+  return {
+    status: 200,
+    problem,
   }
 }
 
@@ -128,10 +118,7 @@ export const updateProblem = async (slug: string, title: string, description: st
       url: `/problems/${post.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again.',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -205,5 +192,24 @@ export const getProblemViewers = async (slug: string) => {
   }
   return {
     viewers,
+  }
+}
+
+export const deleteProblems = async (slug: string) => {
+  try {
+    await prisma.problem.delete({
+      where: {
+        slug,
+      },
+    })
+    return {
+      status: 200,
+      message: 'Problem deleted successful',
+    }
+  } catch (e) {
+    return {
+      status: 500,
+      message: 'Internal server error. Please try again',
+    }
   }
 }

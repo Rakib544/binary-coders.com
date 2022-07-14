@@ -2,6 +2,125 @@
 @tailwind components;
 @tailwind utilities;
 
+/* barlow-200 - latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('/fonts/barlow-v12-latin-200.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/fonts/barlow-v12-latin-200.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/fonts/barlow-v12-latin-200.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/fonts/barlow-v12-latin-200.woff') format('woff'),
+    /* Modern Browsers */ url('/fonts/barlow-v12-latin-200.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/fonts/barlow-v12-latin-200.svg#Barlow') format('svg'); /* Legacy iOS */
+}
+/* barlow-300 - latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/barlow-v12-latin-300.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/fonts/barlow-v12-latin-300.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/fonts/barlow-v12-latin-300.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/fonts/barlow-v12-latin-300.woff') format('woff'),
+    /* Modern Browsers */ url('/fonts/barlow-v12-latin-300.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/fonts/barlow-v12-latin-300.svg#Barlow') format('svg'); /* Legacy iOS */
+}
+/* barlow-regular - latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/barlow-v12-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/fonts/barlow-v12-latin-regular.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/fonts/barlow-v12-latin-regular.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/fonts/barlow-v12-latin-regular.woff') format('woff'),
+    /* Modern Browsers */ url('/fonts/barlow-v12-latin-regular.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/fonts/barlow-v12-latin-regular.svg#Barlow') format('svg'); /* Legacy iOS */
+}
+/* barlow-500 - latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/barlow-v12-latin-500.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/fonts/barlow-v12-latin-500.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/fonts/barlow-v12-latin-500.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/fonts/barlow-v12-latin-500.woff') format('woff'),
+    /* Modern Browsers */ url('/fonts/barlow-v12-latin-500.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/fonts/barlow-v12-latin-500.svg#Barlow') format('svg'); /* Legacy iOS */
+}
+/* barlow-500italic - latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/barlow-v12-latin-500italic.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/fonts/barlow-v12-latin-500italic.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/fonts/barlow-v12-latin-500italic.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/fonts/barlow-v12-latin-500italic.woff') format('woff'),
+    /* Modern Browsers */ url('/fonts/barlow-v12-latin-500italic.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/fonts/barlow-v12-latin-500italic.svg#Barlow') format('svg'); /* Legacy iOS */
+}
+/* barlow-600 - latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/barlow-v12-latin-600.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/fonts/barlow-v12-latin-600.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/fonts/barlow-v12-latin-600.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/fonts/barlow-v12-latin-600.woff') format('woff'),
+    /* Modern Browsers */ url('/fonts/barlow-v12-latin-600.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/fonts/barlow-v12-latin-600.svg#Barlow') format('svg'); /* Legacy iOS */
+}
+/* barlow-700 - latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/barlow-v12-latin-700.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/fonts/barlow-v12-latin-700.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/fonts/barlow-v12-latin-700.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/fonts/barlow-v12-latin-700.woff') format('woff'),
+    /* Modern Browsers */ url('/fonts/barlow-v12-latin-700.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/fonts/barlow-v12-latin-700.svg#Barlow') format('svg'); /* Legacy iOS */
+}
+/* barlow-800 - latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/barlow-v12-latin-800.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/fonts/barlow-v12-latin-800.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/fonts/barlow-v12-latin-800.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/fonts/barlow-v12-latin-800.woff') format('woff'),
+    /* Modern Browsers */ url('/fonts/barlow-v12-latin-800.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/fonts/barlow-v12-latin-800.svg#Barlow') format('svg'); /* Legacy iOS */
+}
+/* barlow-900 - latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/barlow-v12-latin-900.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/fonts/barlow-v12-latin-900.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/fonts/barlow-v12-latin-900.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/fonts/barlow-v12-latin-900.woff') format('woff'),
+    /* Modern Browsers */ url('/fonts/barlow-v12-latin-900.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/fonts/barlow-v12-latin-900.svg#Barlow') format('svg'); /* Legacy iOS */
+}
+
+/* font testing */
 body::-webkit-scrollbar {
   width: 0.7em;
 }
@@ -10,8 +129,7 @@ body::-webkit-scrollbar-track {
   border-radius: 100vh;
 }
 body::-webkit-scrollbar-thumb {
-  background-image: linear-gradient(73deg, #5665ae, #4ba1d9);
-  box-shadow: rgba(56, 140, 235, 0.84) 0px 8px 16px 0px;
+  background-image: linear-gradient(73deg, #06b6d4, #3b82f6);
   border-radius: 100vh;
 }
 
@@ -22,18 +140,26 @@ header {
   width: 100%;
   z-index: 9;
   transition: all 300ms ease-in-out;
+  background-color: #fafdff;
 }
 .scroll-down header {
   transform: translate3d(0, -100%, 0);
 }
 .scroll-up header {
-  background-color: #f7f8fc;
-  filter: drop-shadow(0px -10px 20px rgb(170, 170, 170));
+  background-color: #fafdff;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
+
+.nav-shadow {
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 }
 
 @media (max-width: 600px) {
   [data-reach-dialog-content] {
     width: 90vw;
+  }
+  .dev-image {
+    margin-left: 5%;
   }
 }
 .milestone-content {
@@ -151,10 +277,10 @@ header {
   position: relative;
 }
 .semester-1 {
-  background-image: linear-gradient(45deg, #4ba1d9, #5665ae);
+  background-image: linear-gradient(45deg, #08b5d5, #3a83f5);
 }
 .semester-2 {
-  background-image: linear-gradient(90deg, #3cc2ae, #0f70f0);
+  background-image: linear-gradient(90deg, #10a4e9, #0f70f0);
 }
 
 /* GuidLine row different view */
@@ -444,23 +570,8 @@ header {
 }
 
 .bg-test {
-  background-color: #f7f8fc;
+  background-color: #fafdff;
 }
-
-/* .ql-editor {
-  counter-reset: line;
-  padding-left: 0;
-}
-
-.ql-editor p:before {
-  counter-increment: line;
-  content: counter(line);
-  display: inline-block;
-  border-right: 1px solid #ddd;
-  padding: 0 0.5em;
-  margin-right: 0.5em;
-  color: #888;
-} */
 
 .siliguri-font {
   font-family: 'Hind Siliguri', sans-serif;
@@ -530,6 +641,6 @@ header {
 }
 .social-link-span {
   position: absolute;
-  right: -110px;
+  right: -72px;
   top: 100px;
 }

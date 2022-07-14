@@ -1,3 +1,4 @@
+import { Response } from '@remix-run/node'
 import bcrypt from 'bcryptjs'
 import { prisma } from './prisma.server'
 import { Register } from './types.server'
@@ -66,6 +67,12 @@ export const getUserInfoByUsername = async (username: string) => {
       websiteLink: true,
     },
   })
+
+  if (!user) {
+    throw new Response('User not found', {
+      status: 404,
+    })
+  }
 
   const blogs = await prisma.blogPosts.findMany({
     where: { authorId: (user as User).id },

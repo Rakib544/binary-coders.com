@@ -1,4 +1,11 @@
-import { ActionFunction, HeadersFunction, json, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  HeadersFunction,
+  json,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node'
 import { Form, Link, useActionData, useTransition } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Input, Label } from '~/components/form-elements'
@@ -17,7 +24,14 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export const headers: HeadersFunction = () => {
   return {
-    'Cache-control': 'public, s-maxage=60 slate-while-revalidate=2678400',
+    'Cache-control': 'public, max-age=60 s-maxage=180 slate-while-revalidate=2678400',
+  }
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Binary Coders | Login',
+    description: 'Login to get out support to learn programming fundamentals',
   }
 }
 
@@ -58,6 +72,20 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
+export function links() {
+  return [
+    {
+      rel: 'preload',
+      href: '/images/login.webp',
+      as: 'image',
+    },
+    {
+      rel: 'preload',
+      href: '/images/login-mobile.webp',
+      as: 'image',
+    },
+  ]
+}
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkValidation = (key: string, data: any) => {
   let hasError = false
@@ -93,17 +121,16 @@ const Login = () => {
     >
       <div className='hidden lg:block sm:w-1/2 p-10'>
         <motion.img
-          src='/images/login.png'
+          src='/images/login.webp'
           alt='login'
           className='md:p-10'
-          loading='lazy'
           initial={{ opacity: 1, scale: 1.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7 }}
         />
       </div>
       <motion.div
-        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16 bg-white rounded-xl lg:mx-8 py-10'
+        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16 bg-white shadow-2xl shadow-blue-500/10 rounded-xl lg:mx-8 py-10'
         variants={childVariants}
       >
         <div className='block lg:hidden'>
@@ -159,7 +186,7 @@ const Login = () => {
           </div>
           <Link
             prefetch='intent'
-            className='text-blue-600 underline text-right block'
+            className='text-sky-500 underline text-right block'
             to='/auth/reset'
           >
             Reset Password
@@ -167,7 +194,7 @@ const Login = () => {
           <div className='mb-2 flex justify-center'>
             <button
               type='submit'
-              className='px-16 py-3 w-full rounded-lg bg-blue-600 text-white inline-block mt-8 text-center text-sm font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700 border-2 border-blue-600 hover:border-blue-700'
+              className='px-16 py-3 w-full rounded-lg bg-blue-500 text-white inline-block mt-8 text-center text-sm font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-600 border-2 border-blue-500 hover:border-blue-600 transition duration-300'
             >
               {transition.submission ? (
                 <div className='flex justify-center items-center'>
@@ -182,7 +209,7 @@ const Login = () => {
           <div>
             <p className='text-sm font-medium pt-8 text-center'>
               Not Registered yet?{' '}
-              <Link prefetch='intent' className='text-blue-600' to='/auth/send-register-link'>
+              <Link prefetch='intent' className='text-sky-500' to='/auth/send-register-link'>
                 Create An Account
               </Link>
             </p>
@@ -194,3 +221,30 @@ const Login = () => {
 }
 
 export default Login
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center flex'>
+      <div className='text-center mb-20'>
+        {' '}
+        <img
+          src='/images/connection-lost.webp'
+          alt='connection-lost-img'
+          className='h-40 block mx-auto'
+        />
+        <h1 className='text-3xl font-medium text-slate-700'>Ooops!</h1>
+        <h2 className='text-xl font-medium text-slate-500'>
+          It maybe happens due to your slow internet connection or{' '}
+          <p>Something unexpected went wrong. Sorry about that.</p>
+        </h2>
+        <p className='text-slate-500'>Try to reload again</p>
+        <button
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
+      </div>
+    </div>
+  )
+}

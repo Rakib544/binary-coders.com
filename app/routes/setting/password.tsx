@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from '@remix-run/node'
+import { ActionFunction, json, LoaderFunction, MetaFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useTransition } from '@remix-run/react'
 import * as React from 'react'
 import { Label } from '~/components/form-elements'
@@ -6,9 +6,17 @@ import { Spinner } from '~/components/icons/spinner'
 import { NotificationMessage } from '~/components/notification-message'
 import { H4 } from '~/components/typography'
 import { updateUserPassword } from '~/utils/auth.server'
-import { getUserInfo } from '~/utils/session.server'
+import { getUserId, getUserInfo } from '~/utils/session.server'
 
-export const action: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await getUserId(request)
+  if (!userId) {
+    return redirect('/auth/login')
+  }
+  return null
+}
+
+export const action: ActionFunction = async ({ request }) => {
   const { userId } = await getUserInfo(request)
   const formData = await request.formData()
   const { password, newPassword, confirmPassword } = Object.fromEntries(formData)
@@ -20,6 +28,13 @@ export const action: LoaderFunction = async ({ request }) => {
     confirmPassword as string,
   )
   return json(res)
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Update Password - Binary Coders',
+    description: 'Update your password',
+  }
 }
 
 const password = () => {
@@ -78,7 +93,7 @@ const password = () => {
             type='submit'
             name='action'
             value='updatePass'
-            className='px-8 sm:px-12 inline-block my-4 py-2 sm:py-3  bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
+            className='px-8 sm:px-12 inline-block my-4 py-2 sm:py-3  bg-blue-500 text-white rounded-lg font-medium text-sm shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'
           >
             {transition.submission ? (
               <div className='flex justify-center items-center'>
@@ -101,3 +116,30 @@ const password = () => {
 }
 
 export default password
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center flex'>
+      <div className='text-center mb-20'>
+        {' '}
+        <img
+          src='/images/connection-lost.webp'
+          alt='connection-lost-img'
+          className='h-40 block mx-auto'
+        />
+        <h1 className='text-3xl font-medium text-slate-700'>Ooops!</h1>
+        <h2 className='text-xl font-medium text-slate-500'>
+          It maybe happens due to your slow internet connection or{' '}
+          <p>Something unexpected went wrong. Sorry about that.</p>
+        </h2>
+        <p className='text-slate-500'>Try to reload again</p>
+        <button
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
+      </div>
+    </div>
+  )
+}

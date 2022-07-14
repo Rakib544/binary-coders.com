@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
@@ -73,6 +80,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const result = await checkRegisterLinkToken(token as string)
   return json({ ...result, env: process.env.IMAGE_BB_KEY, token: token })
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Binary Coders | Register',
+    description: 'Register to get out support to learn programming fundamentals',
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -170,7 +184,7 @@ const Register = () => {
     >
       <div className='hidden lg:block sm:w-1/2 p-10'>
         <motion.img
-          src='/images/login.png'
+          src='/images/login.webp'
           alt='img'
           className='md:p-10'
           initial={{ opacity: 0, scale: 1.5 }}
@@ -179,7 +193,7 @@ const Register = () => {
         />
       </div>
       <motion.div
-        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 md:my-16 bg-white py-10 rounded-xl lg:mx-8'
+        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 md:my-16 bg-white py-10 rounded-xl lg:mx-8  shadow-2xl shadow-blue-500/10'
         variants={childVariants}
       >
         <div className='block lg:hidden'>
@@ -328,7 +342,7 @@ const Register = () => {
           </div>
           <div className='mb-2 flex justify-center'>
             <button
-              className='px-16 py-3 rounded-lg w-full bg-blue-600 text-white inline-block mt-6 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700 border-2 border-blue-600 hover:border-blue-700'
+              className='px-16 py-3 w-full rounded-lg bg-blue-500 text-white inline-block mt-8 text-center text-sm font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-600 border-2 border-blue-500 hover:border-blue-600 transition duration-300'
               type='submit'
             >
               {transition.submission ? (
@@ -357,3 +371,30 @@ const Register = () => {
 }
 
 export default Register
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center flex'>
+      <div className='text-center mb-20'>
+        {' '}
+        <img
+          src='/images/connection-lost.webp'
+          alt='connection-lost-img'
+          className='h-40 block mx-auto'
+        />
+        <h1 className='text-3xl font-medium text-slate-700'>Ooops!</h1>
+        <h2 className='text-xl font-medium text-slate-500'>
+          It maybe happens due to your slow internet connection or{' '}
+          <p>Something unexpected went wrong. Sorry about that.</p>
+        </h2>
+        <p className='text-slate-500'>Try to reload again</p>
+        <button
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
+      </div>
+    </div>
+  )
+}

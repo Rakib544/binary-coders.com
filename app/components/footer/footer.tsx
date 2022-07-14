@@ -1,12 +1,9 @@
 import { Link, useLocation } from '@remix-run/react'
 import FacebookIcon from '../icons/facebook'
-import InstagramIcon from '../icons/instagram'
+import LightLocationIcon from '../icons/light-lication-icon'
 import LinkedinLogo from '../icons/linkedin'
-import LocationIcon from '../icons/location'
 import MailIcon from '../icons/mail'
 import PhoneIcon from '../icons/phone'
-import YoutubeIcon from '../icons/youtube'
-import { Paragraph } from '../typography'
 const FOOTER_HIDES_FROM = [
   '/auth/login',
   '/auth/register',
@@ -24,56 +21,67 @@ const Footer = () => {
       <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 px-5 md:px-16'>
         <div className=''>
           <img
-            src='https://i.ibb.co/KX9YN7Z/logo-01.png'
-            className='h-16 hover:scale-105 transition duration-300 ease-in cursor-grab mb-6'
+            src='/images/logo.webp'
+            height='40'
+            width='120'
+            loading='lazy'
+            className='h-12 hover:scale-105 object-cover w-auto transition duration-300 ease-in cursor-grab mb-4'
             alt='brand logo'
           />
           <div>
-            <Paragraph className='text-left' textColorClassName='text-white text-sm tracking-wide'>
+            <p className='text-white tracking-wide font-light'>
               A platform who tech and guid those student, who actually want learn programming . We
               believe that learning programming is nothing but fun
-            </Paragraph>
+            </p>
           </div>
           <div className='flex items-center justify-start space-x-3 mt-8'>
-            <a target='_blank' href='https://www.facebook.com/groups/binarycoders' rel='noreferrer'>
-              <FacebookIcon />
+            <a
+              title='facebook'
+              target='_blank'
+              href='https://www.facebook.com/groups/binarycoders'
+              rel='noreferrer'
+            >
+              <FacebookIcon className='text-sky-500' />
             </a>{' '}
-            <a href='https://www.facebook.com/groups/binarycoders'>
-              <InstagramIcon />
-            </a>
-            <a href='https://www.facebook.com/groups/binarycoders'>
+            <a title='linkedin' href='https://www.facebook.com/groups/binarycoders'>
               <LinkedinLogo />
-            </a>
-            <a href='https://www.facebook.com/groups/binarycoders'>
-              <YoutubeIcon />
             </a>
           </div>
         </div>
         <div className=''>
-          <h2 className='font-semibold md:mb-8 mb-3 mt-5'>
-            {' '}
-            Important Links <img src='./images/links.png' className='inline-flex w-6' alt='' />
-          </h2>
-          <ul className='space-y-3'>
+          <h2 className='font-semibold md:mb-4 mb-3 mt-5'> Important Links</h2>
+          <ul className='space-y-2'>
             <li>
-              <Link prefetch='intent' className='hover:border-b-2' to='/blog'>
+              <Link
+                prefetch='intent'
+                className='font-light hover:text-sky-500 transition duration-300'
+                to='/blog'
+              >
                 Know more about us
               </Link>
             </li>
             <li>
-              <Link prefetch='intent' className='hover:border-b-2' to='/blog'>
+              <Link
+                prefetch='intent'
+                className='font-light hover:text-sky-500 transition duration-300'
+                to='/blog'
+              >
                 Blog
               </Link>
             </li>
             <li>
-              <Link prefetch='intent' className='hover:border-b-2' to='/blog'>
-                Create forms
+              <Link
+                prefetch='intent'
+                className='font-light hover:text-sky-500 transition duration-300'
+                to='/blog'
+              >
+                Ask Questions
               </Link>
             </li>
           </ul>
         </div>
         <div className=''>
-          <h2 className='font-semibold md:mb-8 mb-3 mt-5'> Find Us </h2>
+          <h2 className='font-semibold md:mb-4 mb-3 mt-5'> Find Us </h2>
           <ul className='space-y-4 '>
             <li>
               <a
@@ -83,15 +91,15 @@ const Footer = () => {
                 className='flex space-x-3 items-center'
               >
                 <MailIcon />
-                <span className='underline decoration-1'> Mail us for any query</span>
+                <span className='underline decoration-1 font-light'> Mail us for any query</span>
               </a>
             </li>
-            <li className='flex items-center space-x-3'>
+            <li className='flex items-center space-x-3 font-light'>
               <PhoneIcon />
               <span>Helpline : 018******67 , (Available : 10AM - 5PM)</span>
             </li>
-            <li className='flex space-x-3'>
-              <LocationIcon />
+            <li className='flex space-x-3 font-light'>
+              <LightLocationIcon />
               <span>Shahid Tajuddin Ahmed Sorony, Tejgaon Industrial Area, Dhaka - 1208</span>
             </li>
           </ul>

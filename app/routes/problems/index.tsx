@@ -1,8 +1,8 @@
-import { LoaderFunction } from '@remix-run/node'
+import { LoaderFunction, MetaFunction } from '@remix-run/node'
 import { Link, useFetcher, useLoaderData, useLocation } from '@remix-run/react'
 import { motion } from 'framer-motion'
 import * as React from 'react'
-import EyeIcon from '~/components/icons/eye'
+import EyeIcon from '~/components/icons/eye-icon'
 import SelectBox from '~/components/select'
 import { H6 } from '~/components/typography'
 import { getAllProblems } from '~/utils/problems.server'
@@ -49,12 +49,17 @@ export const loader: LoaderFunction = async ({ request }) => {
   const { role } = await getUserInfo(request)
   const page = getPage(new URL(request.url).searchParams)
   const url = new URL(request.url)
-  // console.log(url.searchParams.get('query'))
   const tag = url.searchParams.get('query')
   const res = await getAllProblems(tag as string, page)
   return {
     ...res,
     role,
+  }
+}
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Solve Problems - Binary Coders',
+    description: 'Problems set for programming practices.',
   }
 }
 
@@ -170,8 +175,22 @@ const Index = () => {
       exit={{ opacity: 0 }}
       className='grid grid-cols-10 gap-0 lg:gap-4'
     >
+      <div className='block col-span-10 md:hidden mx-2'>
+        {loaderData?.role === 'admin' && (
+          <motion.div variants={fadeInUp} className='text-right'>
+            {' '}
+            <Link
+              prefetch='intent'
+              to='/problems/create'
+              className='inline-block bg-blue-500 py-3 px-8 rounded-xl text-white font-medium tracking-wide my-8 text-sm text-center'
+            >
+              Set Problems
+            </Link>
+          </motion.div>
+        )}
+      </div>
       <aside className='col-span-10 hidden md:col-span-2 lg:col-span-3 md:flex justify-center'>
-        <motion.div variants={stagger} className='w-full md:px-2 lg:px-16 my-10'>
+        <motion.div variants={stagger} className='w-full md:px-2 lg:px-16 mb-10 mt-6'>
           {loaderData?.role === 'admin' && (
             <motion.div variants={fadeInUp}>
               {' '}
@@ -190,8 +209,8 @@ const Index = () => {
               <Link
                 to={to}
                 prefetch='intent'
-                className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-blue-500 hover:text-blue-500 transition duration-300 ${
-                  location.search === active ? 'ring-1 ring-blue-500 text-blue-500' : ''
+                className={`block px-4 py-3 bg-white font-medium my-2 text-sm rounded-xl hover:ring-1 hover:ring-sky-500 hover:text-sky-500 transition duration-300 shadow-xl shadow-blue-500/10 ${
+                  location.search === active ? 'ring-1 ring-sky-500 text-sky-500' : ''
                 }`}
               >
                 {label}
@@ -202,10 +221,10 @@ const Index = () => {
       </aside>
       <motion.ul
         variants={stagger}
-        className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12 my-10'
+        className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12 my-2 md:my-10'
       >
-        <motion.div variants={fadeInUp} className='mb-10'>
-          <SelectBox options={options} />
+        <motion.div variants={fadeInUp} className='mb-10 block md:hidden'>
+          <SelectBox key={location.search} options={options} />
         </motion.div>
         {problems?.map((problem: Problem, index: number) => {
           if (problems?.length === index + 1) {
@@ -232,7 +251,7 @@ const ProblemsCard = ({ problem }: ProblemCard) => (
       prefetch='intent'
       to={`/problems/${problem.slug}`}
       // variants={childVariants}
-      className='block my-2 border border-gray-100 p-4 bg-white rounded-xl transition duration-300 hover:border-blue-500'
+      className='block my-2 p-4 bg-white rounded-xl transition duration-300 shadow-2xl shadow-blue-500/10 border border-sky-50'
     >
       <div>
         <div className='grid grid-cols-10 items-center flex-end'>
@@ -242,7 +261,7 @@ const ProblemsCard = ({ problem }: ProblemCard) => (
           <div className='hidden col-span-10 md:col-span-1 md:flex space-x-2'>
             <div className='flex items-center space-x-1'>
               <EyeIcon />
-              <small>{problem.views}</small>
+              <small className='text-xs font-medium text-slate-500'>{problem.views}</small>
             </div>
           </div>
         </div>
@@ -264,3 +283,30 @@ const ProblemsCard = ({ problem }: ProblemCard) => (
     </Link>
   </motion.li>
 )
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center flex'>
+      <div className='text-center mb-20'>
+        {' '}
+        <img
+          src='/images/connection-lost.webp'
+          alt='connection-lost-img'
+          className='h-40 block mx-auto'
+        />
+        <h1 className='text-3xl font-medium text-slate-700'>Ooops!</h1>
+        <h2 className='text-xl font-medium text-slate-500'>
+          It maybe happens due to your slow internet connection or{' '}
+          <p>Something unexpected went wrong. Sorry about that.</p>
+        </h2>
+        <p className='text-slate-500'>Try to reload again</p>
+        <button
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
+      </div>
+    </div>
+  )
+}

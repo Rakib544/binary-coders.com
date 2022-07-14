@@ -44,10 +44,7 @@ export const createQuestion = async (
       url: `/question/${question.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -67,9 +64,15 @@ export const getSingleQuestion = async (slug: string) => {
     },
   })
 
+  if (!question) {
+    throw new Response('Not Found', {
+      status: 404,
+    })
+  }
+
   const answers = await prisma.answers.findMany({
     where: {
-      slug,
+      slug: question?.slug,
     },
     include: {
       creator: {
@@ -81,14 +84,6 @@ export const getSingleQuestion = async (slug: string) => {
       },
     },
   })
-
-  if (!question) {
-    return {
-      status: 404,
-      message: 'Question not found with this slug',
-    }
-  }
-
   return {
     status: 200,
     question: question,
@@ -199,15 +194,13 @@ export const getAllQuestions = async (userId: string | null, page: number) => {
         },
       },
     })
+
     return {
       questions,
       status: 200,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -227,10 +220,7 @@ export const updateQuestion = async (slug: string, title: string, description: s
       url: `/question/${post.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again.',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -258,5 +248,24 @@ export const getQuestionViewers = async (slug: string) => {
   }
   return {
     viewers,
+  }
+}
+
+export const deleteQuestion = async (slug: string) => {
+  try {
+    await prisma.question.delete({
+      where: {
+        slug,
+      },
+    })
+    return {
+      status: 200,
+      message: 'Question deleted successful',
+    }
+  } catch (e) {
+    return {
+      status: 500,
+      message: 'Internal server error. Please try again',
+    }
   }
 }

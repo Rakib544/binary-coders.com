@@ -18,13 +18,13 @@ const NavLink = ({ to, ...rest }: Omit<Parameters<typeof Link>['0'], 'to'> & { t
   const isSelected = to === location.pathname || location.pathname.startsWith(`${to}/`)
 
   return (
-    <li className='px-5 py-5'>
+    <li className='px-5'>
       <Link
         prefetch='intent'
         className={`focus:outline-none block whitespace-nowrap text-md font-medium ${
           isSelected
             ? 'text-sky-500 underline decoration-2 decoration-sky-500 underline-offset-8'
-            : 'text-slate-700'
+            : 'text-slate-500'
         }`}
         to={to}
         {...rest}
@@ -44,11 +44,13 @@ const Navbar = ({
 }) => {
   const location = useLocation()
   const isNavbarHide = NAVBAR_HIDES_FROM.includes(location.pathname)
+
   React.useEffect(() => {
     const body = document.body
     let topPosition = 0
     function handleNavbar() {
       const currentScroll = window.pageYOffset
+
       if (currentScroll <= 0) {
         body.classList.remove('scroll-up')
       }
@@ -73,15 +75,18 @@ const Navbar = ({
       }
     }
   }, [])
+
   return (
     <header>
       {!isNavbarHide ? (
-        <div className='flex justify-between items-center py-4 px-2 md:px-10'>
+        <div className='flex justify-between items-center py-2 px-2 md:px-10'>
           <div className='flex items-center justify-between w-full'>
             <Link prefetch='intent' to='/'>
               <img
-                src='https://i.ibb.co/KX9YN7Z/logo-01.png'
-                alt='logo'
+                src='/images/logo.webp'
+                alt='Binary Coders Logo'
+                height='40'
+                width='120'
                 className='h-12 w-auto object-cover'
               />
             </Link>
@@ -96,7 +101,7 @@ const Navbar = ({
               ) : (
                 <Link
                   to='/auth/login'
-                  className='px-10 py-3 bg-blue-600 inline-block text-white rounded-full'
+                  className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'
                 >
                   Login
                 </Link>

@@ -1,14 +1,21 @@
-import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
-import { Form, Link, useActionData, useFetcher, useLoaderData } from '@remix-run/react'
-import { motion } from 'framer-motion'
+import {
+  ActionFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node'
+import { Form, Link, useActionData, useFetcher, useLoaderData, useParams } from '@remix-run/react'
+import { AnimatePresence, motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import moment from 'moment'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
-import EyeIcon from '~/components/icons/eye'
+import EyeIcon from '~/components/icons/eye-icon'
 import ReadTime from '~/components/icons/readTime'
 import ViewersModal from '~/components/viewers-modal'
-import { addBlogReader, getBlogViewers, getSingleBlog } from '~/utils/blog.server'
+import { addBlogReader, deleteBlog, getBlogViewers, getSingleBlog } from '~/utils/blog.server'
 
 import modalStyles from '@reach/dialog/styles.css'
 import { BackButton } from '~/components/button'
@@ -57,6 +64,14 @@ export const links: LinksFunction = () => {
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData()
   const { action } = Object.fromEntries(formData)
+
+  if (action === 'delete') {
+    const res = await deleteBlog(params.slug as string)
+    if (res.status === 200) {
+      return redirect('/blog')
+    }
+  }
+
   if (action === 'incrementView') {
     const { userId } = await getUserInfo(request)
     await addBlogReader(params.slug as string, userId as string)
@@ -67,21 +82,22 @@ export const action: ActionFunction = async ({ request, params }) => {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  try {
-    const userId = await getUserId(request)
-    if (!userId) {
-      return redirect('/auth/login')
-    }
-    const res = await getSingleBlog(params.slug as string)
-    return {
-      ...res,
-      userId: userId,
-    }
-  } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+  const userId = await getUserId(request)
+  if (!userId) {
+    return redirect('/auth/login')
+  }
+  const res = await getSingleBlog(params.slug as string)
+  const data = {
+    ...res,
+    userId: userId,
+  }
+  return json(data)
+}
+
+export const meta: MetaFunction = ({ data }: { data: { blog: { title: string } } }) => {
+  return {
+    title: `${data?.blog?.title || '404 - No blog found'} `,
+    description: `${data?.blog?.title || 'No blog found'}`,
   }
 }
 
@@ -89,14 +105,7 @@ const SingleBlog = () => {
   const actionData = useActionData()
   const loaderData = useLoaderData()
 
-  const [showDialog, setShowDialog] = React.useState<boolean>(false)
-
-  if (loaderData.status === 404) {
-    return <div>{loaderData.message}</div>
-  }
-  if (loaderData.status === 500) {
-    return <div>{loaderData.message}</div>
-  }
+  const [open, setOpen] = React.useState(false)
 
   const { blog, creatorInfo } = loaderData
 
@@ -109,6 +118,10 @@ const SingleBlog = () => {
 
     return () => clearTimeout(timeOut)
   }, [])
+
+  const handleDelete = () => {
+    fetcher.submit({ action: 'delete' }, { method: 'delete' })
+  }
 
   return (
     <motion.div
@@ -128,7 +141,7 @@ const SingleBlog = () => {
                 <button
                   type='submit'
                   className='flex items-center space-x-1 cursor-pointer'
-                  onClick={() => setShowDialog(true)}
+                  onClick={() => setOpen(true)}
                 >
                   <EyeIcon />{' '}
                   <small className='text-xs text-slate-500 font-medium'>{blog.views}</small>
@@ -140,12 +153,12 @@ const SingleBlog = () => {
               <small className='text-xs text-slate-500 font-medium'>{blog.readTime}</small>
             </div>
             {blog.authorId === loaderData?.userId && (
-              <MenuDropDown url={`/blog/edit/${blog.slug}`} />
+              <MenuDropDown handleDelete={handleDelete} url={`/blog/edit/${blog.slug}`} />
             )}
           </div>
           <motion.h1
             variants={fadeInUp}
-            className='text-2xl md:text-4xl font-extrabold text-slate-700 my-2'
+            className='text-2xl md:text-3xl font-extrabold text-slate-700 my-4'
           >
             {blog.title}
           </motion.h1>
@@ -154,7 +167,7 @@ const SingleBlog = () => {
             className='flex items-center text-sky-600 text-md mt-2 space-x-2'
           >
             <img
-              className='rounded-xl object-center h-14 w-12 object-cover'
+              className='rounded-full object-center h-10 w-10 object-cover'
               src={creatorInfo.profilePicture}
               alt={creatorInfo.name}
             />
@@ -166,7 +179,7 @@ const SingleBlog = () => {
               >
                 {creatorInfo.name}
               </Link>
-              <small className='block text-xs font-medium text-slate-400'>
+              <small className='block text-xs font-medium text-slate-500'>
                 posted {moment(blog.createdAt).fromNow()}
               </small>
             </div>
@@ -178,16 +191,65 @@ const SingleBlog = () => {
           className='prose prose-slate lg:prose-lg max-w-none mb-24 prose-a:text-blue-600 siliguri-font'
         ></motion.div>
       </motion.div>
-      {actionData?.viewers && (
-        <ViewersModal
-          showDialog={showDialog}
-          setShowDialog={setShowDialog}
-          viewers={actionData?.viewers}
-          pageName='blog'
-        />
-      )}
+      <AnimatePresence>
+        {actionData?.viewers && open && (
+          <ViewersModal
+            viewers={actionData?.viewers}
+            onClose={() => setOpen(false)}
+            pageName='blog'
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }
 
 export default SingleBlog
+
+export function CatchBoundary() {
+  const params = useParams()
+  return (
+    <div className='justify-center flex items-center my-20'>
+      <div className='text-center'>
+        <img src='/images/not-found.svg' alt='not found' className='h-48 mx-auto' />
+        <h1 className='text-3xl font-medium my-10'>
+          No blog found with this <span className='text-sky-500'>&quot;/{params.slug}&quot;</span>{' '}
+          slug
+        </h1>
+
+        <Link
+          to='/blog'
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+        >
+          Back to Blog
+        </Link>
+      </div>
+    </div>
+  )
+}
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center flex'>
+      <div className='text-center mb-20'>
+        {' '}
+        <img
+          src='/images/connection-lost.webp'
+          alt='connection-lost-img'
+          className='h-40 block mx-auto'
+        />
+        <h1 className='text-3xl font-medium text-slate-700'>Ooops!</h1>
+        <h2 className='text-xl font-medium text-slate-500'>
+          It maybe happens due to your slow internet connection or{' '}
+          <p>Something unexpected went wrong. Sorry about that.</p>
+        </h2>
+        <p className='text-slate-500'>Try to reload again</p>
+        <button
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
+      </div>
+    </div>
+  )
+}

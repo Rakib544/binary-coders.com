@@ -1,3 +1,4 @@
+import { Response } from '@remix-run/node'
 import readingTime from 'reading-time'
 import slugify from 'slugify'
 import { prisma } from './prisma.server'
@@ -38,10 +39,7 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
       url: `/blog/${blog.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again',
-    }
+    throw new Error('Some went wrong. Please try again.')
   }
 }
 
@@ -53,36 +51,39 @@ export const getAllBlogPosts = async (userId: string | null, page: number) => {
     id = undefined
   }
 
-  const posts = await prisma.blogPosts.findMany({
-    where: {
-      authorId: id,
-    },
-    take: 5,
-    skip: (page - 1) * 5,
-    orderBy: {
-      createdAt: 'desc',
-    },
-    include: {
-      creator: {
-        select: {
-          username: true,
-          profilePicture: true,
-          name: true,
+  try {
+    const posts = await prisma.blogPosts.findMany({
+      where: {
+        authorId: id,
+      },
+      take: 5,
+      skip: (page - 1) * 5,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        creator: {
+          select: {
+            username: true,
+            profilePicture: true,
+            name: true,
+          },
         },
       },
-    },
-  })
-
-  if (posts) {
-    return {
-      status: 200,
-      posts,
+    })
+    if (posts) {
+      return {
+        status: 200,
+        posts,
+      }
+    } else {
+      return {
+        status: 404,
+        message: 'No blog found',
+      }
     }
-  } else {
-    return {
-      status: 404,
-      message: 'No blog found',
-    }
+  } catch (error) {
+    throw new Error('Something went wrong.')
   }
 }
 
@@ -92,6 +93,12 @@ export const getSingleBlog = async (slug: string) => {
       slug,
     },
   })
+
+  if (!blog) {
+    throw new Response('User not found', {
+      status: 404,
+    })
+  }
 
   const creatorInfo = await prisma.user.findUnique({
     where: {
@@ -103,18 +110,10 @@ export const getSingleBlog = async (slug: string) => {
       profilePicture: true,
     },
   })
-
-  if (blog) {
-    return {
-      status: 200,
-      blog,
-      creatorInfo,
-    }
-  } else {
-    return {
-      status: 404,
-      message: 'No blog found with this slug',
-    }
+  return {
+    status: 200,
+    blog,
+    creatorInfo,
   }
 }
 
@@ -161,10 +160,7 @@ export const updateBlog = async (slug: string, title: string, html: string) => {
       url: `/blog/${post.slug}`,
     }
   } catch (error) {
-    return {
-      status: 500,
-      message: 'Something went wrong. Please try again.',
-    }
+    throw new Error('Something went wrong. Please try again.')
   }
 }
 
@@ -211,5 +207,24 @@ export const addBlogReader = async (slug: string, id: string) => {
   return {
     status: 401,
     message: 'User already viewed this blog',
+  }
+}
+
+export const deleteBlog = async (slug: string) => {
+  try {
+    await prisma.blogPosts.delete({
+      where: {
+        slug,
+      },
+    })
+    return {
+      status: 200,
+      message: 'Blog deleted successful',
+    }
+  } catch (e) {
+    return {
+      status: 500,
+      message: 'Internal server error. Please try again',
+    }
   }
 }

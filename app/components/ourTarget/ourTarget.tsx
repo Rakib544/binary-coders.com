@@ -1,21 +1,20 @@
 import { motion } from 'framer-motion'
+import { Heading } from '../typography'
 import Map from './map'
 
 const ourTarget = () => {
   return (
     <>
       <motion.div
-        className='mx-auto w-11/12 md:mb-16 md:mt-32'
+        className='mx-auto w-11/12 mt-24 md:mb-16 md:mt-32'
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
         <div className='text-center'>
-          <h1 className='text-center text-gray-700 text-5xl font-bold'>
-            Our <span className='text-blue-500'>Target</span>
-          </h1>
-          <h3 className='md:my-16 my-8 font-semibold md:text-2xl md:w-1/2 mx-auto text-gray-700'>
+          <Heading>Our Target</Heading>
+          <h3 className='md:mb-16 mb-8 text-lg md:w-1/2 mx-auto text-slate-500'>
             You will work hard. We will provide whatever content, support and guidelines. Along with
             the account 🤝, the account is correct💪
           </h3>

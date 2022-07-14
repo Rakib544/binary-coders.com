@@ -1,5 +1,8 @@
 import * as React from 'react'
-import OurMission from './ourMission'
+import FacebookIcon from '~/components/icons/facebook'
+import GitHubLogo from '~/components/icons/github'
+import LinkedinLogo from '~/components/icons/linkedin'
+import WhyWeAre from '~/components/whyweare'
 export type teamMemberData = {
   id: number
   name: string
@@ -71,10 +74,10 @@ const index = () => {
 
   return (
     <>
-      <OurMission />
+      <WhyWeAre />
       <div className='max-w-5xl m-auto p-5 md:grid md:grid-cols-2 justify-items-center content-center justify-self-center self-center'>
         <div>
-          <h2 className='text-3xl font-bold my-6 meet-our-team-text'>
+          <h2 className='text-3xl font-bold my-6 meet-our-team-text mx-5 md:mx-0'>
             <span>
               {' '}
               <span className='butterfly'>
@@ -110,22 +113,19 @@ const index = () => {
         <div className='md:mt-0 mt-5 md:ml-12'>
           <div>
             <div className='dev-image'>
-              <div className='social-link'>
+              <div className='social-link hidden md:block'>
                 <p className='my-4 rounded bg-sky-400/20 px-2 py-4 text-xs font-medium uppercase text-sky-500 rotate-90'>
                   Follow Me →
                 </p>
-                <div className='social-link-span flex flex-col space-y-4'>
-                  <a target='_blink' href={selectedMember.facebook}>
-                    <i className='fa-brands fa-facebook-f  mr-8 border p-3 rounded-full   cursor-pointer'></i>
+                <div className='social-link-span md:flex flex-col space-y-4'>
+                  <a className='bg-blue-500 p-2' target='_blink' href={selectedMember.facebook}>
+                    <FacebookIcon />
                   </a>
-                  <a target='_blink' href={selectedMember.instagram}>
-                    <i className='fa-brands fa-instagram  mr-8 border p-3 rounded-full  cursor-pointer'></i>
+                  <a className='bg-blue-500 p-2' target='_blink' href={selectedMember.linkedin}>
+                    <LinkedinLogo />
                   </a>
-                  <a target='_blink' href={selectedMember.linkedin}>
-                    <i className='fa-brands fa-linkedin-in mr-8 border p-3 rounded-full  cursor-pointer'></i>
-                  </a>
-                  <a target='_blink' href={selectedMember.github}>
-                    <i className='fa-brands fa-github  mr-8 border p-3 rounded-full  cursor-pointer'></i>
+                  <a className='bg-gray-500 p-2' target='_blink' href={selectedMember.github}>
+                    <GitHubLogo />
                   </a>
                 </div>
               </div>
@@ -136,9 +136,20 @@ const index = () => {
                 src={selectedMember.img}
                 alt={selectedMember.name}
               />
-              <span className='span2'></span>
+              <span className='span2 hidden md:block'></span>
             </div>
             <p className='my-5'>{selectedMember.aboutText}</p>
+            <div className='flex space-x-2 my-4 md:hidden justify-center'>
+              <a className='bg-blue-500 p-2' target='_blink' href={selectedMember.facebook}>
+                <FacebookIcon />
+              </a>
+              <a className='bg-blue-500 p-2' target='_blink' href={selectedMember.linkedin}>
+                <LinkedinLogo />
+              </a>
+              <a className='bg-gray-500 p-2' target='_blink' href={selectedMember.github}>
+                <GitHubLogo />
+              </a>
+            </div>
             <button className='px-8 sm:px-12 py-2 sm:py-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block'>
               <a target='_blink' href={selectedMember.portfolio}>
                 View Profile

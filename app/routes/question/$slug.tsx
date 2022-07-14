@@ -1,21 +1,29 @@
 import modalStyles from '@reach/dialog/styles.css'
-import { ActionFunction, json, LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  ActionFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from '@remix-run/node'
 import {
   Form,
   Link,
   useActionData,
   useFetcher,
   useLoaderData,
+  useParams,
   useTransition,
 } from '@remix-run/react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import highlightCss from 'highlight.js/styles/atom-one-dark.css'
 import moment from 'moment'
 import quillCss from 'quill/dist/quill.snow.css'
 import * as React from 'react'
 import { ClientOnly } from 'remix-utils'
 import { BackButton } from '~/components/button'
-import EyeIcon from '~/components/icons/eye'
+import EyeIcon from '~/components/icons/eye-icon'
 import { Spinner } from '~/components/icons/spinner'
 import MenuDropDown from '~/components/menu-dropdown'
 import Quill from '~/components/quill.client'
@@ -23,6 +31,7 @@ import ViewersModal from '~/components/viewers-modal'
 import {
   addQuestionReader,
   createAnswer,
+  deleteQuestion,
   getQuestionViewers,
   getSingleQuestion,
 } from '~/utils/question.server'
@@ -74,11 +83,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   }
 
   const res = await getSingleQuestion(params.slug as string)
-  return {
+  const data = {
     ...res,
     env: process.env.IMAGE_BB_KEY,
     userId: userId,
   }
+  return json(data)
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -95,6 +105,14 @@ export const action: ActionFunction = async ({ request, params }) => {
     const res = await getQuestionViewers(params.slug as string)
     return json(res)
   }
+
+  if (action === 'delete') {
+    const res = await deleteQuestion(params.slug as string)
+    if (res.status === 200) {
+      return redirect('/question')
+    }
+  }
+
   if (action === 'incrementView') {
     await addQuestionReader(params.slug as string, userId as string)
     return null
@@ -107,6 +125,13 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   return {
     ...res,
+  }
+}
+
+export const meta: MetaFunction = ({ data }: { data: { question: { title: string } } }) => {
+  return {
+    title: `${data?.question?.title || '404 - Not found'}`,
+    description: `${data?.question?.title || '404 - Not found'}`,
   }
 }
 
@@ -128,7 +153,7 @@ const SingleQuestion = () => {
   const { question, env, answers, userId } = useLoaderData()
   const [html, setHtml] = React.useState<string>()
   const [shouldQuillEmpty, setShouldQuillEmpty] = React.useState<boolean>(false)
-  const [showDialog, setShowDialog] = React.useState(true)
+  const [open, setOpen] = React.useState(true)
   const transition = useTransition()
   const actionData = useActionData()
 
@@ -148,6 +173,10 @@ const SingleQuestion = () => {
     return () => clearTimeout(timer)
   }, [])
 
+  const handleDelete = () => {
+    fetcher.submit({ action: 'delete' }, { method: 'delete' })
+  }
+
   return (
     <motion.div
       className='w-full md:w-2/3 mx-auto p-4'
@@ -160,25 +189,22 @@ const SingleQuestion = () => {
           <BackButton to='/question' />
         </motion.div>
         <div className='my-6 border-b border-gray-200 py-4'>
-          <motion.div
-            variants={fadeInUp}
-            className='flex justify-end items-center'
-            title='See viewers'
-          >
+          <motion.div variants={fadeInUp} className='flex justify-end items-center'>
             <Form method='post'>
               <button
+                title='See viewers'
                 type='submit'
                 name='action'
                 value='getBlogViewers'
                 className='flex items-center space-x-1 cursor-pointer'
-                onClick={() => setShowDialog(true)}
+                onClick={() => setOpen(true)}
               >
                 <EyeIcon />{' '}
                 <small className='text-xs text-slate-500 font-medium'>{question.views}</small>
               </button>
             </Form>
             {question?.authorId === userId && (
-              <MenuDropDown url={`/question/edit/${question.slug}`} />
+              <MenuDropDown handleDelete={handleDelete} url={`/question/edit/${question.slug}`} />
             )}
           </motion.div>
           <motion.h1
@@ -194,20 +220,14 @@ const SingleQuestion = () => {
               className='h-10 w-10 rounded-xl object-cover'
             />
             <div>
-              <Link
-                prefetch='intent'
-                to={`/user/${question.creator.username}`}
-                className='font-medium text-sky-500'
-              >
-                {question.creator.name}
-              </Link>
+              <p className='font-medium text-slate-700'>{question.creator.name}</p>
               <small className='block text-xs font-medium text-slate-500'>
                 <Link
                   prefetch='intent'
                   to={`/user/${question.creator.username}`}
                   className='text-sky-500'
                 >
-                  {question.creator.name}
+                  @{question.creator.username}
                 </Link>{' '}
                 asked {moment(question.createdAt).fromNow()}
               </small>
@@ -233,29 +253,23 @@ const SingleQuestion = () => {
           {answers?.map((answer: Answer) => (
             <div
               key={new Date() + answer.answerCreatorId + Math.random()}
-              className='p-4 bg-white rounded-xl border border-slate-100 my-4'
+              className='p-4  my-4 border-b border-slate-200 last:border-none'
             >
-              <div className='flex items-center space-x-2'>
+              <div className='flex items-center space-x-2 mb-2'>
                 <img
                   src={answer.creator.profilePicture}
                   alt={answer.creator.name}
-                  className='h-12 w-12 rounded-full'
+                  className='h-12 w-12 rounded-lg object-cover'
                 />
-                <div className='mb-4'>
-                  <Link
-                    prefetch='intent'
-                    to={`/user/${answer.creator.username}`}
-                    className='font-medium text-sky-500 text-sm block'
-                  >
-                    {answer.creator.name}
-                  </Link>
+                <div>
+                  <p className='font-medium text-slate-700 text-sm block'>{answer.creator.name}</p>
                   <small className='font-medium text-slate-500'>
                     <Link
                       prefetch='intent'
                       to={`/user/${answer.creator.username}`}
                       className='text-sky-500'
                     >
-                      {answer.creator.name}
+                      @{answer.creator.username}
                     </Link>{' '}
                     answered {moment(answer.answeredTime).fromNow()}
                   </small>
@@ -263,7 +277,7 @@ const SingleQuestion = () => {
               </div>
               <div
                 dangerouslySetInnerHTML={{ __html: answer.answer }}
-                className='prose prose-slate  lg:prose-md max-w-none prose-a:text-blue-600'
+                className='prose prose-slate lg:prose-md max-w-none prose-a:text-blue-600'
               />
             </div>
           ))}
@@ -289,7 +303,7 @@ const SingleQuestion = () => {
               />
               <button
                 type='submit'
-                className='px-16 py-3 rounded-full bg-blue-600 text-white inline-block mt-8 text-center text-sm -tracking-tighter font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-700'
+                className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
               >
                 {transition.submission ? (
                   <div className='flex justify-center items-center'>
@@ -304,16 +318,66 @@ const SingleQuestion = () => {
           )}
         </ClientOnly>
       </div>
-      {actionData?.viewers && (
-        <ViewersModal
-          showDialog={showDialog}
-          setShowDialog={setShowDialog}
-          viewers={actionData?.viewers}
-          pageName='question'
-        />
-      )}
+      <AnimatePresence>
+        {actionData?.viewers && open && (
+          <ViewersModal
+            viewers={actionData?.viewers}
+            onClose={() => setOpen(false)}
+            pageName='problems'
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }
 
 export default SingleQuestion
+
+export function ErrorBoundary() {
+  return (
+    <div className='justify-center flex'>
+      <div className='text-center mb-20'>
+        {' '}
+        <img
+          src='/images/connection-lost.webp'
+          alt='connection-lost-img'
+          className='h-40 block mx-auto'
+        />
+        <h1 className='text-3xl font-medium text-slate-700'>Ooops!</h1>
+        <h2 className='text-xl font-medium text-slate-500'>
+          It maybe happens due to your slow internet connection or{' '}
+          <p>Something unexpected went wrong. Sorry about that.</p>
+        </h2>
+        <p className='text-slate-500'>Try to reload again</p>
+        <button
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export function CatchBoundary() {
+  const params = useParams()
+  return (
+    <div className='justify-center flex items-center my-20'>
+      <div className='text-center'>
+        <img src='/images/not-found.svg' alt='not found' className='h-48 mx-auto' />
+        <h1 className='text-3xl font-medium my-10'>
+          No question found with this{' '}
+          <span className='text-sky-500'>&quot;/{params.slug}&quot;</span> slug
+        </h1>
+
+        <Link
+          to='/question'
+          className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+        >
+          Back to questions
+        </Link>
+      </div>
+    </div>
+  )
+}

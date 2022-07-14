@@ -22,7 +22,7 @@ const SuccessModal = ({ email, showDialog, setShowDialog }: ModalProps): JSX.Ele
         <div className='text-center'>
           <h2 className='text-3xl font-medium test-slate-700'>Verify your email</h2>
           <p className='my-4'>You will need to verify your email to complete registration</p>
-          <img src='/images/login.png' alt='img' className='h-32 block mx-auto' />
+          <img src='/images/login.webp' alt='img' className='h-32 block mx-auto' />
           <p className='my-4'>
             An email has been sent to <span className='text-blue-600'>{email}</span> with a link to
             verify your account. If you have not received the email after a few minutes, please

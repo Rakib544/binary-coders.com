@@ -1,19 +1,11 @@
-const FacebookIcon = () => {
+const FacebookIcon = ({ color = '#fff' }: { color?: string; className?: string }) => {
   return (
-    <svg
-      aria-hidden='true'
-      focusable='false'
-      data-prefix='fab'
-      data-icon='facebook-square'
-      className='h-5 w-5'
-      role='img'
-      xmlns='http://www.w3.org/2000/svg'
-      viewBox='0 0 448 512'
-    >
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='20' height='20'>
+      <path fill='none' d='M0 0h24v24H0z' />
       <path
-        fill='currentColor'
-        d='M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z'
-      ></path>
+        d='M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z'
+        fill={color}
+      />
     </svg>
   )
 }
