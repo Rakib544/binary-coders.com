@@ -1432,12 +1432,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   max-width: 64rem;
 }
 
-.max-w-none {
-  max-width: none;
-}
-
 .max-w-4xl {
   max-width: 56rem;
+}
+
+.max-w-none {
+  max-width: none;
 }
 
 .flex-none {
@@ -2533,7 +2533,7 @@ header {
 
 .scroll-up header {
   background-color: #f7f8fc;
-  filter: drop-shadow(0px -10px 20px rgb(170, 170, 170));
+  box-shadow: 0px -10px 20px rgb(170, 170, 170);
 }
 
 @media (max-width: 600px) {
@@ -3226,11 +3226,6 @@ header {
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-purple-500:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(168 85 247 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
@@ -3249,15 +3244,6 @@ header {
 .hover\:text-blue-500:hover {
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity));
-}
-
-.hover\:text-purple-400\/20:hover {
-  color: rgb(192 132 252 / 0.2);
-}
-
-.hover\:text-blue-800:hover {
-  --tw-text-opacity: 1;
-  color: rgb(30 64 175 / var(--tw-text-opacity));
 }
 
 .hover\:underline:hover {
