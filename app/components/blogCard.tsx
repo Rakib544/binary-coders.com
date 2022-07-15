@@ -1,6 +1,8 @@
 import { Link } from '@remix-run/react'
+import { blurImgUrl } from 'data/blur-img-url'
 import { motion } from 'framer-motion'
 import moment from 'moment'
+import BlurrableImage from './blurable-img'
 import EyeIcon from './icons/eye-icon'
 import ReadTime from './icons/readTime'
 import { H6 } from './typography'
@@ -48,11 +50,18 @@ const BlogCard = ({ slug, title, createdAt, readTime, views, creator }: Post) =>
         className='bg-white py-4 px-4 rounded-xl grid grid-cols-10 my-4 gap-1 shadow-2xl shadow-blue-500/10 border border-sky-50'
       >
         <div className='col-span-10 md:col-span-1 flex justify-between'>
-          <img
-            src={creator?.profilePicture}
-            alt={creator?.name}
-            className='rounded-xl h-14 w-14 object-cover'
+          <BlurrableImage
+            blurDataURl={blurImgUrl}
+            className='h-14 w-14 relative'
+            img={
+              <img
+                src={creator?.profilePicture}
+                alt={creator?.name}
+                className='rounded-xl h-14 w-14 object-cover'
+              />
+            }
           />
+
           <div className='flex space-x-2 md:hidden'>
             <div className='flex items-center space-x-1'>
               <EyeIcon />
