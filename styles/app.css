@@ -158,6 +158,9 @@ header {
   [data-reach-dialog-content] {
     width: 90vw;
   }
+  .dev-image {
+    margin-left: 5%;
+  }
 }
 .milestone-content {
   margin: 170px 0px;
@@ -638,6 +641,6 @@ header {
 }
 .social-link-span {
   position: absolute;
-  right: -110px;
+  right: -72px;
   top: 100px;
 }

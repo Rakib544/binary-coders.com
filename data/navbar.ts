@@ -44,27 +44,27 @@ export const stackCard = [
 export const cardData = [
   {
     cardImg: '/images/video.webp',
-    body: 'We will try to give as many guides as needed on IT, soft skills, programming.',
+    body: 'We will try to give you as many guidelines as you need to learn the basics of programming.',
   },
   {
     cardImg: '/images/skilled.webp',
-    body: 'Each lesson has been prepared by a simple and competent instructor.',
+    body: 'We will try to give you a proper overview of each programming fundamental concepts.',
   },
   {
     cardImg: '/images/topic.webp',
-    body: 'At the end of the topic, there are quizzes and exams for merit verification. Issuance of certificate at the end of the course.',
+    body: 'At the end of the topic, there are will be some problems based on this concept and you have to solve those problems that help you to earn a proper understanding of this topic.',
   },
 ]
 export const quotes = [
   {
     cardImg: '/images/user1.webp',
-    title: 'You can be skilled anytime',
+    title: 'You can be skilled anytime ☺️',
     body: 'Traditionally we go to school-college and receive our education. But with the advent of online media, we now have the opportunity to become proficient at any time, from anywhere, using only electronic devices.',
   },
   {
     cardImg: '/images/user2.webp',
-    title: 'We think the guideline is the first step in your future',
-    body: 'We usually get various tutorials online in English. However, on the Binary Coders platform we can now easily learn international quality courses. As a result, the way to become efficient is being expanded effortlessly.',
+    title: 'What will be the future of programming skill❓',
+    body: 'There is and will be a huge demand for programming in the present world and in the future. So with learning programming, I can use my skills for the development of myself and the country.',
   },
 ]
 
@@ -84,7 +84,8 @@ export const ABCData = [
   {
     id: 3,
     img: '/images/coding.webp',
-    title: 'Learn by doing and practicing with over a hundred students',
-    desc: 'The only way to learn to program is by writing code. That&apos;s why we provides dozens of examples that you can edit and run yourself.',
+    title: 'Learn and practice with over a hundred students',
+    // eslint-disable-next-line quotes
+    desc: `The only way to learn to program is by writing code. That's why we building this community to practice programming with hundreds of programmers. We already set a couple of basic problems that are based on programming fundamentals.`,
   },
 ]
