@@ -5,10 +5,12 @@ const useSSRLayoutEffect = typeof window === 'undefined' ? () => {} : React.useL
 const BlurrableImage = ({
   img,
   blurDataURl,
+  roundedFull = false,
   ...rest
 }: {
   img: React.ReactElement<React.ImgHTMLAttributes<HTMLImageElement>>
   blurDataURl?: string
+  roundedFull?: boolean
 } & React.HtmlHTMLAttributes<HTMLDivElement>) => {
   const [visible, setVisible] = React.useState(false)
   const jsImgElRef = React.useRef<HTMLImageElement>(null)
@@ -36,7 +38,7 @@ const BlurrableImage = ({
   const jsImgEl = React.cloneElement(img, {
     // @ts-expect-error no idea
     ref: jsImgElRef,
-    className: `${img.props.className} transition duration-300 h-40 w-40 absolute top-0 left-0 ${
+    className: `${img.props.className} transition duration-200 absolute top-0 left-0 ${
       !visible ? 'opacity-0' : ''
     }`,
   })
@@ -45,9 +47,11 @@ const BlurrableImage = ({
     <div {...rest}>
       <img
         src={blurDataURl}
-        className={`transition rounded-lg block object-cover object-center duration-300 absolute top-0 left-0 h-40 w-40 ${
+        className={`${
+          img.props.className
+        } transition  block w-full object-cover object-center duration-200 absolute top-0 left-0 ${
           !visible ? '' : 'opacity-0'
-        }`}
+        }  ${roundedFull ? 'rounded-full' : 'rounded-lg'}`}
         alt={img.props.alt}
       />
       {jsImgEl}

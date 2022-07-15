@@ -1,6 +1,8 @@
 import { Link, useLocation } from '@remix-run/react'
+import { blurImgUrl } from 'data/blur-img-url'
 import { headerNavLinks } from 'data/navbar'
 import * as React from 'react'
+import BlurrableImage from './blurable-img'
 import Dropdown from './dropdown'
 import MobileNav from './mobile-nav'
 
@@ -82,12 +84,18 @@ const Navbar = ({
         <div className='flex justify-between items-center py-2 px-2 md:px-10'>
           <div className='flex items-center justify-between w-full'>
             <Link prefetch='intent' to='/'>
-              <img
-                src='/images/logo.webp'
-                alt='Binary Coders Logo'
-                height='40'
-                width='120'
-                className='h-12 w-auto object-cover'
+              <BlurrableImage
+                blurDataURl={blurImgUrl}
+                className='h-10 w-96 mx-auto relative'
+                img={
+                  <img
+                    src='/images/logo.webp'
+                    alt='Binary Coders Logo'
+                    height='40'
+                    width='120'
+                    className='h-12 w-60 object-center object-cover'
+                  />
+                }
               />
             </Link>
             <ul className='hidden md:flex items-center'>
