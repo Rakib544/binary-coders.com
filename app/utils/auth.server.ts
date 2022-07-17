@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { sendAEmail } from './email.server'
+import { sendMail } from './mail-server'
 import { prisma } from './prisma.server'
 import type { Login, Register } from './types.server'
 import { createUser } from './user.server'
@@ -144,12 +144,14 @@ export const resetToken = async (email: string) => {
       },
     })
 
-    await sendAEmail({
-      to: user.email,
-      subject: 'Reset password token',
-      token,
-      reset: true,
-    })
+    // await sendAEmail({
+    //   to: user.email,
+    //   subject: 'Reset password token',
+    //   token,
+    //   reset: true,
+    // })
+
+    await sendMail(user.email, 'Reset Password Token', token, true)
 
     return {
       status: 200,
@@ -398,13 +400,16 @@ export const sendRegisterAccountLink = async (email: string) => {
       process.env.JWT_SECRET as string,
     )
 
-    await sendAEmail({
-      to: email,
-      subject: 'Account created',
-      token,
-      reset: false,
-    })
+    await sendMail(email, 'Register link', token, false)
 
+    // await sendAEmail({
+    //   to: email,
+    //   subject: 'Account created',
+    //   token,
+    //   reset: false,
+    // })
+
+    // sendMail(email, token)
     return {
       status: 200,
       message: 'Register link sent successful',
