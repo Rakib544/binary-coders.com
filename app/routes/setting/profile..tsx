@@ -71,10 +71,17 @@ const Me = () => {
 
   const [img, setImg] = React.useState<string>(profilePicture)
   const [imgUploading, setImgUploading] = React.useState<boolean>(false)
+  const [showImageError, setImageError] = React.useState<boolean>(false)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleImageUpload = async (e: any) => {
     setImgUploading(true)
+
+    if (e.target.files[0].size > 1048576) {
+      setImgUploading(false)
+      setImageError(true)
+    }
+
     const imageData = new FormData()
     imageData.set('key', env)
     imageData.append('image', e.target.files[0])
@@ -85,6 +92,7 @@ const Me = () => {
     const data = await res.json()
     setImg(data.data.url)
     setImgUploading(false)
+    setImageError(false)
   }
 
   return (
@@ -112,9 +120,14 @@ const Me = () => {
                 />
               </div>
             </div>
-            {imgUploading && <small>Image uploading...Please wait</small>}
           </label>
         </div>
+        {imgUploading && <small className='block text-center'>Image uploading...Please wait</small>}
+        {showImageError && (
+          <small className='text-red-500 text-center block'>
+            Please upload a image less than 1MB.
+          </small>
+        )}
         <Form method='post'>
           <input type='email' name='email' defaultValue={email} className='hidden' />
           <div className='my-4'>
