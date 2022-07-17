@@ -168,7 +168,7 @@ const Index = () => {
       </Link>
 
       <div className='grid grid-cols-10 gap-0 lg:gap-4'>
-        <aside className='col-span-10 hidden md:col-span-2 lg:col-span-3 md:flex justify-center'>
+        <aside className='col-span-10 hidden md:col-span-2 lg:col-span-3 md:flex justify-center my-2 md:my-10'>
           <motion.div className='w-full md:px-2 lg:px-16 mt-4' variants={stagger}>
             {loaderData?.userId && (
               <motion.div variants={fadeInUp}>
