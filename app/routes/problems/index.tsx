@@ -226,17 +226,23 @@ const Index = () => {
         <motion.div variants={fadeInUp} className='mb-10 block md:hidden'>
           <SelectBox key={location.search} options={options} />
         </motion.div>
-        {problems?.map((problem: Problem, index: number) => {
-          if (problems?.length === index + 1) {
-            return (
-              <div ref={lastPostElementRef} key={problem.slug}>
-                <ProblemsCard problem={problem} />
-              </div>
-            )
-          } else {
-            return <ProblemsCard key={problem.slug} problem={problem} />
-          }
-        })}
+        {problems?.length === 0 ? (
+          'No problems found'
+        ) : (
+          <>
+            {problems?.map((problem: Problem, index: number) => {
+              if (problems?.length === index + 1) {
+                return (
+                  <div ref={lastPostElementRef} key={problem.slug}>
+                    <ProblemsCard problem={problem} />
+                  </div>
+                )
+              } else {
+                return <ProblemsCard key={problem.slug} problem={problem} />
+              }
+            })}
+          </>
+        )}
         {fetcher.state === 'loading' && <li>Loading...</li>}
       </motion.ul>
     </motion.div>

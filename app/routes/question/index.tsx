@@ -229,19 +229,23 @@ const Index = () => {
             />
           </motion.div>
           <div className='my-10'>
-            <AnimatePresence>
-              {questions?.map((post: Question, index: number) => {
-                if (questions.length === index + 1) {
-                  return (
-                    <div ref={lastPostElementRef} key={post.slug}>
-                      <QuestionCard key={post.slug} {...post} />
-                    </div>
-                  )
-                } else {
-                  return <QuestionCard key={post.slug} {...post} />
-                }
-              })}
-            </AnimatePresence>
+            {questions?.length === 0 ? (
+              'No question found'
+            ) : (
+              <AnimatePresence>
+                {questions?.map((post: Question, index: number) => {
+                  if (questions.length === index + 1) {
+                    return (
+                      <div ref={lastPostElementRef} key={post.slug}>
+                        <QuestionCard key={post.slug} {...post} />
+                      </div>
+                    )
+                  } else {
+                    return <QuestionCard key={post.slug} {...post} />
+                  }
+                })}
+              </AnimatePresence>
+            )}
             {fetcher.state === 'loading' && <p>Loading...</p>}
           </div>
         </motion.div>
