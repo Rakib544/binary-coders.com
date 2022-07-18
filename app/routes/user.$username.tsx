@@ -49,10 +49,19 @@ export const loader: LoaderFunction = async ({ params }) => {
   return json(data)
 }
 
-export const meta: MetaFunction = ({ data }: { data: { user: { name: string; bio: string } } }) => {
+export const meta: MetaFunction = ({
+  data,
+}: {
+  data: { user: { name: string; bio: string; profilePicture: string } }
+}) => {
   return {
-    title: `${data?.user?.name} - Binary Coders`,
+    title: `${data?.user?.name} - Binary Coders Profile`,
     description: `${data?.user?.bio}`,
+    'og:title': `${data?.user?.name} - Binary Coders Profile`,
+    'og:type': 'website',
+    'og:url': 'https://binary-coders.vercel.app/about',
+    'og:description': `${data?.user?.bio}`,
+    'og:image': `${data?.user?.profilePicture}`,
   }
 }
 
