@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => {
     'og:type': 'website',
     'og:url': 'https://binary-coders.vercel.app',
     'og:description': 'A platform for teaching programming fundamentals to programmers',
-    'og:image': '/images/thumbnail.png',
+    'og:image': 'https://i.ibb.co/P69y7fJ/thumbnail.png',
   }
 }
 
