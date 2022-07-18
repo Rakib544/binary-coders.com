@@ -1353,10 +1353,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 100%;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
 .h-32 {
   height: 8rem;
 }
@@ -1367,6 +1363,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-96 {
   height: 24rem;
+}
+
+.h-10 {
+  height: 2.5rem;
 }
 
 .h-6 {
@@ -1417,10 +1417,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 2rem;
 }
 
-.w-96 {
-  width: 24rem;
-}
-
 .w-60 {
   width: 15rem;
 }
@@ -1447,10 +1443,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-16 {
   width: 4rem;
-}
-
-.w-40 {
-  width: 10rem;
 }
 
 .max-w-xl {
@@ -1910,21 +1902,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(186 230 253 / 0.5);
 }
 
-.bg-red-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
-}
-
-.bg-red-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
-}
-
-.bg-red-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
-}
-
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -2093,14 +2070,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 2.5rem;
 }
 
-.px-16 {
-  padding-left: 4rem;
-  padding-right: 4rem;
-}
-
 .px-12 {
   padding-left: 3rem;
   padding-right: 3rem;
+}
+
+.px-16 {
+  padding-left: 4rem;
+  padding-right: 4rem;
 }
 
 .pb-4 {
@@ -3854,6 +3831,11 @@ header {
     padding: 5rem;
   }
 
+  .md\:py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
   .md\:px-10 {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
@@ -3872,6 +3854,11 @@ header {
   .md\:px-12 {
     padding-left: 3rem;
     padding-right: 3rem;
+  }
+
+  .md\:py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
   }
 
   .md\:px-0 {
@@ -3902,16 +3889,6 @@ header {
   .md\:px-20 {
     padding-left: 5rem;
     padding-right: 5rem;
-  }
-
-  .md\:py-2 {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
-
-  .md\:py-3 {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
   }
 
   .md\:text-left {
