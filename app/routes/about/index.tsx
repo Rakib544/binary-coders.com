@@ -1,3 +1,4 @@
+import { MetaFunction } from '@remix-run/node'
 import * as React from 'react'
 import FacebookIcon from '~/components/icons/facebook'
 import GitHubLogo from '~/components/icons/github'
@@ -15,6 +16,19 @@ export type teamMemberData = {
   github: string
   instagram: string
 }[]
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'About - Binary Coders',
+    description: 'About - Binary Coders',
+    'og:title': 'About - Binary Coders',
+    'og:type': 'website',
+    'og:url': 'https://binary-coders.vercel.app/about',
+    'og:description': 'About - Binary Coders',
+    'og:image': 'https://i.ibb.co/P69y7fJ/thumbnail.png',
+  }
+}
+
 const teamData: teamMemberData = [
   {
     id: 0,
