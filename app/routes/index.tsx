@@ -10,11 +10,11 @@ export const meta: MetaFunction = () => {
   return {
     title: 'Binary Coders',
     description: 'A platform for teaching programming fundamentals to programmers',
-    'og-title': 'A platform for teaching programming fundamentals to programmers',
+    'og:title': 'Binary Coders',
     'og:type': 'website',
     'og:url': 'https://binary-coders.vercel.app',
-    'og:description': 'Page description. No longer than 155 characters.',
-    'og:image': 'https://binary-codeers.vercel.app/images/logo.webp',
+    'og:description': 'A platform for teaching programming fundamentals to programmers',
+    'og:image': '/images/thumbnail.png',
   }
 }
 
