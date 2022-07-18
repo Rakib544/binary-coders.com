@@ -9,7 +9,12 @@ import OurTarget from '../components/ourTarget/ourTarget'
 export const meta: MetaFunction = () => {
   return {
     title: 'Binary Coders',
-    description: 'A platform for teaching programming fundamentals for beginner programmers',
+    description: 'A platform for teaching programming fundamentals to programmers',
+    'og-title': 'A platform for teaching programming fundamentals to programmers',
+    'og:type': 'website',
+    'og:url': 'https://binary-coders.vercel.app',
+    'og:description': 'Page description. No longer than 155 characters.',
+    'og:image': 'https://binary-codeers.vercel.app/images/logo.webp',
   }
 }
 
