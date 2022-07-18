@@ -61,7 +61,7 @@ export const meta: MetaFunction = ({
     'og:type': 'website',
     'og:url': 'https://binary-coders.vercel.app/about',
     'og:description': `${data?.user?.bio}`,
-    'og:image': `${data?.user?.profilePicture}`,
+    'og:image': 'https://i.ibb.co/P69y7fJ/thumbnail.png',
   }
 }
 
