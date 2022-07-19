@@ -31,7 +31,7 @@ export const meta: MetaFunction = () => {
 const teamData: teamMemberData = [
   {
     id: 0,
-    name: 'MD Rakib',
+    name: 'Rakib',
     role: 'web developer',
     portfolio: 'https://rakib-seven.vercel.app/',
     img: './images/team/rakib.webp',
@@ -55,7 +55,7 @@ const teamData: teamMemberData = [
   },
   {
     id: 2,
-    name: 'Abu Jakariya',
+    name: 'Abu Jakaria',
     role: 'web developer',
     portfolio: 'https://abujakaria-cse.web.app/',
     img: './images/team/abuJakariya.webp',
@@ -100,7 +100,7 @@ const index = () => {
             <div
               key={index}
               className={` p-5 flex justify-center items-center cursor-pointer md:w-72 ${
-                index === selectedMember.id ? 'shadow-lg' : ''
+                index === selectedMember.id ? 'shadow-blue-500/10 rounded-xl shadow-lg' : ''
               }`}
               onClick={() => setSelectedMember(teamData[index])}
             >
@@ -123,18 +123,18 @@ const index = () => {
           <div>
             <div className='dev-image'>
               <div className='social-link hidden md:block'>
-                <p className='my-4 rounded bg-sky-400/20 px-2 py-4 text-xs font-medium uppercase text-sky-500 rotate-90'>
-                  Follow Me →
+                <p className='my-4 rounded bg-sky-400/20 px-4 py-3 text-xs font-medium uppercase text-sky-500 rotate-90'>
+                  Follow Me &rarr;
                 </p>
-                <div className='social-link-span md:flex flex-col space-y-4'>
-                  <a className='bg-blue-500 p-2' target='_blink' href={selectedMember.facebook}>
-                    <FacebookIcon />
+                <div className='social-link-span md:flex flex-col space-y-2'>
+                  <a className='p-2' target='_blink' href={selectedMember.facebook}>
+                    <FacebookIcon color='#0ea5e9' />
                   </a>
-                  <a className='bg-blue-500 p-2' target='_blink' href={selectedMember.linkedin}>
-                    <LinkedinLogo />
+                  <a className='p-2' target='_blink' href={selectedMember.linkedin}>
+                    <LinkedinLogo color='#0ea5e9' />
                   </a>
-                  <a className='bg-gray-500 p-2' target='_blink' href={selectedMember.github}>
-                    <GitHubLogo />
+                  <a className='p-2' target='_blink' href={selectedMember.github}>
+                    <GitHubLogo color='#0ea5e9' />
                   </a>
                 </div>
               </div>
@@ -149,17 +149,17 @@ const index = () => {
             </div>
             <p className='my-5'>{selectedMember.aboutText}</p>
             <div className='flex space-x-2 my-4 md:hidden justify-center'>
-              <a className='bg-blue-500 p-2' target='_blink' href={selectedMember.facebook}>
-                <FacebookIcon />
+              <a className='p-2' target='_blink' href={selectedMember.facebook}>
+                <FacebookIcon color='#0ea5e9' />
               </a>
-              <a className='bg-blue-500 p-2' target='_blink' href={selectedMember.linkedin}>
-                <LinkedinLogo />
+              <a className='p-2' target='_blink' href={selectedMember.linkedin}>
+                <LinkedinLogo color='#0ea5e9' />
               </a>
-              <a className='bg-gray-500 p-2' target='_blink' href={selectedMember.github}>
-                <GitHubLogo />
+              <a className='p-2' target='_blink' href={selectedMember.github}>
+                <GitHubLogo color='#0ea5e9' />
               </a>
             </div>
-            <button className='px-8 sm:px-12 py-2 sm:py-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block'>
+            <button className='px-8 sm:px-12 py-2 sm:py-3 bg-blue-500 text-white rounded-xl shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block'>
               <a target='_blink' href={selectedMember.portfolio}>
                 View Profile
               </a>
