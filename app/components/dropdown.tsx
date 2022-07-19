@@ -6,7 +6,9 @@ interface DropDownProps {
 
 import { Menu, Transition } from '@headlessui/react'
 import { Form, Link } from '@remix-run/react'
+import { blurImgUrl } from 'data/blur-img-url'
 import { Fragment } from 'react'
+import BlurrableImage from './blurable-img'
 import AskQuestionIcon from './icons/ask-question-icon'
 import LogoutIcon from './icons/logout-icon'
 import PencilIcon from './icons/pencil-icon'
@@ -19,10 +21,17 @@ export default function Dropdown({ fullName, username, profilePicture }: DropDow
         <Menu.Button className='inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none'>
           <div className='bg-gradient-to-r from-cyan-500 to-blue-500  p-0.5 rounded-full'>
             <div className='bg-white p-0.5 rounded-full z-10'>
-              <img
-                src={profilePicture}
-                alt={username}
-                className='h-12 w-12 rounded-full object-cover block object-center align-middle cursor-pointer'
+              <BlurrableImage
+                blurDataURl={blurImgUrl}
+                className='h-12 w-12 mx-auto relative'
+                img={
+                  <img
+                    src={profilePicture}
+                    alt={username}
+                    loading='lazy'
+                    className='h-12 w-12 rounded-full object-cover block object-center align-middle cursor-pointer'
+                  />
+                }
               />
             </div>
           </div>

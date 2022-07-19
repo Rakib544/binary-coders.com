@@ -79,15 +79,28 @@ const Navbar = ({
   return (
     <header>
       {!isNavbarHide ? (
-        <div className='flex justify-between items-center py-2 px-2 md:px-10'>
+        <div className='flex justify-between items-center py-4 md:py-2 px-2 md:px-10'>
           <div className='flex items-center justify-between w-full'>
             <Link prefetch='intent' to='/'>
+              {/* <BlurrableImage
+                blurDataURl={blurImgUrl}
+                className='h-14 w-60 mx-auto relative flex items-center'
+                img={
+                  <img
+                    src='/images/logo.webp'
+                    alt='Binary Coders Logo'
+                    // height='40'
+                    // width='100'
+                    className='h-12 w-60 object-center'
+                  />
+                }
+              /> */}
               <img
                 src='/images/logo.webp'
                 alt='Binary Coders Logo'
-                height='40'
-                width='120'
-                className='h-12 w-auto object-cover'
+                // height='40'
+                // width='100'
+                className='h-12 w-auto object-center'
               />
             </Link>
             <ul className='hidden md:flex items-center'>

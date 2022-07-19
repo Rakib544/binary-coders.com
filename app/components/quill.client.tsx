@@ -120,7 +120,7 @@ function Quill({ defaultValue, setHtml, env, shouldQuillEmpty }: PropsType) {
 
   return (
     <div>
-      <div ref={quillRef} style={{ height: '150px' }} />
+      <div ref={quillRef} style={{ height: '400px' }} />
     </div>
   )
 }

@@ -1,4 +1,6 @@
 import { Link, useLocation } from '@remix-run/react'
+import { blurImgUrl } from 'data/blur-img-url'
+import BlurrableImage from '../blurable-img'
 import FacebookIcon from '../icons/facebook'
 import LightLocationIcon from '../icons/light-lication-icon'
 import LinkedinLogo from '../icons/linkedin'
@@ -20,14 +22,21 @@ const Footer = () => {
     <footer className={`${isFooterHide ? 'hidden' : ''} py-16 footer-bg text-white`}>
       <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4 px-5 md:px-16'>
         <div className=''>
-          <img
-            src='/images/logo.webp'
-            height='40'
-            width='120'
-            loading='lazy'
-            className='h-12 hover:scale-105 object-cover w-auto transition duration-300 ease-in cursor-grab mb-4'
-            alt='brand logo'
+          <BlurrableImage
+            blurDataURl={blurImgUrl}
+            className='h-12 w-60 relative'
+            img={
+              <img
+                src='/images/logo.webp'
+                height='40'
+                width='120'
+                loading='lazy'
+                className='h-12 hover:scale-105 object-cover w-auto transition duration-300 ease-in cursor-grab mb-4'
+                alt='brand logo'
+              />
+            }
           />
+
           <div>
             <p className='text-white tracking-wide font-light'>
               A platform who tech and guid those student, who actually want learn programming . We

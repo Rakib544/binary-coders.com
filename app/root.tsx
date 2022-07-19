@@ -224,7 +224,11 @@ export default function App() {
           username={loaderData?.username as string}
           profilePicture={loaderData?.profilePicture as string}
         />
-        <main className={`relative ${shouldAddMargin(location.pathname) ? 'mt-16 md:mt-32' : ''}`}>
+        <main
+          className={`relative w-full ${
+            shouldAddMargin(location.pathname) ? 'mt-16 md:mt-32' : ''
+          }`}
+        >
           <PageLoadingMessage />
           <Outlet />
           <ScrollRestoration />

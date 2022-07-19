@@ -89,6 +89,7 @@ const registerLink = () => {
         <SuccessModal
           email={actionData?.email}
           showDialog={showDialog}
+          isReset={false}
           setShowDialog={setShowDialog}
         />
       )}

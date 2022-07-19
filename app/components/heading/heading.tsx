@@ -11,8 +11,8 @@ const Heading = () => {
   }
   return (
     <div className='px-4 md:px-12 my-8'>
-      <div className='grid grid-cols-2 items-center text-center md:text-left'>
-        <div className='col-span-2 md:col-span-1 order-2 md:order-1'>
+      <div className='grid grid-cols-2 w-full items-center text-center md:text-left'>
+        <div className='col-span-2  md:col-span-1 order-2 md:order-1'>
           <motion.div
             initial='initial'
             animate='visible'
@@ -40,7 +40,7 @@ const Heading = () => {
               <Link
                 prefetch='intent'
                 to='/blog'
-                className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'
+                className='px-12 border-2 border-blue-500 sm:px-12 py-3 md:py-3 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 hover:border-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'
               >
                 See Blogs
               </Link>
@@ -48,7 +48,7 @@ const Heading = () => {
               <Link
                 prefetch='intent'
                 to='/problems'
-                className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'
+                className='px-8 sm:px-12 py-3 md:py-3 sm:py-3  bg-blue-500 border-2 border-blue-500 hover:border-blue-600 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block my-4'
               >
                 Solve Problems
               </Link>

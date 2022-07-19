@@ -152,6 +152,7 @@ const Reset = () => {
       </motion.div>
       {actionData?.status === 200 && (
         <SuccessModal
+          isReset={true}
           email={actionData?.email}
           showDialog={showDialog}
           setShowDialog={setShowDialog}
