@@ -146,6 +146,7 @@ export const getBlogViewers = async (slug: string) => {
 
 export const updateBlog = async (slug: string, title: string, html: string) => {
   try {
+    const { text } = readingTime(html)
     const post = await prisma.blogPosts.update({
       where: {
         slug,
@@ -153,6 +154,7 @@ export const updateBlog = async (slug: string, title: string, html: string) => {
       data: {
         title,
         html,
+        readTime: text,
       },
     })
     return {
