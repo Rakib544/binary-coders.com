@@ -13,7 +13,6 @@ export type teamMemberData = {
   facebook: string
   linkedin: string
   github: string
-  instagram: string
 }[]
 const teamData: teamMemberData = [
   {
@@ -27,7 +26,6 @@ const teamData: teamMemberData = [
     facebook: 'https://www.facebook.com/profile.php?id=100018966190023',
     linkedin: 'https://www.linkedin.com/in/dev-rakib/',
     github: 'https://github.com/Rakib544',
-    instagram: 'https://www.facebook.com/profile.php?id=100018966190023',
   },
   {
     id: 1,
@@ -38,9 +36,8 @@ const teamData: teamMemberData = [
     aboutText:
       'Hello, I am Tanvir, Frontend Developer, I love to do all of the web things with javaScript.I am passionate about Web Design, Web Develop, and Backend with node.js. Currently, I am working with React js which is the most popular framework for JavaScript',
     facebook: 'https://facebook.com/tanvir1017',
-    linkedin: 'https://linked.com/tanvir1017',
+    linkedin: 'https://www.linkedin.com/in/tanvir1017/',
     github: 'https://github.com/tanvir1017',
-    instagram: 'https://www.instagram.com/mdtan_vir037/',
   },
   {
     id: 2,
@@ -51,9 +48,8 @@ const teamData: teamMemberData = [
     aboutText:
       'Im Abu Jakaria, a highly skilled developer with strong confidence with quality and high performance web applications seeks the rules of Junior Software Developer at Javascript, React, Express JS and modern Javascript libraries.',
     facebook: 'https://www.facebook.com/abujakariacse',
-    linkedin: 'https://linkedin.com/abujakariacse',
+    linkedin: 'https://www.linkedin.com/in/abujakariacse/',
     github: 'https://github.com/abujakariacse',
-    instagram: 'https://instagram.com/abujakariacse',
   },
   {
     id: 3,
@@ -62,11 +58,10 @@ const teamData: teamMemberData = [
     portfolio: '',
     img: './images/team/proloy.webp',
     aboutText:
-      'Im Utsho kumer proloy, a highly skilled developer with strong confidence with quality and high performance web applications seeks the rules of Junior Software Developer at Javascript, React, Express JS and modern Javascript libraries.',
+      'Im Utsha and I Know Some Interesting Tecnology which is based javascript called React. I am a passionate Front End Developer with knowing some famous frameworks. I love working on chanllenging projects with learning something new and writting clean code. I want to retain and enhance my skills by working at an Institute. My keen interest in learning new technology',
     facebook: 'https://www.facebook.com/ukp.proloy',
-    linkedin: 'https://www.facebook.com/ukp.proloy',
+    linkedin: 'https://www.linkedin.com/in/utsha-kumar-paul/',
     github: 'https://github.com/proloypaul',
-    instagram: 'https://www.facebook.com/ukp.proloy',
   },
 ]
 const index = () => {
