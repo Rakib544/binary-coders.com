@@ -7,7 +7,7 @@ const EmailLogo = () => {
       viewBox='0 0 24 24'
       fill='none'
       stroke='rgba(100,116,139,1)'
-      strokeWidth='1'
+      strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
     >

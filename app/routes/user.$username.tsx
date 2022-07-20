@@ -100,30 +100,41 @@ const publicProfile = () => {
             <p className='my-2 text-slate-500'>{user?.bio}</p>
             <ul>
               {user?.location && (
-                <li className='flex text-sm items-center first:space-x-2 my-1 text-slate-500'>
-                  <LocationIcon /> <span>Live at</span>{' '}
-                  <span className='font-medium text-slate-500'>{user?.location}</span>
+                <li className='grid grid-cols-10 text-sm my-1 text-slate-500'>
+                  <span className='col-span-1 mt-1'>
+                    <LocationIcon />
+                  </span>{' '}
+                  <div className='col-span-9'>
+                    <span>Live at</span>{' '}
+                    <span className='font-medium text-slate-500'>{user?.location}</span>
+                  </div>
                 </li>
               )}
-              <li className='flex items-center text-sm space-x-2 my-1'>
-                <EmailLogo /> <span className='font-medium text-slate-500'>{user?.email}</span>
+              <li className='grid grid-cols-10 text-sm mt-1'>
+                <span className='col-span-1 mt-1'>
+                  <EmailLogo />
+                </span>{' '}
+                <span className='font-medium text-slate-500 col-span-9'>{user?.email}</span>
               </li>
               {user?.institute && (
-                <li className='flex text-sm space-x-1 my-1'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    width='16'
-                    height='16'
-                    className='mt-1'
-                  >
-                    <path fill='none' d='M0 0h24v24H0z' />
-                    <path
-                      d='M21 20h2v2H1v-2h2V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v17zm-2 0V4H5v16h14zM8 11h3v2H8v-2zm0-4h3v2H8V7zm0 8h3v2H8v-2zm5 0h3v2h-3v-2zm0-4h3v2h-3v-2zm0-4h3v2h-3V7z'
-                      fill='rgba(100,116,139,1)'
-                    />
-                  </svg>
-                  <span className='text-slate-500'>
+                <li className='grid grid-cols-10 text-sm my-1'>
+                  <span className='col-span-1'>
+                    {' '}
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      width='16'
+                      height='16'
+                      className='mt-1'
+                    >
+                      <path fill='none' d='M0 0h24v24H0z' />
+                      <path
+                        d='M21 20h2v2H1v-2h2V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v17zm-2 0V4H5v16h14zM8 11h3v2H8v-2zm0-4h3v2H8V7zm0 8h3v2H8v-2zm5 0h3v2h-3v-2zm0-4h3v2h-3v-2zm0-4h3v2h-3V7z'
+                        fill='rgba(100,116,139,1)'
+                      />
+                    </svg>
+                  </span>
+                  <span className='text-slate-500 col-span-9'>
                     Studied at <span className='font-medium text-slate-500'>{user?.institute}</span>
                   </span>
                 </li>
@@ -158,6 +169,11 @@ const publicProfile = () => {
           </div>
         </div>
         <div className='col-span-4 lg:col-span-3'>
+          {blogs?.length === 0 && questions?.length === 0 && (
+            <h2 className='text-2xl text-slate-700 font-bold'>
+              The user didn&apos;t write any blog and didn&apos;t ask any questions.
+            </h2>
+          )}
           {blogs?.length > 0 && (
             <div>
               <h2 className='text-2xl text-slate-700 font-bold'>Recent written blogs</h2>
