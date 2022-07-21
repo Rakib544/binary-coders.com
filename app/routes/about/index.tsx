@@ -129,21 +129,24 @@ const index = () => {
                 <div className='social-link-span md:flex flex-col space-y-2'>
                   <a
                     className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                    target='_blink'
+                    target='_blank'
+                    rel='noreferrer'
                     href={selectedMember.facebook}
                   >
                     <FacebookIcon color='#0ea5e9' />
                   </a>
                   <a
                     className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                    target='_blink'
+                    target='_blank'
+                    rel='noreferrer'
                     href={selectedMember.linkedin}
                   >
                     <LinkedinLogo color='#0ea5e9' />
                   </a>
                   <a
                     className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                    target='_blink'
+                    target='_blank'
+                    rel='noreferrer'
                     href={selectedMember.github}
                   >
                     <GitHubLogo color='#0ea5e9' />
@@ -163,21 +166,24 @@ const index = () => {
             <div className='flex space-x-2 my-4 md:hidden justify-center'>
               <a
                 className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                target='_blink'
+                target='_blank'
+                rel='noreferrer'
                 href={selectedMember.facebook}
               >
                 <FacebookIcon color='#0ea5e9' />
               </a>
               <a
                 className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                target='_blink'
+                target='_blank'
+                rel='noreferrer'
                 href={selectedMember.linkedin}
               >
                 <LinkedinLogo color='#0ea5e9' />
               </a>
               <a
                 className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                target='_blink'
+                target='_blank'
+                rel='noreferrer'
                 href={selectedMember.github}
               >
                 <GitHubLogo color='#0ea5e9' />
