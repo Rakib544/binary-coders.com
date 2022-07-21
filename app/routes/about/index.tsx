@@ -127,13 +127,25 @@ const index = () => {
                   Follow Me &rarr;
                 </p>
                 <div className='social-link-span md:flex flex-col space-y-2'>
-                  <a className='p-2' target='_blink' href={selectedMember.facebook}>
+                  <a
+                    className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
+                    target='_blink'
+                    href={selectedMember.facebook}
+                  >
                     <FacebookIcon color='#0ea5e9' />
                   </a>
-                  <a className='p-2' target='_blink' href={selectedMember.linkedin}>
+                  <a
+                    className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
+                    target='_blink'
+                    href={selectedMember.linkedin}
+                  >
                     <LinkedinLogo color='#0ea5e9' />
                   </a>
-                  <a className='p-2' target='_blink' href={selectedMember.github}>
+                  <a
+                    className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
+                    target='_blink'
+                    href={selectedMember.github}
+                  >
                     <GitHubLogo color='#0ea5e9' />
                   </a>
                 </div>
@@ -149,13 +161,25 @@ const index = () => {
             </div>
             <p className='my-5'>{selectedMember.aboutText}</p>
             <div className='flex space-x-2 my-4 md:hidden justify-center'>
-              <a className='p-2' target='_blink' href={selectedMember.facebook}>
+              <a
+                className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
+                target='_blink'
+                href={selectedMember.facebook}
+              >
                 <FacebookIcon color='#0ea5e9' />
               </a>
-              <a className='p-2' target='_blink' href={selectedMember.linkedin}>
+              <a
+                className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
+                target='_blink'
+                href={selectedMember.linkedin}
+              >
                 <LinkedinLogo color='#0ea5e9' />
               </a>
-              <a className='p-2' target='_blink' href={selectedMember.github}>
+              <a
+                className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
+                target='_blink'
+                href={selectedMember.github}
+              >
                 <GitHubLogo color='#0ea5e9' />
               </a>
             </div>
