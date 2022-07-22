@@ -148,7 +148,7 @@ const SingleQuestion = () => {
                 <MenuDropDown handleDelete={handleDelete} url={`/problems/edit/${problem?.slug}`} />
               )}
             </div>
-            <h1 className='text-3xl font-bold'>{problem?.title}</h1>
+            <h1 className='text-2xl font-bold'>{problem?.title}</h1>
             <small className='font-medium text-slate-500'>
               Posted {moment(problem.createdAt).fromNow()}
             </small>
