@@ -45,6 +45,7 @@ model User {
   question Question[]
   blog BlogPosts[]
   problem ProblemViews[]
+  notification Notification[]
 }
 
 model BlogPosts {
@@ -118,4 +119,14 @@ model ProblemViews {
   slug String @unique
   viewer User @relation(fields: [viewerId], references: [id])
   viewerId String @db.ObjectId
+}
+
+model Notification {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  viewedBy String[]
+  creator User @relation(fields: [notificationCreatorId], references: [id])
+  notificationCreatorId String @db.ObjectId
+  slug String
+  notificationFor String
 }

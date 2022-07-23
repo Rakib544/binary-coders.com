@@ -3,8 +3,8 @@ import { headerNavLinks } from 'data/navbar'
 import * as React from 'react'
 import { io } from 'socket.io-client'
 import Dropdown from './dropdown'
-import NotificationIcon from './icons/notification-icon'
 import MobileNav from './mobile-nav'
+import NotificationDropDown from './notification-dropdown'
 
 const NAVBAR_HIDES_FROM = [
   '/auth/login',
@@ -48,7 +48,6 @@ const Navbar = ({
 }) => {
   const location = useLocation()
   const isNavbarHide = NAVBAR_HIDES_FROM.includes(location.pathname)
-  const [showNotification, setShowNotification] = React.useState(false)
 
   React.useEffect(() => {
     const body = document.body
@@ -96,7 +95,7 @@ const Navbar = ({
   }, [])
 
   socket?.off('new_post').on('new_post', () => {
-    setShowNotification(true)
+    // setShowNotification(true)
   })
 
   return (
@@ -132,16 +131,8 @@ const Navbar = ({
                   {link.title}
                 </NavLink>
               ))}
-              <li className='relative cursor-pointer'>
-                <NotificationIcon />
-                {showNotification && (
-                  <div className='absolute -top-0.5 right-0'>
-                    <span className='flex relative h-3 w-3'>
-                      <span className='animate-ping absolute -top-0 inline-flex h-full w-full rounded-full bg-red-400 opacity-75'></span>
-                      <span className='relative inline-flex rounded-full h-3 w-3 bg-red-500'></span>
-                    </span>
-                  </div>
-                )}
+              <li>
+                <NotificationDropDown />
               </li>
               {username ? (
                 <Dropdown fullName={fullName} username={username} profilePicture={profilePicture} />

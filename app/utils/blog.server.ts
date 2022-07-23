@@ -1,6 +1,7 @@
-import { Response } from '@remix-run/node'
+import { fetch, Response } from '@remix-run/node'
 import readingTime from 'reading-time'
 import slugify from 'slugify'
+import { createNotification } from './notification.server'
 import { prisma } from './prisma.server'
 
 export const createBlogPost = async (title: string, html: string, authorId: string) => {
@@ -33,6 +34,24 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
         authorId,
         views: 0,
       },
+      include: {
+        creator: {
+          select: {
+            id: true,
+            username: true,
+            name: true,
+            profilePicture: true,
+          },
+        },
+      },
+    })
+
+    // console.log(blog)
+    await createNotification(blog?.creator?.id, blog.slug, 'blog')
+    await fetch(process.env.NOTIFICATION_SERVER_URL as string, {
+      headers: { 'content-type': 'application/json' },
+      method: 'POST',
+      body: JSON.stringify({}),
     })
     return {
       status: 201,

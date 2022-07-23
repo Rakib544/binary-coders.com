@@ -1,6 +1,5 @@
 import {
   ActionFunction,
-  fetch,
   json,
   LinksFunction,
   LoaderFunction,
@@ -41,11 +40,6 @@ export const action: ActionFunction = async ({ request }) => {
     const res = await createBlogPost(title as string, JSON.parse(html as string), userId)
 
     if (res.status === 201) {
-      await fetch(process.env.NOTIFICATION_SERVER_URL as string, {
-        headers: { 'content-type': 'application/json' },
-        method: 'POST',
-        body: JSON.stringify({}),
-      })
       return redirect(res?.url as string)
     }
     return {
