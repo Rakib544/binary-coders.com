@@ -223,7 +223,7 @@ const Index = () => {
         variants={stagger}
         className='col-span-10 md:col-span-8 lg:col-span-7 px-4 md:px-4 lg:px-12 my-2 md:my-10'
       >
-        <motion.div variants={fadeInUp} className='mb-10 block md:hidden'>
+        <motion.div variants={fadeInUp} className='my-10 block md:hidden'>
           <SelectBox key={location.search} options={options} />
         </motion.div>
         {problems?.length === 0 ? (
