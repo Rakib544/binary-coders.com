@@ -101,7 +101,9 @@ export const meta: MetaFunction = () => ({
 export const loader: LoaderFunction = async ({ request }) => {
   try {
     const res = await getUserInfo(request)
+    const NOTIFICATION_SERVER_URL = process.env.NOTIFICATION_SERVER_URL
     return json({
+      NOTIFICATION_SERVER_URL,
       ...res,
     })
   } catch (error) {
@@ -220,6 +222,7 @@ export default function App() {
       </head>
       <body className='font-barlow bg-test'>
         <Navbar
+          NOTIFICATION_SERVER_URL={loaderData?.NOTIFICATION_SERVER_URL}
           fullName={loaderData?.fullName as string}
           username={loaderData?.username as string}
           profilePicture={loaderData?.profilePicture as string}

@@ -1,7 +1,9 @@
 import { Link, useLocation } from '@remix-run/react'
 import { headerNavLinks } from 'data/navbar'
 import * as React from 'react'
+import { io } from 'socket.io-client'
 import Dropdown from './dropdown'
+import NotificationIcon from './icons/notification-icon'
 import MobileNav from './mobile-nav'
 
 const NAVBAR_HIDES_FROM = [
@@ -34,16 +36,19 @@ const NavLink = ({ to, ...rest }: Omit<Parameters<typeof Link>['0'], 'to'> & { t
 }
 
 const Navbar = ({
+  NOTIFICATION_SERVER_URL,
   fullName,
   username,
   profilePicture,
 }: {
+  NOTIFICATION_SERVER_URL: string
   fullName: string
   username: string
   profilePicture: string
 }) => {
   const location = useLocation()
   const isNavbarHide = NAVBAR_HIDES_FROM.includes(location.pathname)
+  const [showNotification, setShowNotification] = React.useState(false)
 
   React.useEffect(() => {
     const body = document.body
@@ -75,6 +80,24 @@ const Navbar = ({
       }
     }
   }, [])
+
+  // socket io implementation
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [socket, setSocket] = React.useState<any>()
+  React.useEffect(() => {
+    const s = io(NOTIFICATION_SERVER_URL, {
+      transports: ['websocket'],
+    })
+    setSocket(s)
+
+    return () => {
+      s.disconnect()
+    }
+  }, [])
+
+  socket?.off('new_post').on('new_post', () => {
+    setShowNotification(true)
+  })
 
   return (
     <header>
@@ -109,6 +132,17 @@ const Navbar = ({
                   {link.title}
                 </NavLink>
               ))}
+              <li className='relative cursor-pointer'>
+                <NotificationIcon />
+                {showNotification && (
+                  <div className='absolute -top-0.5 right-0'>
+                    <span className='flex relative h-3 w-3'>
+                      <span className='animate-ping absolute -top-0 inline-flex h-full w-full rounded-full bg-red-400 opacity-75'></span>
+                      <span className='relative inline-flex rounded-full h-3 w-3 bg-red-500'></span>
+                    </span>
+                  </div>
+                )}
+              </li>
               {username ? (
                 <Dropdown fullName={fullName} username={username} profilePicture={profilePicture} />
               ) : (
