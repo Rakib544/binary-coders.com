@@ -37,7 +37,12 @@ export const action: ActionFunction = async ({ request }) => {
       }
     }
 
-    const res = await createBlogPost(title as string, JSON.parse(html as string), userId)
+    const res = await createBlogPost(
+      title as string,
+      JSON.parse(html as string),
+      userId,
+      process.env.NOTIFICATION_SERVER_URL,
+    )
 
     if (res.status === 201) {
       return redirect(res?.url as string)

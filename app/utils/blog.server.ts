@@ -4,7 +4,12 @@ import slugify from 'slugify'
 import { createNotification } from './notification.server'
 import { prisma } from './prisma.server'
 
-export const createBlogPost = async (title: string, html: string, authorId: string) => {
+export const createBlogPost = async (
+  title: string,
+  html: string,
+  authorId: string,
+  NOTIFICATION_SERVER_URL,
+) => {
   let slug = slugify(title)
   if (slug.length === 0) {
     return {
@@ -48,7 +53,7 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
 
     // console.log(blog)
     await createNotification(blog?.creator?.id, slug, 'blog')
-    await fetch(process.env.NOTIFICATION_SERVER_URL as string, {
+    await fetch(NOTIFICATION_SERVER_URL as string, {
       headers: { 'content-type': 'application/json' },
       method: 'POST',
       body: JSON.stringify({}),
