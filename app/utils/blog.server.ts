@@ -47,7 +47,7 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
     })
 
     // console.log(blog)
-    await createNotification(blog?.creator?.id, blog.slug, 'blog')
+    await createNotification(blog?.creator?.id, slug, 'blog')
     await fetch(process.env.NOTIFICATION_SERVER_URL as string, {
       headers: { 'content-type': 'application/json' },
       method: 'POST',
@@ -55,7 +55,7 @@ export const createBlogPost = async (title: string, html: string, authorId: stri
     })
     return {
       status: 201,
-      url: `/blog/${blog.slug}`,
+      url: `/blog/${slug}`,
     }
   } catch (error) {
     throw new Error('Some went wrong. Please try again.')
