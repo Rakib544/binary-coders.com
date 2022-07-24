@@ -254,10 +254,6 @@ function PostNotification({ NOTIFICATION_SERVER_URL }: { NOTIFICATION_SERVER_URL
       setShow(true)
     })
 
-  React.useEffect(() => {
-    setShow(true)
-  }, [notificationMessage])
-
   return (
     <>
       {show && (

@@ -22,14 +22,14 @@ function NotificationMessage({
   const [isVisible, setIsVisible] = React.useState(true)
 
   const initialY = position.includes('bottom') ? 50 : -50
-  React.useEffect(() => {
-    setIsVisible(true)
-    const timeOut = setTimeout(() => {
-      setIsVisible(false)
-    }, 6000)
+  // React.useEffect(() => {
+  //   setIsVisible(true)
+  //   const timeOut = setTimeout(() => {
+  //     setIsVisible(false)
+  //   }, 6000)
 
-    return () => clearTimeout(timeOut)
-  }, [])
+  //   return () => clearTimeout(timeOut)
+  // }, [])
 
   return (
     <AnimatePresence>
