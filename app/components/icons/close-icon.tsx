@@ -4,7 +4,7 @@ const CloseIcon = () => {
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 20 20'
       fill='currentColor'
-      className='text-gray-900 h-6 w-6'
+      className='text-gray-900 h-4 w-4'
     >
       {' '}
       <path

@@ -15,10 +15,12 @@ import {
 import { AnimatePresence, motion } from 'framer-motion'
 import * as React from 'react'
 import MessengerCustomerChat from 'react-messenger-customer-chat'
+import { io } from 'socket.io-client'
 import { useSpinDelay } from 'spin-delay'
 import Footer from './components/footer/footer'
 import { Spinner } from './components/icons/spinner'
 import Navbar from './components/navbar'
+import { NotificationMessage } from './components/notification-message'
 import styles from './styles/app.css'
 import { getNotification } from './utils/notification.server'
 import { getUserInfo } from './utils/session.server'
@@ -217,6 +219,75 @@ function shouldAddMargin(pathName: string) {
   return !marginHideFrom.includes(pathName)
 }
 
+type NotificationMessage = {
+  creator: {
+    username: string
+    name: string
+    profilePicture: string
+  }
+  slug: string
+  message: string
+}
+
+function PostNotification({ NOTIFICATION_SERVER_URL }: { NOTIFICATION_SERVER_URL: string }) {
+  const [show, setShow] = React.useState(false)
+  const [notificationMessage, setNotificationMessage] = React.useState<NotificationMessage>()
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [socket, setSocket] = React.useState<any>()
+  React.useEffect(() => {
+    const s = io(NOTIFICATION_SERVER_URL, {
+      transports: ['websocket'],
+    })
+    setSocket(s)
+
+    return () => {
+      s.disconnect()
+    }
+  }, [])
+
+  socket
+    ?.off('new_post')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .on('new_post', (data: NotificationMessage) => {
+      setNotificationMessage(data)
+      setShow(true)
+    })
+
+  return (
+    <>
+      {show && (
+        <NotificationMessage background='bg-white' position='bottom-left'>
+          <p className='text-slate-700 font-semibold text-sm mb-4'>New Notification</p>
+          <Link to={`/blog/${notificationMessage?.slug}`}>
+            <div className='grid grid-cols-10 gap-2'>
+              <div className='col-span-3'>
+                <img
+                  src={notificationMessage?.creator?.profilePicture}
+                  alt={notificationMessage?.creator?.username}
+                  className='h-16 w-16 rounded-full object-cover'
+                />
+              </div>
+              <div className='col-span-7 text-slate-700'>
+                <p className='font-medium'>
+                  <Link
+                    to={`/user/${notificationMessage?.creator?.username}`}
+                    className='text-sky-500'
+                  >
+                    {notificationMessage?.creator?.name}
+                  </Link>{' '}
+                  {notificationMessage?.message}
+                </p>
+                <small className='text-xs text-slate-500 font-medium'>Just a few seconds ago</small>
+              </div>
+            </div>
+          </Link>
+        </NotificationMessage>
+      )}
+    </>
+  )
+}
+
 export default function App() {
   const loaderData = useLoaderData()
   const location = useLocation()
@@ -226,13 +297,14 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className='font-barlow bg-test'>
+      <body className='font-barlow bg-test relative'>
         <Navbar
           NOTIFICATION_SERVER_URL={loaderData?.NOTIFICATION_SERVER_URL}
           fullName={loaderData?.fullName as string}
           username={loaderData?.username as string}
           profilePicture={loaderData?.profilePicture as string}
         />
+        <PostNotification NOTIFICATION_SERVER_URL={loaderData?.NOTIFICATION_SERVER_URL} />
         <main
           className={`relative w-full ${
             shouldAddMargin(location.pathname) ? 'mt-16 md:mt-32' : ''
