@@ -112,9 +112,11 @@ const Navbar = ({
                   {link.title}
                 </NavLink>
               ))}
-              <li>
-                <NotificationDropDown NOTIFICATION_SERVER_URL={NOTIFICATION_SERVER_URL} />
-              </li>
+              {username && (
+                <li>
+                  <NotificationDropDown NOTIFICATION_SERVER_URL={NOTIFICATION_SERVER_URL} />
+                </li>
+              )}
               {username ? (
                 <Dropdown fullName={fullName} username={username} profilePicture={profilePicture} />
               ) : (
@@ -127,7 +129,12 @@ const Navbar = ({
               )}
             </ul>
           </div>
-          <MobileNav fullName={fullName} profilePicture={profilePicture} username={username} />
+          <MobileNav
+            fullName={fullName}
+            profilePicture={profilePicture}
+            username={username}
+            NOTIFICATION_SERVER_URL={NOTIFICATION_SERVER_URL}
+          />
         </div>
       ) : null}
     </header>
