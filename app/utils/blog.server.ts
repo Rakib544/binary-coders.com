@@ -50,8 +50,6 @@ export const createBlogPost = async (
         },
       },
     })
-
-    // console.log(blog)
     await createNotification(blog?.creator?.id, slug, 'blog')
     return {
       status: 201,

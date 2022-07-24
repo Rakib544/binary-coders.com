@@ -44,6 +44,8 @@ export default function NotificationDropDown({
   })
 
   const fetcher = useFetcher()
+  console.log(fetcher)
+  console.log(NOTIFICATION_SERVER_URL)
 
   const loadNotification = () => {
     fetcher.submit({ action: 'notification' }, { method: 'post' })
