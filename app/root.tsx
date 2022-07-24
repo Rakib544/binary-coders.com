@@ -1,4 +1,4 @@
-import { json, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node'
+import { ActionFunction, json, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node'
 import {
   Link,
   Links,
@@ -20,6 +20,7 @@ import Footer from './components/footer/footer'
 import { Spinner } from './components/icons/spinner'
 import Navbar from './components/navbar'
 import styles from './styles/app.css'
+import { getNotification } from './utils/notification.server'
 import { getUserInfo } from './utils/session.server'
 
 export const links: LinksFunction = () => {
@@ -109,6 +110,11 @@ export const loader: LoaderFunction = async ({ request }) => {
   } catch (error) {
     throw new Error('Testing Error Boundary')
   }
+}
+
+export const action: ActionFunction = async () => {
+  const notifications = await getNotification()
+  return json({ notifications })
 }
 
 const LOADER_WORDS = [

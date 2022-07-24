@@ -15,6 +15,19 @@ export const createNotification = async (
 }
 
 export const getNotification = async () => {
-  const notification = await prisma.notification.findMany()
-  console.log(notification)
+  const notifications = await prisma.notification.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      creator: {
+        select: {
+          username: true,
+          name: true,
+          profilePicture: true,
+        },
+      },
+    },
+  })
+  return notifications
 }

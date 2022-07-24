@@ -1,4 +1,4 @@
-import { fetch, Response } from '@remix-run/node'
+import { Response } from '@remix-run/node'
 import readingTime from 'reading-time'
 import slugify from 'slugify'
 import { createNotification } from './notification.server'
@@ -53,11 +53,6 @@ export const createBlogPost = async (
 
     // console.log(blog)
     await createNotification(blog?.creator?.id, slug, 'blog')
-    await fetch(NOTIFICATION_SERVER_URL as string, {
-      headers: { 'content-type': 'application/json' },
-      method: 'POST',
-      body: JSON.stringify({}),
-    })
     return {
       status: 201,
       url: `/blog/${slug}`,

@@ -1,7 +1,6 @@
 import { Link, useLocation } from '@remix-run/react'
 import { headerNavLinks } from 'data/navbar'
 import * as React from 'react'
-import { io } from 'socket.io-client'
 import Dropdown from './dropdown'
 import MobileNav from './mobile-nav'
 import NotificationDropDown from './notification-dropdown'
@@ -80,24 +79,6 @@ const Navbar = ({
     }
   }, [])
 
-  // socket io implementation
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [socket, setSocket] = React.useState<any>()
-  React.useEffect(() => {
-    const s = io(NOTIFICATION_SERVER_URL, {
-      transports: ['websocket'],
-    })
-    setSocket(s)
-
-    return () => {
-      s.disconnect()
-    }
-  }, [])
-
-  socket?.off('new_post').on('new_post', () => {
-    // setShowNotification(true)
-  })
-
   return (
     <header>
       {!isNavbarHide ? (
@@ -132,7 +113,7 @@ const Navbar = ({
                 </NavLink>
               ))}
               <li>
-                <NotificationDropDown />
+                <NotificationDropDown NOTIFICATION_SERVER_URL={NOTIFICATION_SERVER_URL} />
               </li>
               {username ? (
                 <Dropdown fullName={fullName} username={username} profilePicture={profilePicture} />
