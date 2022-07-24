@@ -221,6 +221,7 @@ function shouldAddMargin(pathName: string) {
 
 type NotificationMessage = {
   creator: {
+    id: string
     username: string
     name: string
     profilePicture: string
@@ -229,7 +230,13 @@ type NotificationMessage = {
   message: string
 }
 
-function PostNotification({ NOTIFICATION_SERVER_URL }: { NOTIFICATION_SERVER_URL: string }) {
+function PostNotification({
+  NOTIFICATION_SERVER_URL,
+  userId,
+}: {
+  NOTIFICATION_SERVER_URL: string
+  userId: string
+}) {
   const [show, setShow] = React.useState(false)
   const [notificationMessage, setNotificationMessage] = React.useState<NotificationMessage>()
 
@@ -251,12 +258,13 @@ function PostNotification({ NOTIFICATION_SERVER_URL }: { NOTIFICATION_SERVER_URL
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .on('new_post', (data: NotificationMessage) => {
       setNotificationMessage(data)
+      setShow(false)
       setShow(true)
     })
 
   return (
     <>
-      {show && (
+      {show && userId && notificationMessage?.creator.id !== userId && (
         <NotificationMessage background='bg-white' position='bottom-left'>
           <p className='text-slate-700 font-semibold text-sm mb-4'>New Notification</p>
           <Link to={`/blog/${notificationMessage?.slug}`}>
@@ -304,7 +312,10 @@ export default function App() {
           username={loaderData?.username as string}
           profilePicture={loaderData?.profilePicture as string}
         />
-        <PostNotification NOTIFICATION_SERVER_URL={loaderData?.NOTIFICATION_SERVER_URL} />
+        <PostNotification
+          NOTIFICATION_SERVER_URL={loaderData?.NOTIFICATION_SERVER_URL}
+          userId={loaderData?.userId}
+        />
         <main
           className={`relative w-full ${
             shouldAddMargin(location.pathname) ? 'mt-16 md:mt-32' : ''
