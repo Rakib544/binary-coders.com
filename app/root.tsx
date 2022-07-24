@@ -18,7 +18,6 @@ import MessengerCustomerChat from 'react-messenger-customer-chat'
 import { io } from 'socket.io-client'
 import { useSpinDelay } from 'spin-delay'
 import Footer from './components/footer/footer'
-import { Spinner } from './components/icons/spinner'
 import Navbar from './components/navbar'
 import { NotificationMessage } from './components/notification-message'
 import styles from './styles/app.css'
@@ -174,13 +173,40 @@ function PageLoadingMessage() {
   const action = words[0]
 
   return (
-    <>
+    <AnimatePresence>
       {showLoader ? (
-        <motion.div className='fixed right-4 bottom-8 shadow-lg  bg-blue-500 text-white p-4 rounded-lg drop-shadow-2xl z-50'>
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1, transition: { delay: 0.7 } }}
+          exit={{ y: 50, opacity: 0 }}
+          transition={{ ease: 'easeInOut', duration: 0.3 }}
+          className='fixed right-4 bottom-8  bg-white px-4 py-6 rounded-lg shadow-xl shadow-blue-500/10 z-50'
+        >
           <div className='flex w-64 items-center'>
-            <div className='spin text-4xl'>
-              <Spinner />
-            </div>
+            <motion.div
+              transition={{ repeat: Infinity, duration: 2, ease: 'linear' }}
+              animate={{ rotate: 360 }}
+              className='text-4xl'
+            >
+              {/* <Spinner /> */}
+              <svg height='48' width='48' viewBox='0 0 48 48'>
+                <path
+                  d='M25.256,0.032891A24,24,0,0,1,45.384,34.896L43.602,33.988A22,22,0,0,0,25.151,2.0302Z'
+                  className='text-yellow-400'
+                  fill='currentColor'
+                ></path>
+                <path
+                  d='M44.128,37.071A24,24,0,0,1,3.8719,37.071L5.5492,35.982A22,22,0,0,0,42.451,35.982Z'
+                  className='text-blue-500'
+                  fill='currentColor'
+                ></path>
+                <path
+                  d='M2.6158,34.896A24,24,0,0,1,22.744,0.032891L22.849,2.0302A22,22,0,0,0,4.3979,33.988Z'
+                  className='text-red-500'
+                  fill='currentColor'
+                ></path>
+              </svg>
+            </motion.div>
             <div className='ml-4 inline-grid'>
               <AnimatePresence>
                 <div className='col-start-1 row-start-1 flex overflow-hidden'>
@@ -196,12 +222,12 @@ function PageLoadingMessage() {
                   </motion.span>
                 </div>
               </AnimatePresence>
-              <span className='text-white truncate'>path: {pendingPath}</span>
+              <span className='truncate'>path: {pendingPath}</span>
             </div>
           </div>
         </motion.div>
       ) : null}
-    </>
+    </AnimatePresence>
   )
 }
 

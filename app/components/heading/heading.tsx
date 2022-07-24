@@ -10,7 +10,7 @@ const Heading = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   }
   return (
-    <div className='px-4 md:px-12 my-8'>
+    <div className='px-4 md:px-12 my-8 max-w-screen-xl mx-auto'>
       <div className='grid grid-cols-2 w-full items-center text-center md:text-left'>
         <div className='col-span-2  md:col-span-1 order-2 md:order-1'>
           <motion.div
@@ -59,8 +59,9 @@ const Heading = () => {
           <motion.img
             src='./images/programming.svg'
             height='400'
-            width='500'
+            width='600'
             alt='right-side-heading-img'
+            className='ml-0 lg:ml-8'
             initial={{ scale: shouldReduceMotion ? 1 : 1.4 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
