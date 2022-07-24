@@ -87,7 +87,9 @@ export default function NotificationDropDown({
             {fetcher?.data?.notifications?.length > 0 &&
               fetcher?.data?.notifications?.map((notification: Notification) => (
                 <Link
-                  to={`/blog/${notification.slug}`}
+                  to={`/${notification.notificationFor === 'blog' ? 'blog' : 'question'}/${
+                    notification.slug
+                  }`}
                   key={notification.id}
                   className='block hover:bg-slate-100 p-2 rounded-xl'
                 >
@@ -108,6 +110,7 @@ export default function NotificationDropDown({
                           {notification.creator.name}
                         </Link>{' '}
                         {notification.notificationFor === 'blog' && 'write a new blog'}
+                        {notification.notificationFor === 'question' && 'Asked a question'}
                       </p>
                       <small className='text-xs font-medium'>
                         {moment(notification.createdAt).fromNow()}

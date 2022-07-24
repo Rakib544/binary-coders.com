@@ -304,7 +304,9 @@ function PostNotification({
               <div className='col-span-7 text-slate-700'>
                 <p className='font-medium'>
                   <Link
-                    to={`/user/${notificationMessage?.creator?.username}`}
+                    to={`/${
+                      notificationMessage?.message === 'Asked a question' ? 'question' : 'blog'
+                    }/${notificationMessage?.creator?.username}`}
                     className='text-sky-500'
                   >
                     {notificationMessage?.creator?.name}
