@@ -261,7 +261,7 @@ function PostNotification({
       setShow(false)
       setShow(true)
     })
-
+  console.log({ userId })
   return (
     <>
       {show && userId && notificationMessage?.creator.id !== userId && (
