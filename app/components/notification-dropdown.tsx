@@ -83,37 +83,39 @@ export default function NotificationDropDown({
         >
           <Menu.Items className='origin-top-right absolute right-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50 p-2 h-96 overflow-y-auto'>
             {fetcher.state !== 'idle' && <p>Loading...</p>}
-            {fetcher?.data?.notifications?.map((notification: Notification) => (
-              <Link
-                to={`/blog/${notification.slug}`}
-                key={notification.id}
-                className='block hover:bg-slate-100 p-2 rounded-xl'
-              >
-                <div className='grid grid-cols-10 '>
-                  <div className='col-span-3'>
-                    <img
-                      src={notification.creator.profilePicture}
-                      alt={notification.creator.username}
-                      className='w-12 rounded-full h-12 object-cover mt-1'
-                    />
+            {fetcher?.data?.notifications?.length === 0 && <p>No notification found</p>}
+            {fetcher?.data?.notifications?.length > 0 &&
+              fetcher?.data?.notifications?.map((notification: Notification) => (
+                <Link
+                  to={`/blog/${notification.slug}`}
+                  key={notification.id}
+                  className='block hover:bg-slate-100 p-2 rounded-xl'
+                >
+                  <div className='grid grid-cols-10 '>
+                    <div className='col-span-3'>
+                      <img
+                        src={notification.creator.profilePicture}
+                        alt={notification.creator.username}
+                        className='w-12 rounded-full h-12 object-cover mt-1'
+                      />
+                    </div>
+                    <div className='col-span-7'>
+                      <p className='text-sm text-slate-700'>
+                        <Link
+                          to={`/user/${notification.creator.username}`}
+                          className='text-sky-500 font-medium'
+                        >
+                          {notification.creator.name}
+                        </Link>{' '}
+                        {notification.notificationFor === 'blog' && 'write a new blog'}
+                      </p>
+                      <small className='text-xs font-medium'>
+                        {moment(notification.createdAt).fromNow()}
+                      </small>
+                    </div>
                   </div>
-                  <div className='col-span-7'>
-                    <p className='text-sm text-slate-700'>
-                      <Link
-                        to={`/user/${notification.creator.username}`}
-                        className='text-sky-500 font-medium'
-                      >
-                        {notification.creator.name}
-                      </Link>{' '}
-                      {notification.notificationFor === 'blog' && 'write a new blog'}
-                    </p>
-                    <small className='text-xs font-medium'>
-                      {moment(notification.createdAt).fromNow()}
-                    </small>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
           </Menu.Items>
         </Transition>
       </Menu>
