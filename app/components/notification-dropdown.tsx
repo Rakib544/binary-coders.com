@@ -132,11 +132,12 @@ export default function NotificationDropDown({
       {showNotification && (
         <NotificationMessage>
           <Link to={`/blog/${notificationMessage?.slug}`}>
-            <div className='grid grid-cols-10'>
+            <div className='grid grid-cols-10 gap-2'>
               <div className='col-span-3'>
                 <img
                   src={notificationMessage?.creator?.profilePicture}
                   alt={notificationMessage?.creator?.username}
+                  className='h-12 w-12 rounded-full object-cover'
                 />
               </div>
               <div className='col-span-7'>
