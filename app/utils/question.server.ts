@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import slugify from 'slugify'
+import { createNotification } from './notification.server'
 import { prisma } from './prisma.server'
 
 export const createQuestion = async (
@@ -38,10 +39,28 @@ export const createQuestion = async (
         views: 0,
         comments: 0,
       },
+      include: {
+        creator: {
+          select: {
+            username: true,
+            id: true,
+            name: true,
+            profilePicture: true,
+          },
+        },
+      },
     })
+
+    await createNotification(question?.creator?.id, slug, 'question')
+    const notificationStatus = {
+      creator: question.creator,
+      slug: slug,
+      message: 'Asked a question',
+    }
     return {
       status: 201,
       url: `/question/${question.slug}`,
+      notificationStatus,
     }
   } catch (error) {
     throw new Error('Something went wrong. Please try again.')

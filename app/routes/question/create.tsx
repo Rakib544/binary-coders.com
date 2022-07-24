@@ -45,6 +45,11 @@ export const action: LoaderFunction = async ({ request }) => {
   )
   const res = await createQuestion(title.toString(), JSON.parse(html as string), userId, tags)
   if (res.status === 201) {
+    await fetch(process.env.NOTIFICATION_SERVER_URL as string, {
+      headers: { 'content-type': 'application/json' },
+      method: 'POST',
+      body: JSON.stringify({ ...res.notificationStatus }),
+    })
     return redirect(res?.url as string)
   }
   return {
