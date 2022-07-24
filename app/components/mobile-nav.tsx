@@ -36,7 +36,7 @@ const MobileNav = ({
   return (
     <div className='md:hidden'>
       <div className='flex items-center'>
-        <NotificationDropDown NOTIFICATION_SERVER_URL={NOTIFICATION_SERVER_URL} />
+        {username && <NotificationDropDown NOTIFICATION_SERVER_URL={NOTIFICATION_SERVER_URL} />}
         <button
           type='button'
           className='ml-1 mr-1 h-8 w-8 rounded py-1 z-50 relative'
