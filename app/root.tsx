@@ -254,6 +254,8 @@ function PostNotification({ NOTIFICATION_SERVER_URL }: { NOTIFICATION_SERVER_URL
       setShow(true)
     })
 
+  console.log({ show })
+
   return (
     <>
       {show && (
