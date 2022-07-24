@@ -5,6 +5,17 @@ import * as React from 'react'
 import { Fragment } from 'react'
 import { io } from 'socket.io-client'
 import NotificationIcon from './icons/notification-icon'
+import { NotificationMessage } from './notification-message'
+
+type NotificationMessage = {
+  creator: {
+    username: string
+    name: string
+    profilePicture: string
+  }
+  slug: string
+  message: string
+}
 
 type Notification = {
   id: string
@@ -12,6 +23,7 @@ type Notification = {
   viewedBy: string[]
   notificationCreatorId: string
   slug: string
+  notificationFor: string
   creator: {
     username: string
     name: string
@@ -28,6 +40,7 @@ export default function NotificationDropDown({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [socket, setSocket] = React.useState<any>()
   const [showNotification, setShowNotification] = React.useState(false)
+  const [notificationMessage, setNotificationMessage] = React.useState<NotificationMessage>()
   React.useEffect(() => {
     const s = io(NOTIFICATION_SERVER_URL, {
       transports: ['websocket'],
@@ -39,14 +52,16 @@ export default function NotificationDropDown({
     }
   }, [])
 
-  socket?.off('new_post').on('new_post', () => {
-    setShowNotification(true)
-  })
+  socket
+    ?.off('new_post')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .on('new_post', (data: NotificationMessage) => {
+      console.log(data)
+      setShowNotification(true)
+      setNotificationMessage(data)
+    })
 
   const fetcher = useFetcher()
-  console.log(fetcher)
-  console.log(NOTIFICATION_SERVER_URL)
-
   const loadNotification = () => {
     fetcher.submit({ action: 'notification' }, { method: 'post' })
     setShowNotification(false)
@@ -103,7 +118,7 @@ export default function NotificationDropDown({
                     >
                       {notification.creator.name}
                     </Link>{' '}
-                    asked a question
+                    {notification.notificationFor === 'blog' && 'write a new blog'}
                   </p>
                   <small className='text-xs font-medium'>
                     {moment(notification.createdAt).fromNow()}
@@ -114,6 +129,30 @@ export default function NotificationDropDown({
           ))}
         </Menu.Items>
       </Transition>
+      {showNotification && (
+        <NotificationMessage>
+          <Link to={`/blog/${notificationMessage?.slug}`}>
+            <div className='grid grid-cols-10'>
+              <div className='col-span-3'>
+                <img
+                  src={notificationMessage?.creator?.profilePicture}
+                  alt={notificationMessage?.creator?.username}
+                />
+              </div>
+              <div className='col-span-7'>
+                <p>
+                  <p>
+                    <Link to={`/user/${notificationMessage?.creator?.username}`}>
+                      {notificationMessage?.creator?.name}
+                    </Link>{' '}
+                    {notificationMessage?.message}
+                  </p>
+                </p>
+              </div>
+            </div>
+          </Link>
+        </NotificationMessage>
+      )}
     </Menu>
   )
 }
