@@ -32,8 +32,6 @@ function NotificationMessage({
     return () => clearTimeout(timeOut)
   }, [])
 
-  console.log({ isVisible })
-
   return (
     <AnimatePresence>
       {isVisible ? (
