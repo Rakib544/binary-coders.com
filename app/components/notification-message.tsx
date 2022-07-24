@@ -22,7 +22,6 @@ function NotificationMessage({
   const [isVisible, setIsVisible] = React.useState(true)
 
   const initialY = position.includes('bottom') ? 50 : -50
-
   React.useEffect(() => {
     setIsVisible(true)
     const timeOut = setTimeout(() => {

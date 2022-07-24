@@ -251,11 +251,12 @@ function PostNotification({ NOTIFICATION_SERVER_URL }: { NOTIFICATION_SERVER_URL
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .on('new_post', (data: NotificationMessage) => {
       setNotificationMessage(data)
-      console.log(data)
       setShow(true)
     })
 
-  console.log(show)
+  React.useEffect(() => {
+    setShow(true)
+  }, [notificationMessage])
 
   return (
     <>
