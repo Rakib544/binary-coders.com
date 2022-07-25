@@ -201,10 +201,10 @@ const SingleQuestion = () => {
                 </svg>
               </div>
               <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
-                <h3 className='text-lg leading-6 font-medium text-gray-900'>Delete Questions</h3>
+                <h3 className='text-lg leading-6 font-medium text-gray-900'>Delete Problem</h3>
                 <div className='mt-2'>
                   <p className='text-sm text-gray-500'>
-                    Are you sure you want to delete your question? This question will be permanently
+                    Are you sure you want to delete this problem? This problem will be permanently
                     removed. This action cannot be undone.
                   </p>
                 </div>
