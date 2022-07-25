@@ -298,6 +298,13 @@ export const updateUsername = async (email: string, username: string) => {
     const isUsernameExists = await prisma.user.findUnique({ where: { username } })
 
     if (isUsernameExists) {
+      if (isUsernameExists.email === email) {
+        return {
+          status: 401,
+          message:
+            'This username is currently taken by your account. If you want to change your username try with another name',
+        }
+      }
       return {
         status: 401,
         message: 'Username already taken by another user.',
