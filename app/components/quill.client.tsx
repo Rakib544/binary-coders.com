@@ -11,6 +11,7 @@ type PropsType = {
   setHtml: React.Dispatch<React.SetStateAction<string | undefined>>
   env: string
   shouldQuillEmpty?: boolean
+  height?: string
 }
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: highlightCss }]
@@ -20,7 +21,7 @@ hljs.configure({
   languages: ['javascript', 'ruby', 'python', 'html'],
 })
 
-function Quill({ defaultValue, setHtml, env, shouldQuillEmpty }: PropsType) {
+function Quill({ defaultValue, setHtml, env, shouldQuillEmpty, height = '400px' }: PropsType) {
   const { quill, quillRef } = useQuill({
     modules: {
       syntax: {
@@ -120,7 +121,7 @@ function Quill({ defaultValue, setHtml, env, shouldQuillEmpty }: PropsType) {
 
   return (
     <div>
-      <div ref={quillRef} style={{ height: '400px' }} />
+      <div ref={quillRef} style={{ height: height }} />
     </div>
   )
 }

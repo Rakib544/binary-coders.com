@@ -20,6 +20,7 @@ import { addBlogReader, deleteBlog, getBlogViewers, getSingleBlog } from '~/util
 import modalStyles from '@reach/dialog/styles.css'
 import { BackButton } from '~/components/button'
 import MenuDropDown from '~/components/menu-dropdown'
+import Modal from '~/components/modal'
 import { getUserId, getUserInfo } from '~/utils/session.server'
 
 const easing = [0.6, -0.05, 0.01, 0.99]
@@ -123,6 +124,13 @@ const SingleBlog = () => {
     fetcher.submit({ action: 'delete' }, { method: 'delete' })
   }
 
+  // modal for delete question
+  const [modalOpen, setModalOpen] = React.useState(false)
+
+  const handleOpenModal = () => {
+    setModalOpen(true)
+  }
+
   return (
     <motion.div
       className='w-full md:w-2/3 mx-auto p-4'
@@ -153,7 +161,7 @@ const SingleBlog = () => {
               <small className='text-xs text-slate-500 font-medium'>{blog.readTime}</small>
             </div>
             {blog.authorId === loaderData?.userId && (
-              <MenuDropDown handleDelete={handleDelete} url={`/blog/edit/${blog.slug}`} />
+              <MenuDropDown handleOpenModal={handleOpenModal} url={`/blog/edit/${blog.slug}`} />
             )}
           </div>
           <motion.h1
@@ -191,6 +199,55 @@ const SingleBlog = () => {
           className='prose prose-slate lg:prose-lg max-w-none mb-24 prose-a:text-blue-600 siliguri-font'
         ></motion.div>
       </motion.div>
+      <Modal open={modalOpen} setOpen={setModalOpen}>
+        <div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
+          <div className='sm:flex sm:items-start'>
+            <div className='mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10'>
+              <svg
+                className='h-6 w-6 text-red-600'
+                x-description='Heroicon name: outline/exclamation'
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='2'
+                stroke='currentColor'
+                aria-hidden='true'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
+                ></path>
+              </svg>
+            </div>
+            <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
+              <h3 className='text-lg leading-6 font-medium text-gray-900'>Delete Questions</h3>
+              <div className='mt-2'>
+                <p className='text-sm text-gray-500'>
+                  Are you sure you want to delete your blog? This blog will be permanently removed.
+                  This action cannot be undone.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className='py-6 sm:px-6 sm:flex sm:flex-row-reverse'>
+            <button
+              type='button'
+              className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm'
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
+            <button
+              type='button'
+              className='mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
+              onClick={() => setModalOpen(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </Modal>
       <AnimatePresence>
         {actionData?.viewers && open && (
           <ViewersModal

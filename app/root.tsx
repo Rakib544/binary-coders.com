@@ -298,7 +298,7 @@ function PostNotification({
                 <img
                   src={notificationMessage?.creator?.profilePicture}
                   alt={notificationMessage?.creator?.username}
-                  className='h-16 w-16 rounded-full object-cover'
+                  className='h-12 md:h-16 w-12 md:w-16 rounded-full object-cover'
                 />
               </div>
               <div className='col-span-7 text-slate-700'>

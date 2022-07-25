@@ -8,10 +8,10 @@ function classNames(...classes: string[]) {
 
 type Props = {
   url: string
-  handleDelete: () => void
+  handleOpenModal: () => void
 }
 
-export default function MenuDropDown({ url, handleDelete }: Props) {
+export default function MenuDropDown({ url, handleOpenModal }: Props) {
   return (
     <Menu as='div' className='relative inline-block text-left mx-2'>
       <div>
@@ -51,7 +51,7 @@ export default function MenuDropDown({ url, handleDelete }: Props) {
             <Menu.Item>
               {({ active }) => (
                 <p
-                  onClick={handleDelete}
+                  onClick={handleOpenModal}
                   className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm cursor-pointer',
