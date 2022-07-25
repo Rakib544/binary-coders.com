@@ -6,7 +6,7 @@ import { Spinner } from '~/components/icons/spinner'
 import { sendRegisterAccountLink } from '~/utils/auth.server'
 
 import modalStyles from '@reach/dialog/styles.css'
-import SuccessModal from '~/components/success-modal'
+import Modal from '~/components/modal'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: modalStyles }]
@@ -86,12 +86,20 @@ const registerLink = () => {
         </div>
       </div>
       {actionData?.status === 200 && (
-        <SuccessModal
-          email={actionData?.email}
-          showDialog={showDialog}
-          isReset={false}
-          setShowDialog={setShowDialog}
-        />
+        <Modal open={showDialog} setOpen={setShowDialog}>
+          <div className='bg-white p-8'>
+            <div className='text-center'>
+              <h2 className='text-3xl font-medium test-slate-700'>Verify your email</h2>
+              <p className='my-4'>You will need to verify your email to complete registration</p>
+              <img src='/images/login.webp' alt='img' className='h-32 block mx-auto' />
+              <p className='my-4'>
+                An email has been sent to <span className='text-blue-600'>{actionData?.email}</span>{' '}
+                with a link to complete your registration. If you have not received the email after
+                a few minutes, please check, promotions, social or the spam folder
+              </p>
+            </div>
+          </div>
+        </Modal>
       )}
     </div>
   )

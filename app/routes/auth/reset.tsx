@@ -12,11 +12,11 @@ import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
 import { Input, Label } from '~/components/form-elements'
 import { Spinner } from '~/components/icons/spinner'
-import SuccessModal from '~/components/success-modal'
 import { resetToken } from '~/utils/auth.server'
 import { restSchema } from '~/utils/form-valiation-schema'
 
 import modalStyles from '@reach/dialog/styles.css'
+import Modal from '~/components/modal'
 import { getUserInfo } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
@@ -151,12 +151,20 @@ const Reset = () => {
         </Form>
       </motion.div>
       {actionData?.status === 200 && (
-        <SuccessModal
-          isReset={true}
-          email={actionData?.email}
-          showDialog={showDialog}
-          setShowDialog={setShowDialog}
-        />
+        <Modal open={showDialog} setOpen={setShowDialog}>
+          <div className='bg-white p-8'>
+            <div className='text-center'>
+              <h2 className='text-3xl font-medium test-slate-700'>Reset your password</h2>
+              <p className='my-4'>Check your mail to complete the reset password steps</p>
+              <img src='/images/login.webp' alt='img' className='h-32 block mx-auto' />
+              <p className='my-4'>
+                An email has been sent to <span className='text-blue-600'>{actionData?.email}</span>{' '}
+                with a link to reset your password. If you have not received the email after a few
+                minutes, please check, promotions, social or the spam folder
+              </p>
+            </div>
+          </div>
+        </Modal>
       )}
     </motion.div>
   )
