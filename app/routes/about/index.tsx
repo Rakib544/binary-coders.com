@@ -1,5 +1,7 @@
 import { MetaFunction } from '@remix-run/node'
+import { blurImgUrl } from 'data/blur-img-url'
 import * as React from 'react'
+import BlurrableImage from '~/components/blurable-img'
 import FacebookIcon from '~/components/icons/facebook'
 import GitHubLogo from '~/components/icons/github'
 import LinkedinLogo from '~/components/icons/linkedin'
@@ -46,7 +48,7 @@ const teamData: teamMemberData = [
     name: 'Tanvir Hossain',
     role: 'web developer',
     portfolio: 'https://prothfolioweb.web.app/',
-    img: './images/team/tanvir.webp',
+    img: '/images/team/tanvir.webp',
     aboutText:
       'Hello, I am Tanvir, Frontend Developer, I love to do all of the web things with javaScript.I am passionate about Web Design, Web Develop, and Backend with node.js. Currently, I am working with React js which is the most popular framework for JavaScript',
     facebook: 'https://facebook.com/tanvir1017',
@@ -58,7 +60,7 @@ const teamData: teamMemberData = [
     name: 'Abu Jakaria',
     role: 'web developer',
     portfolio: 'https://abujakaria-cse.web.app/',
-    img: './images/team/abuJakariya.webp',
+    img: '/images/team/abuJakariya.jpg',
     aboutText:
       'Im Abu Jakaria, a highly skilled developer with strong confidence with quality and high performance web applications seeks the rules of Junior Software Developer at Javascript, React, Express JS and modern Javascript libraries.',
     facebook: 'https://www.facebook.com/abujakariacse',
@@ -70,7 +72,7 @@ const teamData: teamMemberData = [
     name: 'UK Proloy',
     role: 'web developer',
     portfolio: '',
-    img: './images/team/proloy.webp',
+    img: '/images/team/proloy.webp',
     aboutText:
       'Im Utsha and I Know Some Interesting Tecnology which is based javascript called React. I am a passionate Front End Developer with knowing some famous frameworks. I love working on chanllenging projects with learning something new and writting clean code. I want to retain and enhance my skills by working at an Institute. My keen interest in learning new technology',
     facebook: 'https://www.facebook.com/ukp.proloy',
@@ -106,7 +108,7 @@ const index = () => {
             >
               <img
                 src={index === selectedMember.id ? teamDB.img : './images/team/userEmpty.png'}
-                className={`w-16 rounded-full mr-8 ${
+                className={`rounded-full mr-8 h-16 w-16 object-cover ${
                   index === selectedMember.id ? 'ring-2 ring-offset-4 ring-blue-600' : ''
                 }`}
                 alt={teamDB.name}
@@ -119,82 +121,55 @@ const index = () => {
             </div>
           ))}
         </div>
-        <div className='md:mt-0 mt-5 md:ml-12'>
+        <div className='px-0 md:px-14'>
           <div>
-            <div className='dev-image'>
-              <div className='social-link hidden md:block'>
-                <p className='my-4 rounded bg-sky-400/20 px-4 py-3 text-xs font-medium uppercase text-sky-500 rotate-90'>
-                  Follow Me &rarr;
-                </p>
-                <div className='social-link-span md:flex flex-col space-y-2'>
-                  <a
-                    className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                    target='_blank'
-                    rel='noreferrer'
-                    href={selectedMember.facebook}
-                  >
-                    <FacebookIcon color='#0ea5e9' />
-                  </a>
-                  <a
-                    className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                    target='_blank'
-                    rel='noreferrer'
-                    href={selectedMember.linkedin}
-                  >
-                    <LinkedinLogo color='#0ea5e9' />
-                  </a>
-                  <a
-                    className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                    target='_blank'
-                    rel='noreferrer'
-                    href={selectedMember.github}
-                  >
-                    <GitHubLogo color='#0ea5e9' />
-                  </a>
-                </div>
-              </div>
-              <span className='span1'></span>
-              <img
-                className=' ring-2 ring-offset-4 ring-blue-600'
-                width='90%'
-                src={selectedMember.img}
-                alt={selectedMember.name}
-              />
-              <span className='span2 hidden md:block'></span>
-            </div>
-            <p className='my-5'>{selectedMember.aboutText}</p>
-            <div className='flex space-x-2 my-4 md:hidden justify-center'>
-              <a
-                className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                target='_blank'
-                rel='noreferrer'
-                href={selectedMember.facebook}
-              >
-                <FacebookIcon color='#0ea5e9' />
-              </a>
-              <a
-                className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                target='_blank'
-                rel='noreferrer'
-                href={selectedMember.linkedin}
-              >
-                <LinkedinLogo color='#0ea5e9' />
-              </a>
-              <a
-                className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
-                target='_blank'
-                rel='noreferrer'
-                href={selectedMember.github}
-              >
-                <GitHubLogo color='#0ea5e9' />
-              </a>
-            </div>
-            <button className='px-8 sm:px-12 py-2 sm:py-3 bg-blue-500 text-white rounded-xl shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 inline-block'>
-              <a target='_blink' href={selectedMember.portfolio}>
-                View Profile
-              </a>
-            </button>
+            <BlurrableImage
+              blurDataURl={blurImgUrl}
+              className='h-96 w-auto relative mt-12 mx-auto'
+              img={
+                <img
+                  className='rounded-xl h-96 object-cover w-full'
+                  // width='100%'
+                  src={selectedMember.img}
+                  alt={selectedMember.name}
+                />
+              }
+            />
           </div>
+          <div className=''>
+            <p>{selectedMember.aboutText}</p>
+          </div>
+          <div className='flex space-x-2 my-4 justify-center'>
+            <a
+              className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
+              target='_blank'
+              rel='noreferrer'
+              href={selectedMember.facebook}
+            >
+              <FacebookIcon color='#0ea5e9' />
+            </a>
+            <a
+              className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
+              target='_blank'
+              rel='noreferrer'
+              href={selectedMember.linkedin}
+            >
+              <LinkedinLogo color='#0ea5e9' />
+            </a>
+            <a
+              className='bg-slate-50 transition duration-200 hover:shadow-blue-500/10 hover:shadow-md h-10 w-10 flex items-center justify-center rounded-full'
+              target='_blank'
+              rel='noreferrer'
+              href={selectedMember.github}
+            >
+              <GitHubLogo color='#0ea5e9' />
+            </a>
+          </div>
+          <button className='block mx-auto px-8 sm:px-12 py-2 sm:py-3 bg-blue-500 text-white rounded-xl shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50'>
+            <a target='_blink' href={selectedMember.portfolio}>
+              View Profile
+            </a>
+          </button>
         </div>
       </div>
     </>
