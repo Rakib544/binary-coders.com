@@ -21,6 +21,19 @@ type Answer = {
   }
 }
 
+type Reply = {
+  id: string
+  replyTime: string
+  mainAnswerId: string
+  answer: string
+  creator: {
+    username: string
+    name: string
+    profilePicture: string
+  }
+  replyCreatorId: string
+}
+
 const Reply = ({ answer }: Answer) => {
   const [openReplyModal, setOpenReplyModal] = React.useState(false)
   const [showRepliesAction, setShowRepliesAction] = React.useState(true)
@@ -104,7 +117,7 @@ const Reply = ({ answer }: Answer) => {
         </div>
       </div>
       <div>
-        {fetcher?.data?.replies?.map((reply: any) => (
+        {fetcher?.data?.replies?.map((reply: Reply) => (
           <div
             key={reply?.id}
             className='my-4 border-b border-slate-200 ml-14 py-4 last:border-none'
