@@ -46,6 +46,7 @@ model User {
   blog BlogPosts[]
   problem ProblemViews[]
   notification Notification[]
+  answerReplies AnswerReplies[]
 }
 
 model BlogPosts {
@@ -88,6 +89,15 @@ model Problem {
   views Int?
 }
 
+model AnswerReplies {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  replyTime DateTime @default(now())
+  mainAnswerId String @db.ObjectId
+  answer String
+  creator User @relation(fields: [replyCreatorId], references: [id])
+  replyCreatorId String @db.ObjectId
+}
+
 model Answers {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   answeredTime DateTime @default(now())
@@ -95,6 +105,7 @@ model Answers {
   answer String
   creator User @relation(fields: [answerCreatorId], references: [id])
   answerCreatorId String @db.ObjectId
+  totalReplies Int
 }
 
 model BlogPostViews {

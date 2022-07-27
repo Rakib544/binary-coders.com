@@ -116,6 +116,7 @@ export const createAnswer = async (slug: string, answer: string, id: string) => 
       slug,
       answer,
       answerCreatorId: id,
+      totalReplies: 0,
     },
   })
 
@@ -137,6 +138,92 @@ export const createAnswer = async (slug: string, answer: string, id: string) => 
   return {
     status: 201,
     message: 'Answer created successful',
+  }
+}
+
+export const createAnswerReplies = async (
+  mainAnswerId: string,
+  answer: string,
+  replyCreatorId: string,
+  questionSlug: string,
+) => {
+  try {
+    await prisma.answerReplies.create({
+      data: {
+        mainAnswerId,
+        answer,
+        replyCreatorId,
+      },
+    })
+    const mainQuestion = await prisma.question.findUnique({
+      where: {
+        slug: questionSlug,
+      },
+    })
+    await prisma.question.update({
+      where: {
+        slug: questionSlug,
+      },
+      data: {
+        comments: (mainQuestion?.comments as number) + 1,
+      },
+    })
+    const mainAnswer = await prisma.answers.findUnique({ where: { id: mainAnswerId } })
+    await prisma.answers.update({
+      where: {
+        id: mainAnswerId,
+      },
+      data: {
+        totalReplies: (mainAnswer?.totalReplies as number) + 1,
+      },
+    })
+    const replies = await prisma.answerReplies.findMany({
+      where: {
+        mainAnswerId,
+      },
+      include: {
+        creator: {
+          select: {
+            username: true,
+            name: true,
+            profilePicture: true,
+          },
+        },
+      },
+    })
+    return {
+      status: 201,
+      replies,
+      message: 'Replies created successful',
+    }
+  } catch (error) {
+    throw new Error('Something went wrong. Please try again.')
+  }
+}
+
+export const getAnswerReplies = async (mainAnswerId: string) => {
+  try {
+    const replies = await prisma.answerReplies.findMany({
+      where: {
+        mainAnswerId,
+      },
+      include: {
+        creator: {
+          select: {
+            username: true,
+            name: true,
+            profilePicture: true,
+          },
+        },
+      },
+    })
+
+    return {
+      status: 200,
+      replies,
+    }
+  } catch (error) {
+    throw new Error('Something went wrong. Please try agin.')
   }
 }
 

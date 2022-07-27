@@ -28,11 +28,14 @@ import { Spinner } from '~/components/icons/spinner'
 import MenuDropDown from '~/components/menu-dropdown'
 import Modal from '~/components/modal'
 import Quill from '~/components/quill.client'
+import Reply from '~/components/reply'
 import ViewersModal from '~/components/viewers-modal'
 import {
   addQuestionReader,
   createAnswer,
+  createAnswerReplies,
   deleteQuestion,
+  getAnswerReplies,
   getQuestionViewers,
   getSingleQuestion,
 } from '~/utils/question.server'
@@ -100,7 +103,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
 
   const formData = await request.formData()
-  const { answer, action } = Object.fromEntries(formData)
+  const { answer, action, reply, mainAnswerId } = Object.fromEntries(formData)
 
   if (action === 'getBlogViewers') {
     const res = await getQuestionViewers(params.slug as string)
@@ -117,6 +120,21 @@ export const action: ActionFunction = async ({ request, params }) => {
   if (action === 'incrementView') {
     await addQuestionReader(params.slug as string, userId as string)
     return null
+  }
+
+  if (action === 'reply') {
+    const res = await createAnswerReplies(
+      mainAnswerId as string,
+      reply as string,
+      userId as string,
+      params.slug as string,
+    )
+    return json(res)
+  }
+
+  if (action === 'loadReply') {
+    const res = await getAnswerReplies(mainAnswerId as string)
+    return json(res)
   }
   const res = await createAnswer(
     params.slug as string,
@@ -255,42 +273,14 @@ const SingleQuestion = () => {
           variants={fadeInUp}
           className='text-lg font-medium border-t border-slate-300 pt-3'
         >
-          {answers?.length} Answers
+          {question.comments} Answers
         </motion.h3>
       </motion.div>
       {/* replies section goes here */}
       <div className='my-10'>
         <div className='my-4'>
           {answers?.map((answer: Answer) => (
-            <div
-              key={new Date() + answer.answerCreatorId + Math.random()}
-              className='p-4  my-4 border-b border-slate-200 last:border-none'
-            >
-              <div className='flex items-center space-x-2 mb-2'>
-                <img
-                  src={answer.creator.profilePicture}
-                  alt={answer.creator.name}
-                  className='h-12 w-12 rounded-lg object-cover'
-                />
-                <div>
-                  <p className='font-medium text-slate-700 text-sm block'>{answer.creator.name}</p>
-                  <small className='font-medium text-slate-500'>
-                    <Link
-                      prefetch='intent'
-                      to={`/user/${answer.creator.username}`}
-                      className='text-sky-500'
-                    >
-                      @{answer.creator.username}
-                    </Link>{' '}
-                    answered {moment(answer.answeredTime).fromNow()}
-                  </small>
-                </div>
-              </div>
-              <div
-                dangerouslySetInnerHTML={{ __html: answer.answer }}
-                className='prose prose-slate lg:prose-md max-w-none prose-a:text-blue-600'
-              />
-            </div>
+            <Reply answer={answer} key={answer.id} />
           ))}
         </div>
       </div>
