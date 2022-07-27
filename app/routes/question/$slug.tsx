@@ -161,6 +161,7 @@ type Answer = {
   answeredTime: string
   answer: string
   slug: string
+  totalReplies: number
   creator: {
     profilePicture: string
     name: string
