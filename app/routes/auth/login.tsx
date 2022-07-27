@@ -110,113 +110,124 @@ const Login = () => {
   }
 
   return (
-    <motion.div
-      className='sm:flex sm:items-center h-auto overflow-auto lg:h-screen lg:overflow-hidden bg-white md:bg-inherit'
-      initial='initial'
-      animate='visible'
-      variants={{
-        initial: { opacity: 0 },
-        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
-      }}
-    >
-      <div className='hidden lg:block sm:w-1/2 p-10'>
-        <motion.img
-          src='/images/login.webp'
-          alt='login'
-          className='md:p-10'
-          initial={{ opacity: 1, scale: 1.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7 }}
+    <>
+      <Link to='/'>
+        <img
+          src='/images/logo.webp'
+          alt='Binary Coders'
+          className='h-12 w-auto absolute mt-2 ml-2'
         />
-      </div>
+      </Link>
       <motion.div
-        className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16 bg-white shadow-2xl shadow-blue-500/10 rounded-xl lg:mx-8 py-10'
-        variants={childVariants}
+        className='sm:flex sm:items-center h-auto overflow-auto lg:h-screen lg:overflow-hidden bg-white md:bg-inherit'
+        initial='initial'
+        animate='visible'
+        variants={{
+          initial: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+        }}
       >
-        <div className='block lg:hidden'>
-          <img
-            src='/images/login-mobile.webp'
+        <div className='hidden lg:block sm:w-1/2 p-10'>
+          <motion.img
+            src='/images/login.webp'
             alt='login'
-            className='h-48 object-cover object-center block mx-auto'
+            className='md:p-10'
+            initial={{ opacity: 1, scale: 1.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7 }}
           />
         </div>
-        <h1 className='text-3xl font-bold text-center md:text-left'>Welcome back!</h1>
-        <p className='mb-8 text-center md:text-left'>
-          Login into your existing account of Binary Coders
-        </p>
-        {actionData?.message && (
-          <div role='alert'>
-            <p className='text-red-600'>{actionData?.message}</p>
-          </div>
-        )}
-        <Form method='post'>
-          <div className='mb-4'>
-            <Label htmlFor='email'>Email</Label>
-            <Input
-              type='email'
-              name='email'
-              id='email'
-              placeholder='mail@gmail.com'
-              className={
-                checkValidation('email', actionData) ? 'ring-red-500 placeholder:text-red-500' : ''
-              }
+        <motion.div
+          className='w-full mx-auto sm:w-2/3 lg:w-1/2 px-4 sm:px-8 md:px-12 lg:px-24 my-16 bg-white shadow-2xl shadow-blue-500/10 rounded-xl lg:mx-8 py-10'
+          variants={childVariants}
+        >
+          <div className='block lg:hidden'>
+            <img
+              src='/images/login-mobile.webp'
+              alt='login'
+              className='h-48 object-cover object-center block mx-auto'
             />
-            <span className='text-sm text-red-500'>
-              {checkValidation('email', actionData) ? 'Invalid email' : ''}
-            </span>
           </div>
-          <div className='mb-4'>
-            <Label htmlFor='password'>Password</Label>
-            <Input
-              type='password'
-              name='password'
-              id='password'
-              placeholder='Min 8 character'
-              className={
-                checkValidation('password', actionData)
-                  ? 'ring-red-500 placeholder:text-red-500'
-                  : ''
-              }
-            />
-            <span className='text-sm text-red-500'>
-              {checkValidation('password', actionData)
-                ? 'Password must be 8 character or more'
-                : ''}
-            </span>
-          </div>
-          <Link
-            prefetch='intent'
-            className='text-sky-500 underline text-right block'
-            to='/auth/reset'
-          >
-            Reset Password
-          </Link>
-          <div className='mb-2 flex justify-center'>
-            <button
-              type='submit'
-              className='px-16 py-3 w-full rounded-lg bg-blue-500 text-white inline-block mt-8 text-center text-sm font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-600 border-2 border-blue-500 hover:border-blue-600 transition duration-300'
+          <h1 className='text-3xl font-bold text-center md:text-left'>Welcome back!</h1>
+          <p className='mb-8 text-center md:text-left'>
+            Login into your existing account of Binary Coders
+          </p>
+          {actionData?.message && (
+            <div role='alert'>
+              <p className='text-red-600'>{actionData?.message}</p>
+            </div>
+          )}
+          <Form method='post'>
+            <div className='mb-4'>
+              <Label htmlFor='email'>Email</Label>
+              <Input
+                type='email'
+                name='email'
+                id='email'
+                placeholder='mail@gmail.com'
+                className={
+                  checkValidation('email', actionData)
+                    ? 'ring-red-500 placeholder:text-red-500'
+                    : ''
+                }
+              />
+              <span className='text-sm text-red-500'>
+                {checkValidation('email', actionData) ? 'Invalid email' : ''}
+              </span>
+            </div>
+            <div className='mb-4'>
+              <Label htmlFor='password'>Password</Label>
+              <Input
+                type='password'
+                name='password'
+                id='password'
+                placeholder='Min 8 character'
+                className={
+                  checkValidation('password', actionData)
+                    ? 'ring-red-500 placeholder:text-red-500'
+                    : ''
+                }
+              />
+              <span className='text-sm text-red-500'>
+                {checkValidation('password', actionData)
+                  ? 'Password must be 8 character or more'
+                  : ''}
+              </span>
+            </div>
+            <Link
+              prefetch='intent'
+              className='text-sky-500 underline text-right block'
+              to='/auth/reset'
             >
-              {transition.submission ? (
-                <div className='flex justify-center items-center'>
-                  <Spinner />
-                  {transition.state}
-                </div>
-              ) : (
-                'Login'
-              )}
-            </button>
-          </div>
-          <div>
-            <p className='text-sm font-medium pt-8 text-center'>
-              Not Registered yet?{' '}
-              <Link prefetch='intent' className='text-sky-500' to='/auth/send-register-link'>
-                Create An Account
-              </Link>
-            </p>
-          </div>
-        </Form>
+              Reset Password
+            </Link>
+            <div className='mb-2 flex justify-center'>
+              <button
+                type='submit'
+                className='px-16 py-3 w-full rounded-lg bg-blue-500 text-white inline-block mt-8 text-center text-sm font-medium shadow-lg shadow-blue-500/30 hover:bg-blue-600 border-2 border-blue-500 hover:border-blue-600 transition duration-300'
+              >
+                {transition.submission ? (
+                  <div className='flex justify-center items-center'>
+                    <Spinner />
+                    {transition.state}
+                  </div>
+                ) : (
+                  'Login'
+                )}
+              </button>
+            </div>
+            <div>
+              <p className='text-sm font-medium pt-8 text-center'>
+                Not Registered yet?{' '}
+                <Link prefetch='intent' className='text-sky-500' to='/auth/send-register-link'>
+                  Create An Account
+                </Link>
+              </p>
+            </div>
+          </Form>
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </>
   )
 }
 
