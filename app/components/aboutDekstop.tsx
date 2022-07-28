@@ -38,20 +38,28 @@ const AboutDesktop = () => {
           {teamData.map((teamDB, index) => (
             <div
               key={index}
-              className={` p-5 flex justify-center items-center cursor-pointer md:w-72 ${
+              className={` p-5 grid grid-cols-10 gap-4 items-center cursor-pointer md:w-72 ${
                 index === selectedMember.id ? 'shadow-blue-500/10 rounded-xl shadow-lg' : ''
               }`}
               onClick={() => setSelectedMember(teamData[index])}
             >
-              <img
-                src={index === selectedMember.id ? teamDB.img : './images/team/userEmpty.png'}
-                className={`rounded-full mr-8 h-16 w-16 object-cover ${
-                  index === selectedMember.id ? 'ring-2 ring-offset-4 ring-blue-600' : ''
-                }`}
-                alt={teamDB.name}
-              />
+              <div className='col-span-3'>
+                <BlurrableImage
+                  blurDataURl={blurImgUrl}
+                  className='h-16 w-16 rounded-full relative mx-auto'
+                  img={
+                    <img
+                      src={index === selectedMember.id ? teamDB.img : './images/team/userEmpty.png'}
+                      className={`rounded-full mr-8 h-16 w-16 object-cover ${
+                        index === selectedMember.id ? 'ring-2 ring-offset-4 ring-blue-600' : ''
+                      }`}
+                      alt={teamDB.name}
+                    />
+                  }
+                />
+              </div>
 
-              <div>
+              <div className='col-span-7'>
                 <h2 className='tracking-wide uppercase font-bold text-gray-700'>{teamDB.name}</h2>
                 <h6>{teamDB.role}</h6>
               </div>
