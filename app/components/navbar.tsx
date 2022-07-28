@@ -1,6 +1,7 @@
 import { Link, useLocation } from '@remix-run/react'
 import { headerNavLinks } from 'data/navbar'
 import * as React from 'react'
+import bineryCodersLogo from '../assets/logo.webp'
 import Dropdown from './dropdown'
 import MobileNav from './mobile-nav'
 import NotificationDropDown from './notification-dropdown'
@@ -99,7 +100,7 @@ const Navbar = ({
                 }
               /> */}
               <img
-                src='/images/logo.webp'
+                src={bineryCodersLogo}
                 alt='Binary Coders Logo'
                 // height='40'
                 // width='100'

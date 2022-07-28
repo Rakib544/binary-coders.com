@@ -13,6 +13,7 @@ import { Spinner } from '~/components/icons/spinner'
 import { login } from '~/utils/auth.server'
 import { loginFormSchema } from '~/utils/form-valiation-schema'
 import { createUserSession, getUserInfo } from '~/utils/session.server'
+import logoOfBinaryCoders from '../../assets/logo.webp'
 
 export const loader: LoaderFunction = async ({ request }) => {
   const res = await getUserInfo(request)
@@ -76,7 +77,7 @@ export function links() {
   return [
     {
       rel: 'preload',
-      href: '/images/login.webp',
+      href: '/images/login.png',
       as: 'image',
     },
     {
@@ -113,9 +114,9 @@ const Login = () => {
     <>
       <Link to='/'>
         <img
-          src='/images/logo.webp'
+          src={logoOfBinaryCoders}
           alt='Binary Coders'
-          className='h-12 w-auto absolute mt-2 ml-2'
+          className='h-12 w-auto absolute mt-12 ml-12'
         />
       </Link>
       <motion.div
@@ -129,7 +130,7 @@ const Login = () => {
       >
         <div className='hidden lg:block sm:w-1/2 p-10'>
           <motion.img
-            src='/images/login.webp'
+            src='/images/loginV2.png'
             alt='login'
             className='md:p-10'
             initial={{ opacity: 1, scale: 1.5 }}

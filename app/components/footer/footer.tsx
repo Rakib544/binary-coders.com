@@ -1,5 +1,6 @@
 import { Link, useLocation } from '@remix-run/react'
 import { blurImgUrl } from 'data/blur-img-url'
+import bineryCodersLogo from '../../assets/logo.webp'
 import BlurrableImage from '../blurable-img'
 import FacebookIcon from '../icons/facebook'
 import LightLocationIcon from '../icons/light-lication-icon'
@@ -27,7 +28,7 @@ const Footer = () => {
             className='h-12 w-60 relative'
             img={
               <img
-                src='/images/logo.webp'
+                src={bineryCodersLogo}
                 height='40'
                 width='120'
                 loading='lazy'
@@ -64,7 +65,7 @@ const Footer = () => {
               <Link
                 prefetch='intent'
                 className='font-light hover:text-sky-500 transition duration-300'
-                to='/blog'
+                to='/about'
               >
                 Know more about us
               </Link>
@@ -82,9 +83,18 @@ const Footer = () => {
               <Link
                 prefetch='intent'
                 className='font-light hover:text-sky-500 transition duration-300'
-                to='/blog'
+                to='/question'
               >
                 Ask Questions
+              </Link>
+            </li>
+            <li>
+              <Link
+                prefetch='intent'
+                className='font-light hover:text-sky-500 transition duration-300'
+                to='/problems'
+              >
+                Solve Problems
               </Link>
             </li>
           </ul>

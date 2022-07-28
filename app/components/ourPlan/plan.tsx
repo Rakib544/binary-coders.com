@@ -13,7 +13,7 @@ const Plan = () => {
             {cardData.map((data) => (
               <div
                 key={data.cardImg}
-                className='shadow-2xl shadow-blue-500/10 md:w-3/6 md:mt-0 mt-3 md:h-60 p-10 bg-white rounded-lg'
+                className='shadow-2xl shadow-blue-500/10 md:w-3/6 md:mt-0 mt-3 md:h-64 p-10 bg-white rounded-lg'
               >
                 <BlurrableImage
                   blurDataURl={blurImgUrl}
@@ -44,7 +44,7 @@ const Plan = () => {
                     <img
                       src={quote.cardImg}
                       loading='lazy'
-                      className='w-20 h-20 ring-2 rounded-full md:translate-y-0 -translate-y-3  ring-gray-300 ring-offset-2'
+                      className='w-20 h-20 ring-2 rounded-full md:translate-y-0 -translate-y-3 -ml-14 mt-2 ring-gray-300 ring-offset-2'
                       alt={quote.title}
                     />
                   }

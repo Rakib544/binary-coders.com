@@ -5,8 +5,10 @@ import { Heading } from '../typography'
 
 const AdvantageBinaryCoders = () => {
   return (
-    <div className='my-32 '>
-      <Heading>Advantages of being a part of Binary Coders</Heading>
+    <div className='my-32'>
+      <Heading>
+        <span className='px-4'>Advantages of being a part of Binary Coders</span>
+      </Heading>
       <div className='my-20 md:text-left text-center md:mx-28  grid grid-cols-3'>
         {ABCData.map((advantageBC) => (
           <div className='md:p-3.5 p-4 md:col-span-1 col-span-3' key={advantageBC.id}>

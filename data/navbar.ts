@@ -58,12 +58,12 @@ export const cardData = [
 export const quotes = [
   {
     cardImg: '/images/user1.webp',
-    title: 'You can be skilled anytime ☺️',
+    title: 'You can be skilled anytime 🎉',
     body: 'Traditionally we go to school-college and receive our education. But with the advent of online media, we now have the opportunity to become proficient at any time, from anywhere, using only electronic devices.',
   },
   {
     cardImg: '/images/user2.webp',
-    title: 'What will be the future of programming skill❓',
+    title: 'What will be the future of programming skill🤷🏻‍♂️',
     body: 'There is and will be a huge demand for programming in the present world and in the future. So with learning programming, I can use my skills for the development of myself and the country.',
   },
 ]
