@@ -21,12 +21,12 @@ const AboutMobile = () => {
       <div className='px-4 space-y-16'>
         {teamData.map((teamData, index) => (
           <div
-            className='team-card-sm-device relative p-2 shadow-lg rounded-2xl ring ring-offset-1 ring-blue-600'
+            className='team-card-sm-device relative p-2 shadow-lg rounded-2xl ring ring-offset-1 ring-sky-500'
             key={index}
           >
             <img
               src={teamData.smImg}
-              className='w-24 rounded-full absolute border ring-blue-600 ring ring-offset-1'
+              className='w-24 rounded-full absolute border ring-sky-500 ring ring-offset-1'
               style={{ top: '-25px', left: '-10px' }}
               alt={teamData.name}
             />

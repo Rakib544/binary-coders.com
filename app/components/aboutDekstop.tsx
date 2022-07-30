@@ -51,7 +51,7 @@ const AboutDesktop = () => {
                     <img
                       src={index === selectedMember.id ? teamDB.img : './images/team/userEmpty.png'}
                       className={`rounded-full mr-8 h-16 w-16 object-cover ${
-                        index === selectedMember.id ? 'ring-2 ring-offset-4 ring-blue-600' : ''
+                        index === selectedMember.id ? 'ring-2 ring-offset-4 ring-sky-500' : ''
                       }`}
                       alt={teamDB.name}
                     />
@@ -69,6 +69,7 @@ const AboutDesktop = () => {
         <div className='px-0 md:px-14'>
           <div>
             <BlurrableImage
+              key={selectedMember?.img}
               blurDataURl={blurImgUrl}
               className='h-96 w-auto relative mt-12 mx-auto'
               img={

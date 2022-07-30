@@ -1297,8 +1297,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 1.25rem;
 }
 
-.-ml-14 {
-  margin-left: -3.5rem;
+.-ml-6 {
+  margin-left: -1.5rem;
 }
 
 .ml-3 {
@@ -1339,14 +1339,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .mb-32 {
   margin-bottom: 8rem;
-}
-
-.-ml-8 {
-  margin-left: -2rem;
-}
-
-.-ml-6 {
-  margin-left: -1.5rem;
 }
 
 .block {
@@ -2632,6 +2624,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
+.ring-sky-500 {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(14 165 233 / var(--tw-ring-opacity));
+}
+
 .ring-blue-600 {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(37 99 235 / var(--tw-ring-opacity));
@@ -2657,9 +2654,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity));
 }
 
-.ring-sky-500 {
+.ring-blue-500 {
   --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(14 165 233 / var(--tw-ring-opacity));
+  --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
 }
 
 .ring-opacity-5 {
