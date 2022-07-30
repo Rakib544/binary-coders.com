@@ -1341,6 +1341,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 8rem;
 }
 
+.-ml-8 {
+  margin-left: -2rem;
+}
+
+.-ml-6 {
+  margin-left: -1.5rem;
+}
+
 .block {
   display: block;
 }
@@ -3036,7 +3044,7 @@ header {
 
 .milestone-map .milestone:first-child {
   top: -112px;
-  left: -40px;
+  left: -25px;
 }
 
 .milestone-map .milestone:nth-child(2) {
@@ -3056,11 +3064,11 @@ header {
 
 .milestone-map .milestone:nth-child(5) {
   top: -190px;
-  left: 80px;
+  left: 75px;
 }
 
 .milestone-map .milestone:nth-child(6) {
-  top: -100px;
+  top: -129px;
   left: 140px;
 }
 
@@ -3070,13 +3078,13 @@ header {
 }
 
 .milestone-map .milestone:nth-child(8) {
-  top: -95px;
-  left: -10px;
+  top: -124px;
+  left: 28px;
 }
 
 .milestone-map .milestone:nth-child(9) {
-  top: 10px;
-  left: -25px;
+  top: 9px;
+  left: -62px;
 }
 
 .milestone-map .milestone:last-child {
@@ -3960,6 +3968,10 @@ header {
 
   .md\:mb-4 {
     margin-bottom: 1rem;
+  }
+
+  .md\:-ml-0 {
+    margin-left: -0px;
   }
 
   .md\:mb-16 {

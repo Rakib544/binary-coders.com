@@ -35,16 +35,16 @@ const Plan = () => {
             {quotes.map((quote) => (
               <div
                 key={quote.cardImg}
-                className='md:flex items-center space-x-4 rounded-lg p-10 bg-white shadow-2xl shadow-blue-500/10'
+                className='md:flex items-center space-x-4 rounded-lg p-10 bg-white shadow-2xl shadow-blue-500/10 md:mt-0 mt-6'
               >
                 <BlurrableImage
                   blurDataURl={blurImgUrl}
-                  className='h-20 w-60 mx-auto relative'
+                  className='h-20 w-60 relative'
                   img={
                     <img
                       src={quote.cardImg}
                       loading='lazy'
-                      className='w-20 h-20 ring-2 rounded-full md:translate-y-0 -translate-y-3 -ml-14 mt-2 ring-gray-300 ring-offset-2'
+                      className='w-20 h-20 ring-2 rounded-full md:translate-y-0 -translate-y-3  -ml-6 md:-ml-0 mt-2 ring-gray-300 ring-offset-2'
                       alt={quote.title}
                     />
                   }

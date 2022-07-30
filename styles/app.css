@@ -191,7 +191,7 @@ header {
 }
 .milestone-map .milestone:first-child {
   top: -112px;
-  left: -40px;
+  left: -25px;
 }
 .milestone-map .milestone:nth-child(2) {
   top: -120px;
@@ -207,10 +207,10 @@ header {
 }
 .milestone-map .milestone:nth-child(5) {
   top: -190px;
-  left: 80px;
+  left: 75px;
 }
 .milestone-map .milestone:nth-child(6) {
-  top: -100px;
+  top: -129px;
   left: 140px;
 }
 .milestone-map .milestone:nth-child(7) {
@@ -218,12 +218,12 @@ header {
   left: 60px;
 }
 .milestone-map .milestone:nth-child(8) {
-  top: -95px;
-  left: -10px;
+  top: -124px;
+  left: 28px;
 }
 .milestone-map .milestone:nth-child(9) {
-  top: 10px;
-  left: -25px;
+  top: 9px;
+  left: -62px;
 }
 .milestone-map .milestone:last-child {
   top: -200px;

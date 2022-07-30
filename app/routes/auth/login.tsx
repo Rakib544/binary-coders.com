@@ -116,7 +116,7 @@ const Login = () => {
         <img
           src={logoOfBinaryCoders}
           alt='Binary Coders'
-          className='h-12 w-auto absolute mt-12 ml-12'
+          className='h-12 w-auto absolute mt-8 ml-12'
         />
       </Link>
       <motion.div
@@ -144,7 +144,7 @@ const Login = () => {
         >
           <div className='block lg:hidden'>
             <img
-              src='/images/login-mobile.webp'
+              src='/images/login.png'
               alt='login'
               className='h-48 object-cover object-center block mx-auto'
             />
