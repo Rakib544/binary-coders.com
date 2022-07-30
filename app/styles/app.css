@@ -2629,11 +2629,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-ring-color: rgb(14 165 233 / var(--tw-ring-opacity));
 }
 
-.ring-blue-600 {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(37 99 235 / var(--tw-ring-opacity));
-}
-
 .ring-black {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(0 0 0 / var(--tw-ring-opacity));
@@ -2652,11 +2647,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .ring-red-500 {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity));
-}
-
-.ring-blue-500 {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
 }
 
 .ring-opacity-5 {
