@@ -58,25 +58,18 @@ export const meta: MetaFunction = ({
 export const loader: LoaderFunction = async ({ request, params }) => {
   const userId = await getUserId(request)
 
-  if (!userId) {
-    return redirect('/auth/login')
-  }
-
   const { role } = await getUserInfo(request)
   const res = await getSingleProblem(params.slug as string)
   const data = {
     ...res,
     role,
+    userId,
   }
   return json(data)
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
   const userId = await getUserId(request)
-
-  if (!userId) {
-    return redirect('/auth/login')
-  }
 
   const formData = await request.formData()
   const { action } = Object.fromEntries(formData)
@@ -94,13 +87,15 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
 
   if (action === 'incrementView') {
-    await addProblemReader(params.slug as string, userId as string)
+    if (userId) {
+      await addProblemReader(params.slug as string, userId as string)
+    }
     return null
   }
 }
 
 const SingleQuestion = () => {
-  const { problem, role } = useLoaderData()
+  const { problem, role, userId } = useLoaderData()
   const actionData = useActionData()
 
   const [open, setOpen] = React.useState(false)
@@ -109,7 +104,9 @@ const SingleQuestion = () => {
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      fetcher.submit({ action: 'incrementView' }, { method: 'post' })
+      if (userId) {
+        fetcher.submit({ action: 'incrementView' }, { method: 'post' })
+      }
     }, 100)
 
     return () => clearTimeout(timer)

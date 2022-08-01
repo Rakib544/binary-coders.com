@@ -118,7 +118,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
 
   if (action === 'incrementView') {
-    console.log('calling')
     if (userId) {
       await addQuestionReader(params.slug as string, userId as string)
     }
