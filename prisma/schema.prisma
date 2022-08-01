@@ -141,3 +141,13 @@ model Notification {
   slug String
   notificationFor String
 }
+
+model Topic {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  title String
+  slug String @unique
+  description String
+  readTime String
+}
