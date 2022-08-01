@@ -82,9 +82,9 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const userId = await getUserId(request)
-  if (!userId) {
-    return redirect('/auth/login')
-  }
+  // if (!userId) {
+  //   return redirect('/auth/login')
+  // }
 
   const res = await getSingleQuestion(params.slug as string)
   const data = {
@@ -98,9 +98,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export const action: ActionFunction = async ({ request, params }) => {
   const userId = await getUserId(request)
 
-  if (!userId) {
-    return redirect('/auth/login')
-  }
+  // if (!userId) {
+  //   return redirect('/auth/login')
+  // }
 
   const formData = await request.formData()
   const { answer, action, reply, mainAnswerId } = Object.fromEntries(formData)
@@ -118,7 +118,10 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
 
   if (action === 'incrementView') {
-    await addQuestionReader(params.slug as string, userId as string)
+    console.log('calling')
+    if (userId) {
+      await addQuestionReader(params.slug as string, userId as string)
+    }
     return null
   }
 
@@ -187,7 +190,9 @@ const SingleQuestion = () => {
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      fetcher.submit({ action: 'incrementView' }, { method: 'post' })
+      if (userId) {
+        fetcher.submit({ action: 'incrementView' }, { method: 'post' })
+      }
     }, 100)
 
     return () => clearTimeout(timer)
@@ -281,7 +286,7 @@ const SingleQuestion = () => {
       <div className='my-10'>
         <div className='my-4'>
           {answers?.map((answer: Answer) => (
-            <Reply answer={answer} key={answer.id} />
+            <Reply answer={answer} key={answer.id} userId={userId} />
           ))}
         </div>
       </div>
@@ -304,19 +309,33 @@ const SingleQuestion = () => {
                 onChange={() => console.log('hello')}
                 className='hidden'
               />
-              <button
-                type='submit'
-                className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
-              >
-                {transition.submission ? (
-                  <div className='flex justify-center items-center'>
-                    <Spinner />
-                    {transition.state}
-                  </div>
-                ) : (
-                  'Post Your Answer'
-                )}
-              </button>
+              {userId ? (
+                <button
+                  type='submit'
+                  className='px-8 sm:px-12 py-2 sm:py-3  bg-blue-500 text-white rounded-lg text-sm font-medium shadow-lg hover:bg-blue-600 transition duration-200 shadow-blue-500/50 my-6'
+                >
+                  {transition.submission ? (
+                    <div className='flex justify-center items-center'>
+                      <Spinner />
+                      {transition.state}
+                    </div>
+                  ) : (
+                    'Post Your Answer'
+                  )}
+                </button>
+              ) : (
+                <p className='mt-4 font-medium'>
+                  Please{' '}
+                  <Link to='/auth/login' className='text-sky-500'>
+                    Sing in
+                  </Link>{' '}
+                  or{' '}
+                  <Link to='/auth/send-register-link' className='text-sky-500'>
+                    create an account
+                  </Link>{' '}
+                  to answer this question
+                </p>
+              )}
             </Form>
           )}
         </ClientOnly>

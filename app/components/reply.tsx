@@ -19,6 +19,7 @@ type Answer = {
       username: string
     }
   }
+  userId: string | null
 }
 
 type Reply = {
@@ -34,7 +35,7 @@ type Reply = {
   replyCreatorId: string
 }
 
-const Reply = ({ answer }: Answer) => {
+const Reply = ({ answer, userId }: Answer) => {
   const [openReplyModal, setOpenReplyModal] = React.useState(false)
   const [showRepliesAction, setShowRepliesAction] = React.useState(true)
 
@@ -51,9 +52,7 @@ const Reply = ({ answer }: Answer) => {
 
   return (
     <div className='p-4  my-4 border-b border-slate-200 last:border-none'>
-      <div
-      // key={new Date() + answer.answerCreatorId + Math.random()}
-      >
+      <div>
         <div className='flex items-center space-x-2 mb-2'>
           <img
             src={answer.creator.profilePicture}
@@ -79,12 +78,14 @@ const Reply = ({ answer }: Answer) => {
             dangerouslySetInnerHTML={{ __html: answer.answer }}
             className='prose prose-slate lg:prose-md max-w-none prose-a:text-blue-600'
           />
-          <button
-            onClick={() => setOpenReplyModal(true)}
-            className='py-2 px-6 rounded-lg bg-slate-100 text-slate-500 text-xs font-semibold hover:ring-1 hover:ring-sky-500 mt-2'
-          >
-            Reply
-          </button>
+          {userId && (
+            <button
+              onClick={() => setOpenReplyModal(true)}
+              className='py-2 px-6 rounded-lg bg-slate-100 text-slate-500 text-xs font-semibold hover:ring-1 hover:ring-sky-500 mt-2'
+            >
+              Reply
+            </button>
+          )}
           {showRepliesAction && (
             <>
               {answer.totalReplies > 0 && (
