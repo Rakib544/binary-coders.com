@@ -75,7 +75,9 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   if (action === 'incrementView') {
     const { userId } = await getUserInfo(request)
-    await addBlogReader(params.slug as string, userId as string)
+    if (userId) {
+      await addBlogReader(params.slug as string, userId as string)
+    }
     return null
   }
   const res = await getBlogViewers(params.slug as string)
@@ -84,9 +86,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const userId = await getUserId(request)
-  if (!userId) {
-    return redirect('/auth/login')
-  }
   const res = await getSingleBlog(params.slug as string)
   const data = {
     ...res,
@@ -114,7 +113,9 @@ const SingleBlog = () => {
 
   React.useEffect(() => {
     const timeOut = setTimeout(() => {
-      fetcher.submit({ name: 'rakib is calling', action: 'incrementView' }, { method: 'post' })
+      if (loaderData.userId) {
+        fetcher.submit({ name: 'rakib is calling', action: 'incrementView' }, { method: 'post' })
+      }
     }, 100)
 
     return () => clearTimeout(timeOut)
