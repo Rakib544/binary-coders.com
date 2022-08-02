@@ -1,4 +1,4 @@
-import { LoaderFunction } from '@remix-run/node'
+import { LinksFunction, LoaderFunction } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import {
   FLOW_CONTROL_TOPICS,
@@ -6,11 +6,26 @@ import {
   PYTHON_FUNCTION_TOPICS,
   PYTHON_INTRODUCTION_TOPICS,
 } from 'data/python-topics'
+import highlightCss from 'highlight.js/styles/atom-one-dark.css'
+import quillCss from 'quill/dist/quill.snow.css'
 import DisCloserMenu from '~/components/disclouser'
 import PencilIcon from '~/components/icons/pencil-icon'
 import PythonMenuSideBar from '~/components/python-menu-sidebar'
 import { getUserInfo } from '~/utils/session.server'
 import { getSingleTopic } from '~/utils/topic.server'
+
+export const links: LinksFunction = () => {
+  return [
+    { rel: 'stylesheet', href: highlightCss },
+    { rel: 'stylesheet', href: quillCss },
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap',
+    },
+  ]
+}
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const res = await getSingleTopic(params.slug as string)
