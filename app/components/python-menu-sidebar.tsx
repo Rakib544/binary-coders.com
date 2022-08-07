@@ -15,7 +15,7 @@ export default function PythonMenuSideBar({ role }: { role: string }) {
 
   return (
     <>
-      <span onClick={() => setOpen(true)}>
+      <span onClick={() => setOpen(true)} className='cursor-pointer'>
         <svg
           width='16'
           height='16'
