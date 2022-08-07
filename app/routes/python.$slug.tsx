@@ -61,15 +61,13 @@ const TopicDetails = () => {
         {loaderData?.role === 'admin' && (
           <div className='flex justify-end mx-4'>
             <div className='hover:bg-slate-100 p-2 rounded-lg cursor-pointer'>
-              <span className='flex items-center '>
+              <Link
+                to={`/python-programming/edit/${loaderData?.topic?.slug}`}
+                className='flex items-center'
+              >
                 <PencilIcon />
-                <Link
-                  to={`/python-programming/edit/${loaderData?.topic?.slug}`}
-                  className='text-sm text-slate-500 '
-                >
-                  Edit Page
-                </Link>
-              </span>
+                <span className='text-sm text-slate-500 '>Edit Page</span>
+              </Link>
             </div>
           </div>
         )}
