@@ -17,7 +17,9 @@ const FOOTER_HIDES_FROM = [
 
 const Footer = () => {
   const location = useLocation()
-  const isFooterHide = FOOTER_HIDES_FROM.includes(location.pathname)
+
+  const isFooterHide =
+    location.pathname.startsWith('/python') || FOOTER_HIDES_FROM.includes(location.pathname)
 
   return (
     <footer className={`${isFooterHide ? 'hidden' : ''} py-16 footer-bg text-white`}>

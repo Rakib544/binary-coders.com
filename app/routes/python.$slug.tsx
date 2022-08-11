@@ -40,19 +40,23 @@ const TopicDetails = () => {
   const loaderData = useLoaderData()
   return (
     <div className='grid grid-cols-12 gap-6 px-4 lg:px-8 mb-10 pt-10 lg:pt-0'>
-      <aside className='hidden lg:block col-span-0 lg:col-span-3'>
-        {loaderData?.role === 'admin' && (
-          <Link
-            to='/python-programming/create-topic'
-            className='block mx-2 px-4 py-2 rounded-lg text-center text-white text-sm font-medium bg-sky-500 mb-4'
-          >
-            Add Topic
-          </Link>
-        )}
-        <DisCloserMenu topics={PYTHON_INTRODUCTION_TOPICS} title='Python Introduction' />
-        <DisCloserMenu topics={FLOW_CONTROL_TOPICS} title='Python Flow Control' />
-        <DisCloserMenu topics={PYTHON_FUNCTION_TOPICS} title='Python Function' />
-        <DisCloserMenu topics={PYTHON_DATATYPES_TOPICS} title='Python Data Types' />
+      <aside className='hidden lg:block col-span-0 lg:col-span-3 bg-white'>
+        <div className=' h-screen overflow-y-scroll fixed bg-white w-72 inset-0'>
+          <div className='mt-28'>
+            {loaderData?.role === 'admin' && (
+              <Link
+                to='/python-programming/create-topic'
+                className='block mx-2 px-4 py-2 rounded-lg text-center text-white text-sm font-medium bg-sky-500 mb-4'
+              >
+                Add Topic
+              </Link>
+            )}
+            <DisCloserMenu topics={PYTHON_INTRODUCTION_TOPICS} title='Python Introduction' />
+            <DisCloserMenu topics={FLOW_CONTROL_TOPICS} title='Python Flow Control' />
+            <DisCloserMenu topics={PYTHON_FUNCTION_TOPICS} title='Python Function' />
+            <DisCloserMenu topics={PYTHON_DATATYPES_TOPICS} title='Python Data Types' />
+          </div>
+        </div>
       </aside>
       <aside className='lg:hidden'>
         <PythonMenuSideBar role={loaderData?.role} />
@@ -60,15 +64,14 @@ const TopicDetails = () => {
       <div className='col-span-12 lg:col-span-9'>
         {loaderData?.role === 'admin' && (
           <div className='flex justify-end mx-4'>
-            <div className='hover:bg-slate-100 p-2 rounded-lg cursor-pointer'>
-              <Link
-                to={`/python-programming/edit/${loaderData?.topic?.slug}`}
-                className='flex items-center'
-              >
-                <PencilIcon />
-                <span className='text-sm text-slate-500 '>Edit Page</span>
-              </Link>
-            </div>
+            <Link to={`/python-programming/edit/${loaderData?.topic?.slug}`}>
+              <div className='hover:bg-slate-100 p-2 rounded-lg cursor-pointer'>
+                <span className='flex items-center'>
+                  <PencilIcon />
+                  <span className='text-sm text-slate-500 '>Edit Page</span>
+                </span>
+              </div>
+            </Link>
           </div>
         )}
         <div
