@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .App {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 /* barlow-200 - latin */
 @font-face {
   font-family: 'Barlow';

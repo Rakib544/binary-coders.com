@@ -14,7 +14,6 @@ import {
 } from '@remix-run/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import * as React from 'react'
-import MessengerCustomerChat from 'react-messenger-customer-chat'
 import { io } from 'socket.io-client'
 import { useSpinDelay } from 'spin-delay'
 import Footer from './components/footer/footer'
@@ -344,7 +343,7 @@ export default function App() {
           userId={loaderData?.userId}
         />
         <main
-          className={`relative w-full ${
+          className={`relative w-full App ${
             shouldAddMargin(location.pathname) ? 'mt-16 md:mt-32' : ''
           }`}
         >
@@ -353,9 +352,6 @@ export default function App() {
           <ScrollRestoration />
           <Scripts />
           {process.env.NODE_ENV === 'development' && <LiveReload />}
-          {process.env.NODE_ENV !== 'development' && (
-            <MessengerCustomerChat pageId='104547992167816' appId='1392911071206859' />
-          )}
         </main>
         <Footer />
       </body>

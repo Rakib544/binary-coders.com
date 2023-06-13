@@ -34,14 +34,14 @@ export function links() {
 }
 export default function Index() {
   return (
-    <>
+    <div>
       <Heading />
       <OurTarget />
       <Plan />
       <Stack />
       <Quote />
       <AdvantageBinaryCoders />
-    </>
+    </div>
   )
 }
 

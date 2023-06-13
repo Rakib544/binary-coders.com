@@ -30,13 +30,17 @@ export default function NotificationDropDown({
   const [socket, setSocket] = React.useState<any>()
   const [showNotification, setShowNotification] = React.useState(false)
   React.useEffect(() => {
-    const s = io(NOTIFICATION_SERVER_URL, {
-      transports: ['websocket'],
-    })
-    setSocket(s)
+    try {
+      const s = io(NOTIFICATION_SERVER_URL, {
+        transports: ['websocket'],
+      })
+      setSocket(s)
 
-    return () => {
-      s.disconnect()
+      return () => {
+        s.disconnect()
+      }
+    } catch (error) {
+      console.log(error)
     }
   }, [])
 

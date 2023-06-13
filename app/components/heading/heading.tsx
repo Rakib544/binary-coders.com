@@ -29,8 +29,8 @@ const Heading = () => {
             </motion.div>
             <motion.div variants={childVariants}>
               <Paragraph className='my-2 text-slate-500'>
-                Join with use if you want to get a complete guideline to become a good skilled
-                junior programmer from scratch. 😇😊
+                Join with us if you want to get a complete guidelines to become a skilled junior
+                programmer from scratch. 😇😊
               </Paragraph>
             </motion.div>
             <motion.div

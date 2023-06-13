@@ -1,5 +1,5 @@
 import { blurImgUrl } from 'data/blur-img-url'
-import { cardData, quotes } from 'data/navbar'
+import { cardData } from 'data/navbar'
 import BlurrableImage from '../blurable-img'
 import { Heading } from '../typography'
 
@@ -31,7 +31,7 @@ const Plan = () => {
               </div>
             ))}
           </div>{' '}
-          <div className='flex flex-col mt-5  md:flex-row justify-center items-center md:px-0 px-2 space-x-0 md:space-x-4'>
+          {/* <div className='flex flex-col mt-5  md:flex-row justify-center items-center md:px-0 px-2 space-x-0 md:space-x-4'>
             {quotes.map((quote) => (
               <div
                 key={quote.cardImg}
@@ -56,7 +56,7 @@ const Plan = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>{' '}
     </>
